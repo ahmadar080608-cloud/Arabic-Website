@@ -369,9 +369,9 @@ header nav button.soon{opacity:1;color:rgba(255,255,255,.35)}
 @media (max-width:899px){.hero-btns button{padding:12px 10px}}
 
 /* header picture */
-.hero{position:relative;overflow:hidden;background:var(--hdr) url("img/book.svg") center/cover no-repeat}
-.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--hdr) 0%,color-mix(in srgb,var(--hdr) 70%,transparent) 35%,transparent 70%),linear-gradient(0deg,color-mix(in srgb,var(--hdr) 70%,transparent),transparent 45%);pointer-events:none}
-.hero{min-height:330px;display:flex!important;flex-direction:column;align-items:stretch!important;justify-content:space-between;background-position:right center!important;background-color:#120d08!important}
+.hero{position:relative;overflow:hidden;background:var(--hdr) url("https://images.pexels.com/photos/3936216/pexels-photo-3936216.jpeg?auto=compress&cs=tinysrgb&w=1600") center 70%/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,6,.92) 0%,rgba(10,8,6,.72) 45%,rgba(10,8,6,.45) 100%),linear-gradient(0deg,rgba(10,8,6,.6),transparent 50%);pointer-events:none}
+.hero{min-height:330px;display:flex!important;flex-direction:column;align-items:stretch!important;justify-content:space-between;background-position:center 72%!important;background-color:#120d08!important}
 .hero-ar,.hero-ref{text-align:right}
 .hero>*{position:relative}
 .hero-ar{text-shadow:0 2px 18px rgba(0,0,0,.45)}
@@ -408,10 +408,10 @@ header nav button.soon{opacity:1;color:rgba(255,255,255,.35)}
 <script src="cards.js"></script>
 <script>
 const CARDS = window.CARDS;
-const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
-const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
-const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Describing Words":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
-const GROUPS = [["Everyday words",ORDER.slice(0,21)],["Grammar",ORDER.slice(21,24)],["Phrases",ORDER.slice(24)]];
+const ORDER = ["Adjectives","People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
+const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Adjectives":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
+const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Adjectives":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
+const GROUPS = [["Everyday words",ORDER.slice(0,19)],["Grammar",ORDER.slice(19,24)],["Phrases",ORDER.slice(24)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 // words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
 const normEn=e=>e.toLowerCase().replace(/\s+/g,' ').trim();
@@ -513,7 +513,7 @@ function renderHome(){
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></button>`;}
     h+=`</div>`;
   }
-  h+=`<p class="note">Progress is saved on this device. Keys while studying: <kbd>Space</kbd> reveal, <kbd>1</kbd>–<kbd>5</kbd> rate, <kbd>S</kbd> skip.</p>`;
+  h+=`<p class="note">Header photo by fatemah khaled on Pexels. Progress is saved on this device. Keys while studying: <kbd>Space</kbd> reveal, <kbd>1</kbd>–<kbd>5</kbd> rate, <kbd>S</kbd> skip.</p>`;
   $('#app').innerHTML=h;
   document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const c=b.dataset.c; selected.has(c)?selected.delete(c):selected.add(c); const y=scrollY; renderHome(); scrollTo(0,y); });
   document.querySelectorAll('.seeall').forEach(b=>b.onclick=()=>{const l=GROUPS.find(g=>g[0]===b.dataset.group)[1]; const all=l.every(c=>selected.has(c)); l.forEach(c=>all?selected.delete(c):selected.add(c)); renderHome();});
@@ -533,6 +533,8 @@ function poolFor(list){
   if(opts.pf!=='all') p=p.filter(c=>c.cat!=='People & Family'||c.sub===opts.pf);
   if(opts.order==='due') p=p.filter(c=>isDue(c)||weak(c));
   if(opts.gender!=='all'||opts.mode==='gender') p=p.filter(c=>opts.gender==='all'?c.g:c.g===opts.gender);
+  // words that change with gender (adjectives, colours, numbers, ism fāʿil, or any word with both forms) aren't fair to guess
+  if(opts.mode==='gender') p=p.filter(c=>!needsG(c)&&!['Adjectives','Colours','Numbers, Ordinals & Clock'].includes(c.cat)&&c.sub!=='fail');
   return p;
 }
 
