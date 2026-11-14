@@ -10,21 +10,21 @@
 <script>try{const f=localStorage.getItem('arabic-font');if(f){document.documentElement.style.setProperty('--arfont','"'+f+'"');document.documentElement.style.setProperty('--artitle','"'+f+'"')}}catch(e){}try{const t=localStorage.getItem('arabic-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{
-  --bg:#f6f3ec; --card:#fffdf8; --ink:#1f2a24; --muted:#6b736d; --line:#e4ddcf;
-  --accent:#1f6f54; --accent-soft:#e3f0ea; --m:#2f5d9e; --m-soft:#e6eef9; --f:#a3456b; --f-soft:#f8e8ef;
+  --bg:#fafaf7; --card:#ffffff; --ink:#18221f; --muted:#69716c; --line:#e5e2da;
+  --accent:#1e4d43; --accent-soft:#eef2ef; --m:#2f5d9e; --m-soft:#e6eef9; --f:#a3456b; --f-soft:#f8e8ef;
   --again:#b5482f; --good:#1f6f54; --shadow:0 1px 2px rgba(0,0,0,.05),0 6px 20px rgba(40,30,10,.06);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme]){
   --bg:#141816; --card:#1d2320; --ink:#ecefe9; --muted:#9aa39c; --line:#2d3530;
   --accent:#5fbf98; --accent-soft:#1f3229; --m:#8fb3ea; --m-soft:#1e2a3b; --f:#e79ab9; --f-soft:#3a2230;
   --again:#e7866f; --good:#5fbf98; --shadow:none;}}
-:root{--on-accent:#fff;--gold:#b08d3c}
+:root{--on-accent:#fff;--gold:#a8864f;--hdr:#14231f}
 @media (prefers-color-scheme:dark){:root:not([data-theme]){--gold:#c9a75a}}
 :root[data-theme=night]{--gold:#c9a75a}:root[data-theme=madinah]{--gold:#b8892b}:root[data-theme=ocean]{--gold:#9a8a5a}:root[data-theme=desert]{--gold:#b07a3a}:root[data-theme=autumn]{--gold:#c99a45}:root[data-theme=ink]{--gold:#111;--hdr:#111}
 :root[data-theme=ink] header nav button.on{background:#fff;color:#111}
 :root[data-theme=ink] header .brand .title-en{color:#ddd}
 :root[data-theme=autumn]{--hdr:#0b0602}:root[data-theme=night]{--hdr:#0c100e}
-:root[data-theme=sand]{--bg:#f6f3ec;--card:#fffdf8;--ink:#1f2a24;--muted:#6b736d;--line:#e4ddcf;--accent:#1f6f54;--accent-soft:#e3f0ea;--good:#1f6f54}
+:root[data-theme=sand]{--bg:#fafaf7;--card:#ffffff;--ink:#18221f;--muted:#69716c;--line:#e5e2da;--accent:#1e4d43;--accent-soft:#eef2ef;--good:#1e4d43}
 :root[data-theme=night]{--bg:#141816;--card:#1d2320;--ink:#ecefe9;--muted:#9aa39c;--line:#2d3530;--accent:#5fbf98;--accent-soft:#1f3229;--m:#8fb3ea;--m-soft:#1e2a3b;--f:#e79ab9;--f-soft:#3a2230;--again:#e7866f;--good:#5fbf98;--shadow:none;--on-accent:#0f1a14}
 :root[data-theme=madinah]{--bg:#fbfaf6;--card:#ffffff;--ink:#14281f;--muted:#6a7570;--line:#e7e1cf;--accent:#0b6b4a;--accent-soft:#f3ecd6;--good:#0b6b4a;--gold:#b8892b}
 :root[data-theme=madinah] .brand .ar,:root[data-theme=madinah] h1{color:#9a7120}
@@ -287,19 +287,97 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 .cat .thumb u{z-index:1;left:12px;top:12px}
 .cover{padding:18px 20px}
 @media (max-width:899px){.cover .ca.long{font-size:18px}}
+
+/* ===== Classic pass: restraint, hairlines, flat colour, no decoration ===== */
+:root{--r:12px;--shadow:none}
+body::before{display:none}
+body{background:var(--bg)}
+h1,h2,h3{font-weight:500;letter-spacing:-.005em}
+h2{font-size:26px}
+/* sidebar */
+header{background:var(--hdr)!important;box-shadow:none}
+@media (min-width:900px){header .bar{padding:34px 26px;gap:30px}header{width:250px}main{margin-left:250px;padding:48px 56px 80px;max-width:1140px}}
+header .brand .title-ar{font-family:var(--artitle),Amiri,serif;font-size:27px;color:#f2ead7;font-weight:700}
+header .brand .title-en{font-family:Lora,Georgia,serif;font-size:14px;letter-spacing:.02em;text-transform:none;color:var(--gold);font-weight:500;font-style:italic;margin-top:2px}
+header nav button{border-radius:0;padding:9px 0 9px 14px;font-size:15px;color:rgba(255,255,255,.62);border-left:2px solid transparent;background:none!important}
+header nav button.on{background:none!important;color:#fff;border-left-color:var(--gold)}
+header nav button:hover:not(:disabled):not(.on){color:#fff}
+header nav button small{margin-left:auto;font-size:11px;color:rgba(255,255,255,.35)}
+header nav button.soon{opacity:1;color:rgba(255,255,255,.35)}
+@media (max-width:899px){header nav button{border-left:0;border-top:2px solid transparent;padding:8px 10px;font-size:13px}header nav button.on{border-top-color:var(--gold)}header nav button span{white-space:nowrap}}
+/* hero */
+.hero{display:block;background:var(--hdr);color:#efe8d6;border-radius:var(--r);padding:44px 48px 38px;box-shadow:none;margin-bottom:28px}
+.hero-ar{font-family:var(--arfont),Amiri,serif;font-size:46px;line-height:1.5;color:#f2ead7;text-align:right}
+.hero-ref{text-align:right;font-family:Lora,Georgia,serif;font-style:italic;font-size:14px;color:var(--gold);margin-top:2px}
+.hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:24px}
+.hero .lead{font-family:Lora,Georgia,serif;font-size:22px;color:#fff;margin:0 0 6px;max-width:none}
+.hero-meta{margin:0;font-size:14px;color:rgba(255,255,255,.6)}
+.sep{display:inline-block;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.5;margin:0 10px;vertical-align:middle}
+.cta{background:var(--gold);color:#16120a;border:0;border-radius:8px;padding:12px 24px;font-weight:600;font-size:15px;box-shadow:none}
+.cta-ghost{background:none;color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:12px 22px}
+.panel .cta{background:var(--accent);color:var(--on-accent)}
+/* panel */
+.panel{border-radius:var(--r);box-shadow:none;padding:28px 30px}
+.panel-h h2{font-size:22px}
+.optgrid label{text-transform:none;letter-spacing:0;font-size:13px;font-weight:500;color:var(--muted)}
+.pill{border-radius:8px;padding:6px 13px;background:transparent}
+.pill.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.ghost{border-radius:8px}
+/* topic rows */
+.rowhead{margin:44px 0 16px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.seeall{font-weight:500}
+.row{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px 20px}
+.cat .thumb{aspect-ratio:4/3;border-radius:10px;border:0;box-shadow:none;transition:none}
+.cat:hover .thumb{transform:none}
+.cat:hover .cover{filter:brightness(1.08)}
+.cover{border-radius:10px;padding:18px;gap:8px}
+.cover::before,.cover::after{display:none}
+.cover.g0{background:#1e4d43}
+.cover.g1{background:#9c4a32}
+.cover.g2{background:#22313f}
+.cover .ca{font-size:32px;font-weight:700;text-shadow:none;color:#fbf6ea}
+.cover .ca.long{font-size:25px}
+.cover .ce{font-family:Lora,Georgia,serif;text-transform:none;letter-spacing:0;font-size:14px;font-style:italic;font-weight:400;opacity:.78}
+.cat .thumb u{background:var(--gold);color:#16120a;width:24px;height:24px;font-size:13px}
+.cat.sel .thumb{outline:2px solid var(--gold);outline-offset:3px}
+.cat .meta{margin-top:10px;font-size:13px}
+.cat .name{display:none}
+.cat .prog{height:3px;margin-top:8px}
+.prog{background:var(--line)}
+/* study + other screens */
+.flash{border-radius:var(--r);box-shadow:none;padding:52px 32px 38px}
+.flash .en{font-weight:500}
+.rate5 button{border-radius:8px;font-weight:500}
+.rate5 .r0{background:#8e3a2e}.rate5 .r1{background:#b0662f}.rate5 .r2{background:#b8963f;color:#1e1806}.rate5 .r3{background:#5a8467}.rate5 .r4{background:#1e4d43}
+.under .reveal{border-radius:8px;background:var(--accent);font-weight:500}
+.under .skip{border-radius:8px}
+.stat{box-shadow:none;border-radius:10px}
+.stat b{font-weight:600}
+.chartbox{border-radius:var(--r)}
+.section-h::before{content:none}
+.section-h{font-weight:500}
+.item{border-radius:10px}
+.badge,.gtag{font-weight:500}
+@media (max-width:899px){
+  .hero{padding:28px 22px 24px}.hero-ar{font-size:30px}.hero .lead{font-size:18px}
+  .hero-btns{width:100%}.hero-btns button{flex:1}
+  .row{grid-template-columns:repeat(2,1fr);gap:20px 12px}
+  .cover .ca{font-size:21px}.cover .ca.long{font-size:17px}.cover .ce{font-size:12px}
+  main{padding:22px 16px 110px}
+}
+.plural-l{text-transform:none;letter-spacing:0;font-size:13px;font-style:italic;font-family:Lora,Georgia,serif}
+@media (max-width:899px){.hero-btns button{padding:12px 10px}}
 </style>
 </head>
 <body>
 <header><div class="bar">
   <div class="brand" onclick="go('home')"><span class="ar title-ar">رِحْلَتِي مَعَ العَرَبِيَّةِ</span><span class="title-en">My Arabic Journey</span></div>
   <nav id="nav">
-    <div class="navlabel">Study</div>
-    <button data-v="home"><i>🏠</i><span>Home</span></button>
-    <button data-v="browse"><i>🔎</i><span>Browse</span></button>
-    <button data-v="progress"><i>📈</i><span>Progress</span></button>
-    <div class="navlabel">Coming soon</div>
-    <button class="soon" disabled><i>✍️</i><span>Sentence builder</span></button>
-    <button class="gear-nav" id="gear"><i>⚙️</i><span>Settings</span></button>
+    <button data-v="home"><span>Home</span></button>
+    <button data-v="browse"><span>Browse words</span></button>
+    <button data-v="progress"><span>Progress</span></button>
+    <button class="soon" disabled><span>Sentence builder</span><small>Soon</small></button>
+    <button class="gear-nav" id="gear"><span>Settings</span></button>
   </nav>
 </div></header>
 <main id="app"></main>
@@ -309,7 +387,7 @@ const CARDS = window.CARDS;
 const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
 const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
 const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Describing Words":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
-const GROUPS = [["Nouns & topics",ORDER.slice(0,21)],["Grammar words",ORDER.slice(21,24)],["Phrases",ORDER.slice(24)]];
+const GROUPS = [["Everyday words",ORDER.slice(0,21)],["Grammar",ORDER.slice(21,24)],["Phrases",ORDER.slice(24)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 // words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
 const normEn=e=>e.toLowerCase().replace(/\s+/g,' ').trim();
@@ -375,26 +453,19 @@ function renderHome(){
   const hr=new Date().getHours();
   let h=`
   <section class="hero">
-    <div class="hero-l">
-      <div class="salam ar">السَّلَامُ عَلَيْكُمْ</div>
-      <h1>Continue your journey</h1>
-      <p class="lead">${due+wk?`You have <b>${due}</b> card${due===1?'':'s'} due and <b>${wk}</b> weak card${wk===1?'':'s'} to strengthen.`:`${today?'Nothing due right now — great work today.':'Start today’s review to keep your streak going.'}`}</p>
-      <div class="hero-btns"><button class="cta" id="quick">Review now →</button><button class="cta-ghost" id="pick">Choose topics</button></div>
-    </div>
-    <div class="hero-r">
-      <div class="ring"><b>${st}</b><span>day streak 🔥</span></div>
-      <div class="mini"><div><b>${today}</b><span>today</span></div><div><b>${kn}</b><span>known</span></div><div><b>${total}</b><span>cards</span></div></div>
+    <div class="hero-ar ar">وَهَٰذَا لِسَانٌ عَرَبِيٌّ مُّبِينٌ</div>
+    <div class="hero-ref">An-Naḥl 16:103</div>
+    <div class="hero-row">
+      <div>
+        <p class="lead">${due+wk?`${due+wk} card${due+wk===1?' is':'s are'} waiting for review.`:(today?`You reviewed ${today} card${today===1?'':'s'} today.`:'Nothing is due. Pick a topic to learn new words.')}</p>
+        <p class="hero-meta">${st} day streak<span class="sep"></span>${kn} words known<span class="sep"></span>${total} cards</p>
+      </div>
+      <div class="hero-btns"><button class="cta" id="quick">Start review</button><button class="cta-ghost" id="pick">Choose topics</button></div>
     </div>
   </section>
 
-  <div class="features">
-    <div class="fcard"><div class="ficon">🗂️</div><h3>Flashcards</h3><p>${total} words and phrases from your AMAU deck, with pictures, audio, gender and plurals.</p><button class="explore" data-go="flip">Explore →</button></div>
-    <div class="fcard"><div class="ficon">⚖️</div><h3>Masculine or feminine?</h3><p>See an Arabic noun and decide its gender. Builds instinct for agreement.</p><button class="explore" data-go="gender">Explore →</button></div>
-    <div class="fcard"><div class="ficon">📈</div><h3>Your progress</h3><p>Streaks, a daily review chart and how much of each topic you know.</p><button class="explore" data-go="progress">Explore →</button></div>
-  </div>
-
   <section class="panel" id="opts">
-    <div class="panel-h"><h2>Study options</h2><span class="muted">${selected.size?`${selected.size} topic${selected.size===1?'':'s'} selected`:'Pick topics below'}</span></div>
+    <div class="panel-h"><h2>How to study</h2><span class="muted">${selected.size?`${selected.size} topic${selected.size===1?'':'s'} chosen`:'Choose topics below'}</span></div>
     <div class="optgrid">
       <div><label>Mode</label><div>${pill('mode','flip','Flashcards')}${pill('mode','gender','Guess the gender')}</div></div>
       <div><label>Direction</label><div>${pill('dir','en-ar','English → Arabic')}${pill('dir','ar-en','Arabic → English')}</div></div>
@@ -404,31 +475,29 @@ function renderHome(){
     </div>
     <div class="panel-f"><label class="chk"><input type="checkbox" id="tr" ${opts.tr?'checked':''}> Show transliteration</label><span style="flex:1"></span>
       <button class="ghost" id="all">${selected.size===ORDER.length?'Clear all':'Select all topics'}</button>
-      <button class="cta" id="start" ${pool.length?'':'disabled'}>Start ${pool.length?`· ${pool.length} cards`:''}</button></div>
+      <button class="cta" id="start" ${pool.length?'':'disabled'}>${pool.length?`Study ${pool.length} cards`:'Study'}</button></div>
   </section>`;
   for(const [gi,[gname,list]] of GROUPS.entries()){
     const allSel=list.every(c=>selected.has(c));
-    h+=`<div class="rowhead"><h2>${gname}</h2><button class="seeall" data-group="${esc(gname)}">${allSel?'Clear':'Select all'}</button></div><div class="row">`;
+    h+=`<div class="rowhead" ${gi===0?'id="topics"':''}><h2>${gname}</h2><button class="seeall" data-group="${esc(gname)}">${allSel?'Clear':'Select all'}</button></div><div class="row">`;
     for(const c of list){ const arr=cats[c]||[]; if(!arr.length)continue;
       const k=arr.filter(known).length, img=(arr.find(x=>x.img)||{}).img;
       h+=`<button class="cat ${selected.has(c)?'sel':''}" data-c="${esc(c)}">
-        <div class="thumb"><div class="cover g${gi%3}"><div class="ca ${(AR_NAME[c]||'').replace(/[\u064B-\u0652]/g,'').length>14?'long':''}">${AR_NAME[c]||''}</div><div class="ce">${esc(c)}</div></div><em>${arr.length}</em>${selected.has(c)?'<u>✓</u>':''}</div>
-        <div class="name">${esc(c)}</div>
-        <div class="meta">${k} of ${arr.length} known</div>
+        <div class="thumb"><div class="cover g${gi%3}"><div class="ca ${(AR_NAME[c]||'').replace(/[\u064B-\u0652]/g,'').length>14?'long':''}">${AR_NAME[c]||''}</div><div class="ce">${esc(c)}</div></div>${selected.has(c)?'<u>✓</u>':''}</div>
+        <div class="meta">${arr.length} cards<span class="sep"></span>${k} known</div>
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></button>`;}
     h+=`</div>`;
   }
   h+=`<p class="note">Progress is saved on this device. Keys while studying: <kbd>Space</kbd> reveal, <kbd>1</kbd>–<kbd>5</kbd> rate, <kbd>S</kbd> skip.</p>`;
   $('#app').innerHTML=h;
-  document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const c=b.dataset.c; selected.has(c)?selected.delete(c):selected.add(c); renderHome(); });
+  document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const c=b.dataset.c; selected.has(c)?selected.delete(c):selected.add(c); const y=scrollY; renderHome(); scrollTo(0,y); });
   document.querySelectorAll('.seeall').forEach(b=>b.onclick=()=>{const l=GROUPS.find(g=>g[0]===b.dataset.group)[1]; const all=l.every(c=>selected.has(c)); l.forEach(c=>all?selected.delete(c):selected.add(c)); renderHome();});
   bindPills(renderHome);
   $('#tr').onchange=e=>{opts.tr=e.target.checked};
   $('#all').onclick=()=>{ selected.size===ORDER.length?selected.clear():ORDER.forEach(c=>selected.add(c)); renderHome(); };
   $('#start').onclick=()=>startSession();
-  $('#pick').onclick=()=>$('.rowhead').scrollIntoView({behavior:'smooth'});
+  $('#pick').onclick=()=>$('#topics').scrollIntoView({behavior:'smooth'});
   $('#quick').onclick=()=>{ ORDER.forEach(c=>selected.add(c)); opts.mode='flip'; opts.order=(due+wk)?'due':'smart'; startSession(); if(opts.order==='due')opts.order='smart'; };
-  document.querySelectorAll('.explore').forEach(b=>b.onclick=()=>{const g=b.dataset.go; if(g==='progress')return go('progress'); opts.mode=g; renderHome(); $('#opts').scrollIntoView({behavior:'smooth'});});
 }
 
 function pill(k,v,label){return `<button class="pill ${opts[k]===v?'on':''}" data-k="${k}" data-v="${v}">${label}</button>`}
@@ -536,7 +605,7 @@ function renderProgress(){
   const kn=CARDS.filter(known).length;
   let h=`<h1>Your progress <span class="ar">تَقَدُّمِي</span></h1><div class="orn"><span>❁</span></div>
   <div class="stats">
-    <div class="stat"><b>${streak()} 🔥</b><span>day streak</span></div>
+    <div class="stat"><b>${streak()}</b><span>day streak</span></div>
     <div class="stat"><b>${best}</b><span>best streak</span></div>
     <div class="stat"><b>${(S.days[dayKey()]||{n:0}).n}</b><span>reviewed today</span></div>
     <div class="stat"><b>${total}</b><span>reviews in total</span></div>
@@ -549,7 +618,7 @@ function renderProgress(){
   <div class="chartbox"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cards reviewed per day, last ${progRange} days">${grid}${bars}${labels}</svg><div class="tip" id="tip"></div></div>
   ${total?'':`<p class="sub" style="margin-top:12px">Your chart fills in as you study. Each card you rate counts as one review.</p>`}
   <div class="section-h">Words known by category</div><div class="catprog">`+
-  ORDER.filter(c=>cats[c]).map(c=>{const a=cats[c],k=a.filter(known).length; return `<div class="cp"><span>${ICON[c]||''} ${esc(c)}</span><div class="prog"><i style="width:${k/a.length*100}%"></i></div><b>${k}/${a.length}</b></div>`}).join('')+`</div>
+  ORDER.filter(c=>cats[c]).map(c=>{const a=cats[c],k=a.filter(known).length; return `<div class="cp"><span>${esc(c)}</span><div class="prog"><i style="width:${k/a.length*100}%"></i></div><b>${k}/${a.length}</b></div>`}).join('')+`</div>
   <p class="note">A word counts as “known” once its next review is at least 4 days away. Progress is saved on this device.</p>`;
   $('#app').innerHTML=h;
   document.querySelectorAll('[data-range]').forEach(b=>b.onclick=()=>{progRange=+b.dataset.range; renderProgress();});
@@ -579,7 +648,7 @@ function list(){
   let r=CARDS.filter(c=>(browseCat==='all'||c.cat===browseCat)&&(opts.gender==='all'||c.g===opts.gender)&&(browseCat!=='People & Family'||opts.pf==='all'||c.sub===opts.pf)&&(!t||strip(c.en+' '+c.ar+' '+c.pl+' '+c.tr).includes(t)));
   const shown=r.slice(0,300);
   $('#res').innerHTML= r.length? `<p class="sub">${r.length} card${r.length===1?'':'s'}${r.length>300?' (showing first 300)':''}</p><div class="list">`+shown.map(c=>`
-    <div class="item">${c.img?`<img loading="lazy" src="${c.img}" alt="">`:`<div class="noimg">${ICON[c.cat]||'📘'}</div>`}
+    <div class="item">${c.img?`<img loading="lazy" src="${c.img}" alt="">`:`<div class="noimg"></div>`}
     <div class="w"><div class="e">${esc(c.en)} ${gTag(c)}</div><div class="ar a">${esc(c.ar)}</div>${c.pl?`<div class="ar p">${esc(c.pl)}</div>`:''}${gBadge(c.g)}</div>
     ${c.aud?`<button class="play" onclick="play('${c.aud}',event)">🔊</button>`:''}</div>`).join('')+`</div>` : `<div class="empty">No cards match.</div>`;
 }
