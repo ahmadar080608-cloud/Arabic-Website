@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arabic Flashcards</title>
+<title>My Arabic Journey · رحلتي مع العربية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>try{const t=localStorage.getItem('arabic-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{
@@ -18,7 +18,9 @@
   --bg:#141816; --card:#1d2320; --ink:#ecefe9; --muted:#9aa39c; --line:#2d3530;
   --accent:#5fbf98; --accent-soft:#1f3229; --m:#8fb3ea; --m-soft:#1e2a3b; --f:#e79ab9; --f-soft:#3a2230;
   --again:#e7866f; --good:#5fbf98; --shadow:none;}}
-:root{--on-accent:#fff}
+:root{--on-accent:#fff;--gold:#b08d3c}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--gold:#c9a75a}}
+:root[data-theme=night]{--gold:#c9a75a}:root[data-theme=madinah]{--gold:#b8892b}:root[data-theme=ocean]{--gold:#9a8a5a}:root[data-theme=desert]{--gold:#b07a3a}:root[data-theme=autumn]{--gold:#c99a45}:root[data-theme=ink]{--gold:#111}
 :root[data-theme=sand]{--bg:#f6f3ec;--card:#fffdf8;--ink:#1f2a24;--muted:#6b736d;--line:#e4ddcf;--accent:#1f6f54;--accent-soft:#e3f0ea;--good:#1f6f54}
 :root[data-theme=night]{--bg:#141816;--card:#1d2320;--ink:#ecefe9;--muted:#9aa39c;--line:#2d3530;--accent:#5fbf98;--accent-soft:#1f3229;--m:#8fb3ea;--m-soft:#1e2a3b;--f:#e79ab9;--f-soft:#3a2230;--again:#e7866f;--good:#5fbf98;--shadow:none;--on-accent:#0f1a14}
 :root[data-theme=madinah]{--bg:#fbfaf6;--card:#ffffff;--ink:#14281f;--muted:#6a7570;--line:#e7e1cf;--accent:#0b6b4a;--accent-soft:#f3ecd6;--good:#0b6b4a;--gold:#b8892b}
@@ -49,17 +51,27 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ar{font-family:Amiri,"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;unicode-bidi:isolate}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .bar{max-width:1080px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px;cursor:pointer;margin-right:auto}
-.brand .ar{font-size:24px;color:var(--accent);font-weight:700}
+.brand{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;cursor:pointer;margin-right:auto}
+.brand .title-ar{font-family:"Aref Ruqaa",Amiri,serif;font-size:30px;color:var(--accent);font-weight:700;line-height:1.35}
+.brand .title-en{font-family:"Cormorant Garamond",Georgia,serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-top:4px}
 nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}
 nav button{border:0;background:none;padding:6px 12px;border-radius:7px;font-size:14px;font-weight:500;color:var(--muted)}
 nav button.on{background:var(--accent-soft);color:var(--accent)}
 main{max-width:1080px;margin:auto;padding:22px 18px 60px}
-h1{font-size:24px;margin:0 0 4px}
+h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:34px;font-weight:600;margin:0 0 2px;letter-spacing:.01em}
+h1 .ar{font-family:"Aref Ruqaa",Amiri,serif;font-size:.9em;color:var(--gold);margin-left:10px;font-weight:400}
+.orn{display:flex;align-items:center;gap:12px;color:var(--gold);margin:4px 0 18px;max-width:420px}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.orn span{font-size:16px;line-height:1}
+/* faint geometric pattern behind everything */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--gold);opacity:.07;
+ -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.2'%3E%3Cpath d='M40 8 L49 31 L72 40 L49 49 L40 72 L31 49 L8 40 L31 31 Z'/%3E%3Crect x='22' y='22' width='36' height='36' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='6'/%3E%3Cpath d='M0 0 L8 8 M80 0 L72 8 M0 80 L8 72 M80 80 L72 72'/%3E%3C/g%3E%3C/svg%3E") 0 0/80px 80px;
+ mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.2'%3E%3Cpath d='M40 8 L49 31 L72 40 L49 49 L40 72 L31 49 L8 40 L31 31 Z'/%3E%3Crect x='22' y='22' width='36' height='36' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='6'/%3E%3Cpath d='M0 0 L8 8 M80 0 L72 8 M0 80 L8 72 M80 80 L72 72'/%3E%3C/g%3E%3C/svg%3E") 0 0/80px 80px}
+body{position:relative}
 .sub{color:var(--muted);margin:0 0 20px;font-size:15px}
 .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:120px}
-.stat b{display:block;font-size:22px}
+.stat{background:var(--card);border:1px solid var(--line);outline:1px solid color-mix(in srgb,var(--gold) 35%,transparent);outline-offset:-5px;border-radius:12px;padding:10px 16px;min-width:120px}
+.stat b{display:block;font-size:26px;font-family:"Cormorant Garamond",Georgia,serif;font-weight:700}
 .stat span{font-size:13px;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .cat{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:left;padding:0;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .12s}
@@ -67,7 +79,7 @@ h1{font-size:24px;margin:0 0 4px}
 .cat.sel{outline:3px solid var(--accent);outline-offset:-3px}
 .cat .thumb{height:110px;background:var(--accent-soft) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:40px}
 .cat .body{padding:10px 14px 12px}
-.cat .name{font-weight:600}
+.cat .name{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:19px;line-height:1.2}
 .cat .meta{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;margin-top:2px}
 .prog{height:5px;background:var(--line);border-radius:5px;margin-top:8px;overflow:hidden}
 .prog i{display:block;height:100%;background:var(--accent)}
@@ -82,9 +94,9 @@ input[type=search]{min-width:220px;flex:1}
 /* study */
 .study{max-width:620px;margin:auto}
 .topline{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:14px;margin-bottom:10px}
-.flash{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 26px 34px;text-align:center;cursor:pointer;position:relative;user-select:none}
+.flash{background:var(--card);border:1px solid var(--line);outline:1px solid color-mix(in srgb,var(--gold) 45%,transparent);outline-offset:-9px;border-radius:20px;box-shadow:var(--shadow);min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 26px 34px;text-align:center;cursor:pointer;position:relative;user-select:none}
 .flash img{max-width:100%;max-height:220px;border-radius:12px;margin-bottom:16px;object-fit:contain}
-.flash .en{font-size:26px;font-weight:600}
+.flash .en{font-family:"Cormorant Garamond",Georgia,serif;font-size:32px;font-weight:600}
 .flash .big{font-size:52px;line-height:1.5}
 .flash .plural{font-size:26px;color:var(--muted);margin-top:4px}
 .plural-l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
@@ -92,7 +104,7 @@ input[type=search]{min-width:220px;flex:1}
 .flash .hint{position:absolute;bottom:14px;font-size:13px;color:var(--muted)}
 .flash hr{width:60%;border:0;border-top:1px solid var(--line);margin:16px 0}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;border-radius:999px;padding:3px 11px;margin-top:10px}
-.gtag{display:inline-block;vertical-align:middle;font-size:.55em;font-weight:600;border-radius:999px;padding:2px 10px;margin-left:4px}.gtag.m{background:var(--m-soft);color:var(--m)}.gtag.f{background:var(--f-soft);color:var(--f)}
+.gtag{font-family:Inter,sans-serif;display:inline-block;vertical-align:middle;font-size:.55em;font-weight:600;border-radius:999px;padding:2px 10px;margin-left:4px}.gtag.m{background:var(--m-soft);color:var(--m)}.gtag.f{background:var(--f-soft);color:var(--f)}
 .item .gtag{font-size:11px;padding:1px 7px}
 .badge.m{background:var(--m-soft);color:var(--m)} .badge.f{background:var(--f-soft);color:var(--f)}
 .badge .ar{font-size:16px;font-weight:400}
@@ -130,8 +142,16 @@ input[type=search]{min-width:220px;flex:1}
 .item .p{font-size:16px;color:var(--muted)}
 .item .badge{margin-top:2px;font-size:11px;padding:1px 8px}
 .item .play{border:0;background:none;font-size:18px;padding:4px}
-.section-h{font-size:15px;font-weight:600;margin:22px 0 10px;color:var(--muted)}
+.section-h{font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;font-weight:600;margin:28px 0 12px;color:var(--ink);display:flex;align-items:center;gap:12px}
+.section-h::before{content:"۞";color:var(--gold);font-size:16px}
+.section-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 .empty{color:var(--muted);padding:30px;text-align:center}
+.chartbox{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 6px}
+.chartbox .ax{font-size:11px;fill:var(--muted);font-family:Inter,sans-serif}
+.tip{display:none;position:absolute;top:6px;width:150px;background:var(--ink);color:var(--bg);font-size:12px;border-radius:8px;padding:6px 9px;pointer-events:none;line-height:1.4}
+.catprog{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px 22px}
+.cp{display:grid;grid-template-columns:1fr 110px 54px;align-items:center;gap:10px;font-size:14px}
+.cp .prog{margin:0}.cp b{font-weight:600;text-align:right;font-size:13px;color:var(--muted)}
 .note{font-size:13px;color:var(--muted);margin-top:26px}
 kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px}
 @media (max-width:560px){.flash .big{font-size:42px}.flash{min-height:360px}.bar{gap:8px}nav button{padding:6px 9px}}
@@ -139,10 +159,11 @@ kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:
 </head>
 <body>
 <header><div class="bar">
-  <div class="brand" onclick="go('home')"><span class="ar">بِطَاقَات</span> Arabic Flashcards</div>
+  <div class="brand" onclick="go('home')"><span class="ar title-ar">رِحْلَتِي مَعَ العَرَبِيَّةِ</span><span class="title-en">My Arabic Journey</span></div>
   <nav id="nav">
     <button data-v="home">Categories</button>
     <button data-v="browse">Browse</button>
+    <button data-v="progress">Progress</button>
   </nav>
   <button class="gear" id="gear" title="Settings" aria-label="Settings">⚙️</button>
 </div></header>
@@ -164,7 +185,10 @@ const gTag=c=>needsG(c)?`<span class="gtag ${c.g}">${c.g==='m'?'masculine':'femi
 const KEY='arabic-flash-v1';
 let S={box:{},seen:{}}; try{S=Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-S.r=S.r||{};
+S.r=S.r||{}; S.days=S.days||{};
+const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function logReview(ok){const k=dayKey(); const d=S.days[k]||(S.days[k]={n:0,ok:0,learned:0}); d.n++; if(ok)d.ok++; save();}
+function streak(){let s=0; const d=new Date(); if(!S.days[dayKey(d)]) d.setDate(d.getDate()-1); while(S.days[dayKey(d)]&&S.days[dayKey(d)].n>0){s++; d.setDate(d.getDate()-1);} return s;}
 const DAY=864e5, now=()=>Date.now();
 const RATINGS=[
   {label:"Didn't know at all", short:"No idea", hint:"again in a moment"},
@@ -205,14 +229,14 @@ let audio=null; function play(src,e){e&&e.stopPropagation(); if(audio)audio.paus
 function go(v){view=v; document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='study'&&b.dataset.v==='home'))); render(); scrollTo(0,0);}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
-function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy})[view](); }
+function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress})[view](); }
 
 // ---- home ----
 function renderHome(){
   const total=CARDS.length, kn=CARDS.filter(known).length;
   const pool=poolFor([...selected]);
-  let h=`<h1>Your flashcards</h1><p class="sub">${total} cards from your AMAU deck, sorted by topic. Pick one or more categories, then start.</p>
-  <div class="stats"><div class="stat"><b>${total}</b><span>cards</span></div><div class="stat"><b>${kn}</b><span>known</span></div><div class="stat"><b>${CARDS.filter(isDue).length}</b><span>due for review</span></div><div class="stat"><b>${CARDS.filter(weak).length}</b><span>weak cards</span></div>
+  let h=`<h1>Your flashcards <span class="ar">بِطَاقَاتِي</span></h1><div class="orn"><span>❁</span></div><p class="sub">${total} cards from your AMAU deck, sorted by topic. Pick one or more categories, then start.</p>
+  <div class="stats"><div class="stat"><b>${streak()} 🔥</b><span>day streak</span></div><div class="stat"><b>${(S.days[dayKey()]||{n:0}).n}</b><span>reviewed today</span></div><div class="stat"><b>${total}</b><span>cards</span></div><div class="stat"><b>${kn}</b><span>known</span></div><div class="stat"><b>${CARDS.filter(isDue).length}</b><span>due for review</span></div><div class="stat"><b>${CARDS.filter(weak).length}</b><span>weak cards</span></div>
   <div class="stat"><b>${CARDS.filter(c=>c.img).length}</b><span>with pictures</span></div><div class="stat"><b>${CARDS.filter(c=>c.aud).length}</b><span>with audio</span></div></div>
   <div class="toolbar">
     <span style="font-weight:600">Show</span>
@@ -312,12 +336,12 @@ function renderStudy(){
   document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>rate(+b.dataset.r));
   const rv=$('#reveal'); if(rv) rv.onclick=()=>$('#flash').click();
   const sk=$('#skip'); if(sk) sk.onclick=skip;
-  document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ if(sess.answered)return; sess.answered=b.dataset.g; const ok=b.dataset.g===c.g; ok?sess.good++:sess.again++; renderStudy(); });
+  document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ if(sess.answered)return; sess.answered=b.dataset.g; const ok=b.dataset.g===c.g; ok?sess.good++:sess.again++; logReview(ok); renderStudy(); });
   const n=$('#next'); if(n) n.onclick=()=>{sess.answered=null; sess.i++; renderStudy();};
 }
 function rate(q){
   const c=sess.queue[sess.i];
-  schedule(c,q); sess.counts[q]++;
+  const wasKnown=known(c); schedule(c,q); sess.counts[q]++; logReview(q>=2); if(!wasKnown&&known(c)){S.days[dayKey()].learned++; save();}
   // active recall within the session: the weaker the answer, the sooner it comes back
   const t=(sess.tries[c.id]=(sess.tries[c.id]||0)+1);
   let gap=null;
@@ -340,9 +364,50 @@ document.addEventListener('keydown',e=>{
   if(e.key==='s'||e.key==='S')skip();
 });
 
+// ---- progress ----
+let progRange=30;
+function renderProgress(){
+  const days=[]; for(let i=progRange-1;i>=0;i--){const d=new Date(); d.setDate(d.getDate()-i); const k=dayKey(d); days.push({k,d,...(S.days[k]||{n:0,ok:0,learned:0})});}
+  const total=Object.values(S.days).reduce((a,d)=>a+d.n,0), okAll=Object.values(S.days).reduce((a,d)=>a+d.ok,0);
+  const active=Object.values(S.days).filter(d=>d.n>0).length;
+  const best=(()=>{const ks=Object.keys(S.days).filter(k=>S.days[k].n>0).sort(); let b=0,c=0,prev=null; for(const k of ks){const t=new Date(k+'T12:00'); if(prev&&(t-prev)/864e5<1.5)c++; else c=1; b=Math.max(b,c); prev=t;} return b;})();
+  const max=Math.max(5,...days.map(d=>d.n));
+  const W=760,H=220,pl=36,pb=26,pt=10,bw=(W-pl)/days.length;
+  const ticks=[0,Math.round(max/2),max];
+  let bars=days.map((d,i)=>{const bh=d.n?Math.max(3,(H-pb-pt)*d.n/max):0, x=pl+i*bw+2, y=H-pb-bh;
+    return `<g class="bar-g" data-i="${i}"><rect x="${pl+i*bw}" y="${pt}" width="${bw}" height="${H-pb-pt}" fill="transparent"/>${bh?`<path d="M${x},${H-pb} V${y+4} q0,-4 4,-4 h${bw-8} q4,0 4,4 V${H-pb} Z" fill="var(--accent)"/>`:''}</g>`}).join('');
+  const labels=days.map((d,i)=>((i%Math.ceil(days.length/8)===0&&i<days.length-Math.ceil(days.length/16))||i===days.length-1)?`<text x="${pl+i*bw+bw/2}" y="${H-8}" text-anchor="middle" class="ax">${d.d.getDate()}/${d.d.getMonth()+1}</text>`:'').join('');
+  const grid=ticks.map(t=>{const y=H-pb-(H-pb-pt)*t/max; return `<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl-6}" y="${y+4}" text-anchor="end" class="ax">${t}</text>`}).join('');
+  const kn=CARDS.filter(known).length;
+  let h=`<h1>Your progress <span class="ar">تَقَدُّمِي</span></h1><div class="orn"><span>❁</span></div>
+  <div class="stats">
+    <div class="stat"><b>${streak()} 🔥</b><span>day streak</span></div>
+    <div class="stat"><b>${best}</b><span>best streak</span></div>
+    <div class="stat"><b>${(S.days[dayKey()]||{n:0}).n}</b><span>reviewed today</span></div>
+    <div class="stat"><b>${total}</b><span>reviews in total</span></div>
+    <div class="stat"><b>${total?Math.round(okAll/total*100):0}%</b><span>answered well</span></div>
+    <div class="stat"><b>${kn}</b><span>words known</span></div>
+    <div class="stat"><b>${active}</b><span>days studied</span></div>
+  </div>
+  <div class="section-h">Cards reviewed per day</div>
+  <div class="toolbar">${[14,30,90].map(n=>`<button class="pill ${progRange===n?'on':''}" data-range="${n}">Last ${n} days</button>`).join('')}</div>
+  <div class="chartbox"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cards reviewed per day, last ${progRange} days">${grid}${bars}${labels}</svg><div class="tip" id="tip"></div></div>
+  ${total?'':`<p class="sub" style="margin-top:12px">Your chart fills in as you study. Each card you rate counts as one review.</p>`}
+  <div class="section-h">Words known by category</div><div class="catprog">`+
+  ORDER.filter(c=>cats[c]).map(c=>{const a=cats[c],k=a.filter(known).length; return `<div class="cp"><span>${ICON[c]||''} ${esc(c)}</span><div class="prog"><i style="width:${k/a.length*100}%"></i></div><b>${k}/${a.length}</b></div>`}).join('')+`</div>
+  <p class="note">A word counts as “known” once its next review is at least 4 days away. Progress is saved on this device.</p>`;
+  $('#app').innerHTML=h;
+  document.querySelectorAll('[data-range]').forEach(b=>b.onclick=()=>{progRange=+b.dataset.range; renderProgress();});
+  const tip=$('#tip'), box=$('.chartbox');
+  document.querySelectorAll('.bar-g').forEach(g=>{g.onmouseenter=g.ontouchstart=e=>{const d=days[+g.dataset.i]; const r=g.getBoundingClientRect(), br=box.getBoundingClientRect();
+    tip.innerHTML=`<b>${d.d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})}</b><br>${d.n} reviewed${d.n?` · ${Math.round(d.ok/d.n*100)}% well`:''}${d.learned?`<br>${d.learned} newly known`:''}`;
+    tip.style.left=Math.min(br.width-150,Math.max(0,r.left-br.left+r.width/2-75))+'px'; tip.style.display='block'; g.style.opacity=.75;};
+    g.onmouseleave=()=>{tip.style.display='none'; g.style.opacity=1;};});
+}
+
 // ---- browse ----
 function renderBrowse(){
-  let h=`<h1>Browse</h1><p class="sub">Search any word in English or Arabic.</p>
+  let h=`<h1>Browse <span class="ar">تَصَفُّح</span></h1><div class="orn"><span>❁</span></div><p class="sub">Search any word in English or Arabic.</p>
   <div class="toolbar"><input type="search" id="q" placeholder="Search…" value="${esc(q)}">
   <select id="bc"><option value="all">All categories</option>${ORDER.filter(c=>cats[c]).map(c=>`<option ${browseCat===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
   ${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div>
