@@ -191,7 +191,7 @@ function priority(c){
 }
 
 // ---- state ----
-let view='home', selected=new Set(), opts={dir:'en-ar', gender:'all', order:'smart', mode:'flip', tr:true};
+let view='home', selected=new Set(), opts={dir:'en-ar', gender:'all', order:'smart', mode:'flip', tr:true, pf:'all'};
 let browseCat='all', q='';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -217,6 +217,7 @@ function renderHome(){
     ${pill('mode','flip','Flashcards')}${pill('mode','gender','Guess the gender')}
   </div>
   <div class="toolbar">
+    ${selected.has('People & Family')?`<span style="font-weight:600">People & Family</span>${pill('pf','all','All')}${pill('pf','people','People & family')}${pill('pf','jobs','Jobs')}${pill('pf','fail','Ism Fāʿil')}</div><div class="toolbar">`:''}
     <span style="font-weight:600">Which cards</span>${pill('order','smart','Smart (weakest & due first)')}${pill('order','due','Only due & weak')}${pill('order','random','Random')}
   </div>
   <div class="toolbar">
@@ -250,6 +251,7 @@ function pill(k,v,label){return `<button class="pill ${opts[k]===v?'on':''}" dat
 function bindPills(cb){document.querySelectorAll('.pill').forEach(p=>p.onclick=()=>{opts[p.dataset.k]=p.dataset.v; cb();});}
 function poolFor(list){
   let p=list.flatMap(c=>cats[c]||[]);
+  if(opts.pf!=='all') p=p.filter(c=>c.cat!=='People & Family'||c.sub===opts.pf);
   if(opts.order==='due') p=p.filter(c=>isDue(c)||weak(c));
   if(opts.gender!=='all'||opts.mode==='gender') p=p.filter(c=>opts.gender==='all'?c.g:c.g===opts.gender);
   return p;
@@ -338,17 +340,18 @@ function renderBrowse(){
   let h=`<h1>Browse</h1><p class="sub">Search any word in English or Arabic.</p>
   <div class="toolbar"><input type="search" id="q" placeholder="Search…" value="${esc(q)}">
   <select id="bc"><option value="all">All categories</option>${ORDER.filter(c=>cats[c]).map(c=>`<option ${browseCat===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
-  ${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div><div id="res"></div>`;
+  ${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div>
+  ${browseCat==='People & Family'?`<div class="toolbar">${pill('pf','all','All')}${pill('pf','people','People & family')}${pill('pf','jobs','Jobs')}${pill('pf','fail','Ism Fāʿil')}</div>`:''}<div id="res"></div>`;
   $('#app').innerHTML=h;
   $('#q').oninput=e=>{q=e.target.value; list();};
-  $('#bc').onchange=e=>{browseCat=e.target.value; list();};
+  $('#bc').onchange=e=>{browseCat=e.target.value; renderBrowse();};
   bindPills(()=>{renderBrowse(); $('#q').focus();});
   list();
 }
 const strip=s=>(s||'').replace(/[ً-ٰٟـ]/g,'').toLowerCase();
 function list(){
   const t=strip(q.trim());
-  let r=CARDS.filter(c=>(browseCat==='all'||c.cat===browseCat)&&(opts.gender==='all'||c.g===opts.gender)&&(!t||strip(c.en+' '+c.ar+' '+c.pl+' '+c.tr).includes(t)));
+  let r=CARDS.filter(c=>(browseCat==='all'||c.cat===browseCat)&&(opts.gender==='all'||c.g===opts.gender)&&(browseCat!=='People & Family'||opts.pf==='all'||c.sub===opts.pf)&&(!t||strip(c.en+' '+c.ar+' '+c.pl+' '+c.tr).includes(t)));
   const shown=r.slice(0,300);
   $('#res').innerHTML= r.length? `<p class="sub">${r.length} card${r.length===1?'':'s'}${r.length>300?' (showing first 300)':''}</p><div class="list">`+shown.map(c=>`
     <div class="item">${c.img?`<img loading="lazy" src="${c.img}" alt="">`:`<div class="noimg">${ICON[c.cat]||'📘'}</div>`}
