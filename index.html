@@ -7,16 +7,38 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>try{const t=localStorage.getItem('arabic-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{
   --bg:#f6f3ec; --card:#fffdf8; --ink:#1f2a24; --muted:#6b736d; --line:#e4ddcf;
   --accent:#1f6f54; --accent-soft:#e3f0ea; --m:#2f5d9e; --m-soft:#e6eef9; --f:#a3456b; --f-soft:#f8e8ef;
   --again:#b5482f; --good:#1f6f54; --shadow:0 1px 2px rgba(0,0,0,.05),0 6px 20px rgba(40,30,10,.06);
 }
-@media (prefers-color-scheme:dark){:root{
+@media (prefers-color-scheme:dark){:root:not([data-theme]){
   --bg:#141816; --card:#1d2320; --ink:#ecefe9; --muted:#9aa39c; --line:#2d3530;
   --accent:#5fbf98; --accent-soft:#1f3229; --m:#8fb3ea; --m-soft:#1e2a3b; --f:#e79ab9; --f-soft:#3a2230;
   --again:#e7866f; --good:#5fbf98; --shadow:none;}}
+:root{--on-accent:#fff}
+:root[data-theme=sand]{--bg:#f6f3ec;--card:#fffdf8;--ink:#1f2a24;--muted:#6b736d;--line:#e4ddcf;--accent:#1f6f54;--accent-soft:#e3f0ea;--good:#1f6f54}
+:root[data-theme=night]{--bg:#141816;--card:#1d2320;--ink:#ecefe9;--muted:#9aa39c;--line:#2d3530;--accent:#5fbf98;--accent-soft:#1f3229;--m:#8fb3ea;--m-soft:#1e2a3b;--f:#e79ab9;--f-soft:#3a2230;--again:#e7866f;--good:#5fbf98;--shadow:none;--on-accent:#0f1a14}
+:root[data-theme=madinah]{--bg:#fbfaf6;--card:#ffffff;--ink:#14281f;--muted:#6a7570;--line:#e7e1cf;--accent:#0b6b4a;--accent-soft:#f3ecd6;--good:#0b6b4a;--gold:#b8892b}
+:root[data-theme=madinah] .brand .ar,:root[data-theme=madinah] h1{color:#9a7120}
+:root[data-theme=ocean]{--bg:#eef4f9;--card:#ffffff;--ink:#14243a;--muted:#5d6b7c;--line:#d5e1ec;--accent:#1d4e89;--accent-soft:#dde9f6;--good:#1d4e89}
+:root[data-theme=desert]{--bg:#f5ebdc;--card:#fffaf2;--ink:#3a2618;--muted:#80695a;--line:#e8d6bf;--accent:#b4532a;--accent-soft:#f6e1d2;--good:#8a6d1f}
+:root[data-theme=rose]{--bg:#fbf1f3;--card:#fffafb;--ink:#3a1f2c;--muted:#80636f;--line:#f0dbe1;--accent:#7d2e5b;--accent-soft:#f6e0ea;--good:#7d2e5b}
+:root[data-theme=ink]{--bg:#ffffff;--card:#ffffff;--ink:#111111;--muted:#555555;--line:#d8d8d8;--accent:#111111;--accent-soft:#eeeeee;--good:#111111;--shadow:none}
+.gear{border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;font-size:18px;display:flex;align-items:center;justify-content:center}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:70px 16px}
+.modal{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:18px;max-width:560px;width:100%;padding:20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal h2{margin:0 0 4px;font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.modal h2 button{border:0;background:none;font-size:22px;color:var(--muted)}
+.modal h3{font-size:14px;color:var(--muted);margin:18px 0 10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.theme{border:2px solid var(--line);border-radius:12px;padding:0;overflow:hidden;text-align:left;background:none}
+.theme.on{border-color:var(--accent)}
+.theme .sw{height:52px;display:flex;align-items:center;justify-content:center;gap:6px;font-family:Amiri,serif;font-size:22px}
+.theme .sw i{width:16px;height:16px;border-radius:50%;display:inline-block}
+.theme .nm{padding:7px 10px;font-size:13px;font-weight:600;background:var(--card)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -47,10 +69,10 @@ h1{font-size:24px;margin:0 0 4px}
 .prog i{display:block;height:100%;background:var(--accent)}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
 .pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;font-size:14px}
-.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 select,input[type=search]{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:7px 12px}
 input[type=search]{min-width:220px;flex:1}
-.go{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:9px 18px;font-weight:600}
+.go{background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;padding:9px 18px;font-weight:600}
 .go:disabled{opacity:.4;cursor:default}
 .ghost{background:none;border:1px solid var(--line);border-radius:10px;padding:8px 14px}
 /* study */
@@ -78,7 +100,7 @@ input[type=search]{min-width:220px;flex:1}
 .rate5 button small{display:block;font-weight:400;opacity:.9;font-size:11px;margin-top:3px}
 .rate5 .r0{background:#a8322a}.rate5 .r1{background:#d0702c}.rate5 .r2{background:#c9a227;color:#2a2205}.rate5 .r3{background:#4f9a6b}.rate5 .r4{background:#1f6f54}
 .under{display:flex;gap:10px;margin-top:12px}
-.under .reveal{flex:1;background:var(--accent);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:600;font-size:16px}
+.under .reveal{flex:1;background:var(--accent);color:var(--on-accent);border:0;border-radius:12px;padding:14px;font-weight:600;font-size:16px}
 .under .skip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--muted)}
 .sumgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:560px;margin:18px auto}
 .sumgrid div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 4px;font-size:12px;color:var(--muted)}
@@ -118,6 +140,7 @@ kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:
     <button data-v="home">Categories</button>
     <button data-v="browse">Browse</button>
   </nav>
+  <button class="gear" id="gear" title="Settings" aria-label="Settings">⚙️</button>
 </div></header>
 <main id="app"></main>
 <script src="cards.js"></script>
@@ -332,6 +355,35 @@ function list(){
     <div class="w"><div class="e">${esc(c.en)} ${gTag(c)}</div><div class="ar a">${esc(c.ar)}</div>${c.pl?`<div class="ar p">${esc(c.pl)}</div>`:''}${gBadge(c.g)}</div>
     ${c.aud?`<button class="play" onclick="play('${c.aud}',event)">🔊</button>`:''}</div>`).join('')+`</div>` : `<div class="empty">No cards match.</div>`;
 }
+
+// ---- settings ----
+const THEMES=[
+ ['auto','Auto (match device)',['#f6f3ec','#1f6f54','#141816']],
+ ['sand','Sand & Green',['#f6f3ec','#fffdf8','#1f6f54']],
+ ['night','Night',['#141816','#1d2320','#5fbf98']],
+ ['madinah','Madinah',['#fbfaf6','#0b6b4a','#b8892b']],
+ ['ocean','Ocean',['#eef4f9','#ffffff','#1d4e89']],
+ ['desert','Desert',['#f5ebdc','#fffaf2','#b4532a']],
+ ['rose','Rose',['#fbf1f3','#fffafb','#7d2e5b']],
+ ['ink','Ink & Paper',['#ffffff','#eeeeee','#111111']]];
+const getTheme=()=>{try{return localStorage.getItem('arabic-theme')||'auto'}catch(e){return 'auto'}};
+function setTheme(t){ if(t==='auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=t; try{localStorage.setItem('arabic-theme',t)}catch(e){} openSettings(); }
+function openSettings(){
+  document.querySelector('.modal-bg')?.remove();
+  const cur=getTheme(), bg=document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML=`<div class="modal"><h2>Settings <button id="closeS" aria-label="Close">×</button></h2>
+    <h3>Colour theme</h3><div class="themes">${THEMES.map(([id,name,[a,b,c]])=>`<button class="theme ${cur===id?'on':''}" data-t="${id}">
+      <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>ع</span></div><div class="nm">${name}</div></button>`).join('')}</div>
+    <h3>Flashcards</h3><label><input type="checkbox" id="trS" ${opts.tr?'checked':''}> Show transliteration</label>
+    <p class="note" style="margin-top:16px">Settings are saved on this device.</p></div>`;
+  document.body.appendChild(bg);
+  bg.onclick=e=>{if(e.target===bg)bg.remove()};
+  bg.querySelector('#closeS').onclick=()=>bg.remove();
+  bg.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+  bg.querySelector('#trS').onchange=e=>{opts.tr=e.target.checked; render();};
+}
+$('#gear').onclick=openSettings;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelector('.modal-bg')?.remove()});
 
 go('home');
 </script>
