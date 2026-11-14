@@ -423,6 +423,94 @@ header nav button.soon{opacity:1;color:rgba(255,255,255,.35)}
 .cover .ce{top:auto;bottom:30%}
 @media (max-width:899px){.cover .ca.s0{font-size:17cqw!important}.cover .ca.s1{font-size:14cqw!important}.cover .ca.s2{font-size:10.5cqw!important}.cover .ca.s3{font-size:8.2cqw!important}.cover .ce{bottom:18%;font-size:4.2cqw!important}.cover .ca{bottom:34%}}
 .cover .ce{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.3em}
+
+/* ===== AMAU card theme across the whole site ===== */
+:root,:root[data-theme=sand]{--bg:#f4f1ec;--card:#ffffff;--ink:#1b1d1c;--muted:#6d6a66;--line:#e6e0d8;--accent:#e0603f;--accent-soft:#fbe8e1;--good:#1f4f4a;--gold:#e0603f;--hdr:#131816;--on-accent:#fff;--coral:#e0603f;--teal:#1f4f4a;--slate:#283746}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0d0f0e;--card:#171a19;--ink:#f2efe9;--muted:#a19c95;--line:#2a2e2c;--accent:#ea6c4a;--accent-soft:#3a201a;--gold:#ea6c4a;--hdr:#0a0c0b}}
+:root{--r:22px}
+.grain{position:relative;isolation:isolate;overflow:hidden}
+.grain::after{content:"";position:absolute;inset:0;z-index:0;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.grain>*{position:relative;z-index:1}
+.grain .bgl{position:absolute!important;z-index:0;font-style:normal;font-family:Lalezar,var(--arfont),serif;line-height:1;color:rgba(0,0,0,.09);direction:rtl;white-space:nowrap;pointer-events:none}
+.g0{background-color:var(--coral)!important}.g1{background-color:var(--teal)!important}.g2{background-color:var(--slate)!important}
+.otag{display:inline-block;font-family:Inter,sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1.5px solid rgba(255,255,255,.6);padding:4px 10px;line-height:1.2}
+.g0 .otag{border-color:rgba(0,0,0,.55);background:rgba(0,0,0,.08)}
+/* sidebar */
+header{background:var(--hdr)!important}
+header .brand .title-ar{font-family:Lalezar,var(--artitle),serif;font-weight:400;font-size:32px;color:#fff}
+header .brand .title-en{font-family:Inter,sans-serif;font-style:normal;font-weight:800;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--coral)}
+header nav button{font-weight:600;letter-spacing:.02em}
+header nav button.on{border-left-color:var(--coral)!important}
+@media (max-width:899px){header nav button.on{border-top-color:var(--coral)!important}}
+/* hero as a big programme card */
+.hero{background:var(--teal)!important;background-image:none!important;border-radius:var(--r);min-height:340px;padding:30px 36px 32px!important;color:#fff}
+.hero::before{display:none!important}
+.hero .bgl{font-size:300px;left:-30px;top:-40px;color:rgba(0,0,0,.12)}
+.hero-tags{display:flex;justify-content:space-between;align-items:center}
+.hero-brand{font-family:Inter,sans-serif;font-weight:800;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.hero .hero-top{text-align:center;margin-top:18px}
+.hero .hero-ar{text-align:center!important;font-family:var(--arfont),Amiri,serif;font-weight:700;font-size:54px;color:#fff;text-shadow:none}
+.hero .hero-rule{margin:10px auto 6px!important;width:90px!important;background:var(--coral);height:2px;transform-origin:center}
+.hero .hero-ref{text-align:center!important;font-family:Inter,sans-serif;font-style:normal;font-weight:800;font-size:12px;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.hero .hero-row{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,.15)}
+.hero .lead{font-family:Inter,sans-serif;font-weight:700;font-size:19px}
+.hero-meta{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px!important}
+.cta{background:var(--coral);color:#fff;border-radius:999px;font-weight:700;letter-spacing:.02em;padding:13px 26px}
+.cta-ghost{border-radius:999px;font-weight:600;border-color:rgba(255,255,255,.4)}
+.panel .cta{background:var(--coral)}
+/* section headings & panel */
+h2{font-family:Inter,sans-serif!important;font-weight:800!important;font-size:15px!important;letter-spacing:.32em;text-transform:uppercase}
+.rowhead{border-bottom:0}
+.rowhead h2::after{content:"";display:block;width:36px;height:3px;background:var(--coral);margin-top:10px}
+.panel{border-radius:var(--r);border:0;background:var(--card)}
+.panel-h h2{font-size:13px!important}
+.optgrid label{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+.pill{border-radius:999px;font-weight:600}
+.pill.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.ghost{border-radius:999px}
+.seeall{color:var(--coral);font-weight:700}
+/* page headers for Browse / Progress */
+.pagehead{border-radius:var(--r);padding:26px 30px 28px;color:#fff;margin-bottom:24px;text-align:center}
+.pagehead .otag{position:absolute;left:24px;top:22px}
+.pagehead .bgl{font-size:200px;left:-10px;top:-40px}
+.ph-ar{font-family:Lalezar,var(--arfont),serif;font-size:64px;line-height:1.2;margin-top:24px;direction:rtl}
+.ph-en{font-family:Inter,sans-serif;font-weight:800;font-size:12px;letter-spacing:.38em;text-transform:uppercase;opacity:.9}
+.section-h{font-family:Inter,sans-serif;font-weight:800;font-size:13px;letter-spacing:.3em;text-transform:uppercase}
+.section-h::after{background:var(--coral)}
+.stat{border:0;background:var(--card);border-radius:18px}
+.stat b{font-family:Lalezar,Inter,sans-serif;font-weight:400;font-size:32px}
+.stat span{text-transform:uppercase;letter-spacing:.12em;font-size:10px;font-weight:700}
+.chartbox{border:0;border-radius:var(--r)}
+.chartbox path{fill:var(--teal)}
+.item{border:0;border-radius:18px}
+.prog i{background:var(--coral)}
+/* flashcard: coloured band on top, white body */
+.flash{border:0;border-radius:var(--r);padding:0 0 38px!important;overflow:hidden}
+.flash .fband{align-self:stretch;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;margin-bottom:28px;color:#fff}
+.flash .fband .fl{font-family:Inter,sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.8}
+.flash>img,.flash>.en,.flash>.ar,.flash>.plural-l,.flash>.tr,.flash>.badge,.flash>hr,.flash>.hint{margin-left:28px;margin-right:28px}
+.flash .audio{top:58px;right:16px;background:var(--card)}
+.flash .big{font-weight:700}
+.flash .en{font-family:Inter,sans-serif;font-weight:800;font-size:28px;letter-spacing:-.01em}
+.under .reveal{background:var(--coral);border-radius:999px;font-weight:700}
+.under .skip,.study .ghost{border-radius:999px}
+.rate5 button{border-radius:14px;font-weight:700}
+.rate5 .r0{background:#9b2f22}.rate5 .r1{background:#e0603f}.rate5 .r2{background:#d9a33a;color:#2a1a05}.rate5 .r3{background:#3f7a70}.rate5 .r4{background:#1f4f4a}
+.choices button{border-radius:14px}
+.choices button.right{border-color:var(--teal)}
+/* modal */
+.modal{border-radius:var(--r)}
+.modal h3{font-weight:800;letter-spacing:.2em;font-size:11px}
+@media (max-width:899px){
+  .hero{padding:22px 20px 22px!important;min-height:0}.hero .bgl{font-size:180px}
+  .hero .hero-ar{font-size:34px}.hero .hero-ref{font-size:10px;letter-spacing:.25em}
+  .ph-ar{font-size:44px}.pagehead .bgl{font-size:130px}
+}
+.otag{white-space:nowrap}
+@media (min-width:900px){header .brand .title-ar{font-size:27px!important}}
+header nav button small{margin-right:4px}
+@media (max-width:899px){.hero-brand{display:none}.hero .otag{font-size:10px}}
 </style>
 </head>
 <body>
@@ -445,6 +533,7 @@ const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Quest
 const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Adjectives":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
 const plainAr=s=>s.replace(/[\u064B-\u0652\u0670]/g,'');
 const coverLetters=c=>{const w=plainAr(AR_NAME[c]||'عربية').replace(/^ال/,'').replace(/\s.*$/,''); return w.slice(0,3);};
+const secOf=cat=>{const i=GROUPS.findIndex(g=>g[1].includes(cat)); return i<0?0:i%3;};
 const GROUPS = [["Everyday words",ORDER.slice(0,19)],["Grammar",ORDER.slice(19,24)],["Phrases",ORDER.slice(24)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 // words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
@@ -511,9 +600,11 @@ function renderHome(){
   const pool=poolFor([...selected]);
   const hr=new Date().getHours();
   let h=`
-  <section class="hero">
+  <section class="hero grain">
+    <i class="bgl">لسان</i>
+    <div class="hero-tags"><span class="otag">An-Naḥl 16:103</span><span class="hero-brand">My Arabic Journey</span></div>
     <div class="hero-top"><div class="hero-ar ar${animateHero?' write':''}">وَهَٰذَا لِسَانٌ عَرَبِيٌّ مُّبِينٌ</div><div class="hero-rule${animateHero?' grow':''}"></div>
-    <div class="hero-ref${animateHero?' rise':''}">An-Naḥl 16:103</div></div>
+    <div class="hero-ref${animateHero?' rise':''}">This is a clear Arabic tongue</div></div>
     <div class="hero-row">
       <div>
         <p class="lead">${due+wk?`${due+wk} card${due+wk===1?' is':'s are'} waiting for review.`:(today?`You reviewed ${today} card${today===1?'':'s'} today.`:'Nothing is due. Pick a topic to learn new words.')}</p>
@@ -547,7 +638,7 @@ function renderHome(){
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></button>`;}
     h+=`</div>`;
   }
-  h+=`<p class="note">Header photo by fatemah khaled on Pexels. Progress is saved on this device. Keys while studying: <kbd>Space</kbd> reveal, <kbd>1</kbd>–<kbd>5</kbd> rate, <kbd>S</kbd> skip.</p>`;
+  h+=`<p class="note">Progress is saved on this device. Keys while studying: <kbd>Space</kbd> reveal, <kbd>1</kbd>–<kbd>5</kbd> rate, <kbd>S</kbd> skip.</p>`;
   $('#app').innerHTML=h;
   document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const c=b.dataset.c; selected.has(c)?selected.delete(c):selected.add(c); const y=scrollY; renderHome(); scrollTo(0,y); });
   document.querySelectorAll('.seeall').forEach(b=>b.onclick=()=>{const l=GROUPS.find(g=>g[0]===b.dataset.group)[1]; const all=l.every(c=>selected.has(c)); l.forEach(c=>all?selected.delete(c):selected.add(c)); renderHome();});
@@ -605,7 +696,7 @@ function renderStudy(){
   }
   const showAudio=c.aud&&(sess.flipped||front||isG);
   let h=`<div class="study"><div class="topline"><button class="ghost" onclick="go('home')">← Home</button><span>${sess.queue.length-sess.i} left</span></div>
-    <div class="flash" id="flash"><span class="tag">${esc(c.cat)}${c.lesson&&c.lesson!==c.cat?` · ${esc(c.lesson)}`:''}</span>${showAudio?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:''}${face}</div>`;
+    <div class="flash" id="flash"><div class="fband grain g${secOf(c.cat)}"><span class="otag">${esc(c.cat)}</span><span class="fl">${esc(c.lesson||'')}</span></div>${showAudio?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:''}${face}</div>`;
   if(isG){
     h+=`<div class="choices"><button data-g="m" class="${sess.answered?(c.g==='m'?'right':sess.answered==='m'?'wrong':''):''}">Masculine <span class="ar">مُذَكَّر</span></button>
        <button data-g="f" class="${sess.answered?(c.g==='f'?'right':sess.answered==='f'?'wrong':''):''}">Feminine <span class="ar">مُؤَنَّث</span></button></div>
@@ -666,7 +757,7 @@ function renderProgress(){
   const labels=days.map((d,i)=>((i%Math.ceil(days.length/8)===0&&i<days.length-Math.ceil(days.length/16))||i===days.length-1)?`<text x="${pl+i*bw+bw/2}" y="${H-8}" text-anchor="middle" class="ax">${d.d.getDate()}/${d.d.getMonth()+1}</text>`:'').join('');
   const grid=ticks.map(t=>{const y=H-pb-(H-pb-pt)*t/max; return `<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl-6}" y="${y+4}" text-anchor="end" class="ax">${t}</text>`}).join('');
   const kn=CARDS.filter(known).length;
-  let h=`<h1>Your progress <span class="ar">تَقَدُّمِي</span></h1><div class="orn"><span>❁</span></div>
+  let h=`<div class="pagehead grain g1"><i class="bgl">تقدم</i><span class="otag">Progress</span><div class="ph-ar">تقدمي</div><div class="ph-en">Your progress</div></div>
   <div class="stats">
     <div class="stat"><b>${streak()}</b><span>day streak</span></div>
     <div class="stat"><b>${best}</b><span>best streak</span></div>
@@ -694,7 +785,7 @@ function renderProgress(){
 
 // ---- browse ----
 function renderBrowse(){
-  let h=`<h1>Browse <span class="ar">تَصَفُّح</span></h1><div class="orn"><span>❁</span></div><p class="sub">Search any word in English or Arabic.</p>
+  let h=`<div class="pagehead grain g2"><i class="bgl">كلمات</i><span class="otag">Browse</span><div class="ph-ar">الكلمات</div><div class="ph-en">Search any word in English or Arabic</div></div>
   <div class="toolbar"><input type="search" id="q" placeholder="Search…" value="${esc(q)}">
   <select id="bc"><option value="all">All categories</option>${ORDER.filter(c=>cats[c]).map(c=>`<option ${browseCat===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
   ${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div>
