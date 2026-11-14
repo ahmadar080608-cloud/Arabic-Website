@@ -6,7 +6,7 @@
 <title>My Arabic Journey · رحلتي مع العربية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Lateef:wght@400;700&family=Reem+Kufi:wght@500;700&family=Markazi+Text:wght@400;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Lateef:wght@400;700&family=Reem+Kufi:wght@500;700&family=Lalezar&family=Markazi+Text:wght@400;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>try{const f=localStorage.getItem('arabic-font');if(f){document.documentElement.style.setProperty('--arfont','"'+f+'"');document.documentElement.style.setProperty('--artitle','"'+f+'"')}}catch(e){}try{const t=localStorage.getItem('arabic-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{
@@ -391,6 +391,37 @@ header nav button.soon{opacity:1;color:rgba(255,255,255,.35)}
 .hero>*{width:100%}
 .hero .hero-ar{display:block}
 .hero .hero-rule{width:120px!important;margin:12px 0 8px auto}
+
+/* ===== Covers in the AMAU programme-card style ===== */
+.cat .thumb{aspect-ratio:16/10;border-radius:22px;outline-offset:3px}
+.cat.sel .thumb{outline:3px solid var(--gold)}
+.cover{container-type:inline-size;border-radius:22px;padding:0;display:block;overflow:hidden;position:relative;isolation:isolate}
+.cover.g0{background-color:#e0603f}
+.cover.g1{background-color:#1f4f4a}
+.cover.g2{background-color:#283746}
+/* grain */
+.cover::before{display:block!important;content:"";position:absolute;inset:0;z-index:0;opacity:.55;mix-blend-mode:overlay;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.cover::after{display:none!important}
+/* faint oversized letters behind */
+.cover .bgl{position:absolute;z-index:0;left:-4%;right:-4%;top:-18%;font-style:normal;font-family:Lalezar,var(--arfont),serif;font-size:62cqw;line-height:1;color:rgba(0,0,0,.08);direction:rtl;text-align:center;white-space:nowrap;letter-spacing:-.02em;pointer-events:none}
+.cover .tag{position:absolute;z-index:1;left:5.5cqw;top:5cqw;font-family:Inter,sans-serif;font-weight:800;font-size:3.6cqw;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1.5px solid rgba(0,0,0,.55);padding:.6cqw 1.6cqw;line-height:1.2;background:rgba(0,0,0,.08)}
+.cover .cnt{position:absolute;z-index:1;right:5.5cqw;top:5cqw;font-family:Inter,sans-serif;font-weight:700;font-size:3.6cqw;color:rgba(255,255,255,.92)}
+.cover .ca{position:absolute;z-index:1;left:4cqw;right:4cqw;top:24%;text-align:center;font-family:Lalezar,var(--arfont),serif;font-weight:400!important;font-size:15cqw!important;line-height:1.15;color:#fbf3ea;direction:rtl;text-shadow:none;
+ -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -3 2.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E");
+ mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -3 2.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E")}
+.cover .ca.long{font-size:11cqw!important;top:22%}
+.cover .ce{position:absolute;z-index:1;left:4cqw;right:4cqw;top:64%;text-align:center;font-family:Inter,sans-serif;font-style:normal!important;font-weight:800;font-size:3.5cqw!important;letter-spacing:.42em;text-transform:uppercase;color:#fff;opacity:1}
+.cover .cb{position:absolute;z-index:1;left:0;right:0;bottom:6.5cqw;text-align:center;font-family:Inter,sans-serif;font-weight:800;font-size:3.6cqw;letter-spacing:.55em;text-transform:uppercase;color:rgba(0,0,0,.72)}
+.cover.g1 .cb,.cover.g2 .cb{color:rgba(255,255,255,.55)}
+.cover.g1 .tag,.cover.g2 .tag{border-color:rgba(255,255,255,.55)}
+.cat:hover .cover{filter:brightness(1.06)}
+.cat .thumb u{z-index:2;left:auto;right:5cqw;top:auto;bottom:5cqw}
+@media (max-width:899px){.cover .ca,.cover .ca.long{font-size:13cqw!important}.cover .ce{letter-spacing:.2em}.cover .cb{display:none}}
+.cover .ca{white-space:nowrap;top:auto!important;bottom:44%}
+.cover .ca.s0{font-size:17cqw!important}.cover .ca.s1{font-size:14cqw!important}.cover .ca.s2{font-size:10.5cqw!important}.cover .ca.s3{font-size:8.2cqw!important}
+.cover .ce{top:auto;bottom:30%}
+@media (max-width:899px){.cover .ca.s0{font-size:17cqw!important}.cover .ca.s1{font-size:14cqw!important}.cover .ca.s2{font-size:10.5cqw!important}.cover .ca.s3{font-size:8.2cqw!important}.cover .ce{bottom:18%;font-size:4.2cqw!important}.cover .ca{bottom:34%}}
 </style>
 </head>
 <body>
@@ -411,6 +442,8 @@ const CARDS = window.CARDS;
 const ORDER = ["Adjectives","People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
 const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Adjectives":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
 const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Adjectives":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
+const plainAr=s=>s.replace(/[\u064B-\u0652\u0670]/g,'');
+const coverLetters=c=>{const w=plainAr(AR_NAME[c]||'عربية').replace(/^ال/,'').replace(/\s.*$/,''); return w.slice(0,3);};
 const GROUPS = [["Everyday words",ORDER.slice(0,19)],["Grammar",ORDER.slice(19,24)],["Phrases",ORDER.slice(24)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 // words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
@@ -508,8 +541,8 @@ function renderHome(){
     for(const c of list){ const arr=cats[c]||[]; if(!arr.length)continue;
       const k=arr.filter(known).length, img=(arr.find(x=>x.img)||{}).img;
       h+=`<button class="cat ${selected.has(c)?'sel':''}" data-c="${esc(c)}">
-        <div class="thumb"><div class="cover g${gi%3}"><div class="ca ${(AR_NAME[c]||'').replace(/[\u064B-\u0652]/g,'').length>14?'long':''}">${AR_NAME[c]||''}</div><div class="ce">${esc(c)}</div></div>${selected.has(c)?'<u>✓</u>':''}</div>
-        <div class="meta">${arr.length} cards<span class="sep"></span>${k} known</div>
+        <div class="thumb"><div class="cover g${gi%3}"><i class="bgl">${coverLetters(c)}</i><span class="tag">${esc(gname)}</span><span class="cnt">${arr.length} cards</span><div class="ca s${Math.min(3,Math.floor(plainAr(AR_NAME[c]||'').length/7))}">${plainAr(AR_NAME[c]||'')}</div><div class="ce">${esc(c)}</div><div class="cb">${esc(gname==='Grammar'?'Grammar':gname==='Phrases'?'Phrases':'Vocabulary')}</div></div>${selected.has(c)?'<u>✓</u>':''}</div>
+        <div class="meta">${k} of ${arr.length} known</div>
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></button>`;}
     h+=`</div>`;
   }
