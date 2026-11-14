@@ -25,7 +25,11 @@
 :root[data-theme=madinah] .brand .ar,:root[data-theme=madinah] h1{color:#9a7120}
 :root[data-theme=ocean]{--bg:#eef4f9;--card:#ffffff;--ink:#14243a;--muted:#5d6b7c;--line:#d5e1ec;--accent:#1d4e89;--accent-soft:#dde9f6;--good:#1d4e89}
 :root[data-theme=desert]{--bg:#f5ebdc;--card:#fffaf2;--ink:#3a2618;--muted:#80695a;--line:#e8d6bf;--accent:#b4532a;--accent-soft:#f6e1d2;--good:#8a6d1f}
-:root[data-theme=rose]{--bg:#fbf1f3;--card:#fffafb;--ink:#3a1f2c;--muted:#80636f;--line:#f0dbe1;--accent:#7d2e5b;--accent-soft:#f6e0ea;--good:#7d2e5b}
+:root[data-theme=autumn]{--bg:#f4e9d4;--card:#fdf7ea;--ink:#3b2412;--muted:#7d6450;--line:#e6d2ac;--accent:#9c4a1a;--accent-soft:#f3dfbf;--good:#8a5a14;--shadow:0 1px 2px rgba(80,40,0,.06),0 6px 20px rgba(120,70,10,.10)}
+:root[data-theme=autumn] .brand .ar,:root[data-theme=autumn] h1{color:#b06a12}
+:root[data-theme=autumn] body{background:radial-gradient(1200px 500px at 100% -10%,#f0d7a6 0,transparent 60%),radial-gradient(900px 400px at -10% 110%,#ecc994 0,transparent 55%),var(--bg);background-attachment:fixed}
+:root[data-theme=autumn] header{background:rgba(244,233,212,.92);backdrop-filter:blur(6px)}
+:root[data-theme=autumn] .cat .thumb{background-color:#f0d9b0}
 :root[data-theme=ink]{--bg:#ffffff;--card:#ffffff;--ink:#111111;--muted:#555555;--line:#d8d8d8;--accent:#111111;--accent-soft:#eeeeee;--good:#111111;--shadow:none}
 .gear{border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;font-size:18px;display:flex;align-items:center;justify-content:center}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:70px 16px}
@@ -367,7 +371,7 @@ const THEMES=[
  ['madinah','Madinah',['#fbfaf6','#0b6b4a','#b8892b']],
  ['ocean','Ocean',['#eef4f9','#ffffff','#1d4e89']],
  ['desert','Desert',['#f5ebdc','#fffaf2','#b4532a']],
- ['rose','Rose',['#fbf1f3','#fffafb','#7d2e5b']],
+ ['autumn','Autumn Leaves',['#f4e9d4','#c98a2b','#9c4a1a']],
  ['ink','Ink & Paper',['#ffffff','#eeeeee','#111111']]];
 const getTheme=()=>{try{return localStorage.getItem('arabic-theme')||'auto'}catch(e){return 'auto'}};
 function setTheme(t){ if(t==='auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=t; try{localStorage.setItem('arabic-theme',t)}catch(e){} openSettings(); }
@@ -376,7 +380,7 @@ function openSettings(){
   const cur=getTheme(), bg=document.createElement('div'); bg.className='modal-bg';
   bg.innerHTML=`<div class="modal"><h2>Settings <button id="closeS" aria-label="Close">×</button></h2>
     <h3>Colour theme</h3><div class="themes">${THEMES.map(([id,name,[a,b,c]])=>`<button class="theme ${cur===id?'on':''}" data-t="${id}">
-      <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>ع</span></div><div class="nm">${name}</div></button>`).join('')}</div>
+      <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>${id==='autumn'?'🍂':'ع'}</span></div><div class="nm">${name}</div></button>`).join('')}</div>
     <h3>Flashcards</h3><label><input type="checkbox" id="trS" ${opts.tr?'checked':''}> Show transliteration</label>
     <p class="note" style="margin-top:16px">Settings are saved on this device.</p></div>`;
   document.body.appendChild(bg);
