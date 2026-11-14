@@ -66,6 +66,8 @@ input[type=search]{min-width:220px;flex:1}
 .flash .hint{position:absolute;bottom:14px;font-size:13px;color:var(--muted)}
 .flash hr{width:60%;border:0;border-top:1px solid var(--line);margin:16px 0}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;border-radius:999px;padding:3px 11px;margin-top:10px}
+.gtag{display:inline-block;vertical-align:middle;font-size:.55em;font-weight:600;border-radius:999px;padding:2px 10px;margin-left:4px}.gtag.m{background:var(--m-soft);color:var(--m)}.gtag.f{background:var(--f-soft);color:var(--f)}
+.item .gtag{font-size:11px;padding:1px 7px}
 .badge.m{background:var(--m-soft);color:var(--m)} .badge.f{background:var(--f-soft);color:var(--f)}
 .badge .ar{font-size:16px;font-weight:400}
 .tag{font-size:12px;color:var(--muted);position:absolute;top:14px;left:18px}
@@ -125,6 +127,11 @@ const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","J
 const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Character & Values":"🌱","Prepositions & Position":"📍","Small Linking Words":"🔗","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
 const GROUPS = [["Nouns & topics",ORDER.slice(0,23)],["Grammar words",ORDER.slice(23,28)],["Phrases",ORDER.slice(28)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
+// words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
+const normEn=e=>e.toLowerCase().replace(/\s+/g,' ').trim();
+const gPairs=(()=>{const m={};CARDS.forEach(c=>{if(c.g)(m[normEn(c.en)]??=new Set()).add(c.g)});return new Set(Object.keys(m).filter(k=>m[k].size>1));})();
+const needsG=c=>c.g&&gPairs.has(normEn(c.en));
+const gTag=c=>needsG(c)?`<span class="gtag ${c.g}">${c.g==='m'?'masculine':'feminine'}</span>`:'';
 
 // ---- storage (per device) ----
 const KEY='arabic-flash-v1';
@@ -247,7 +254,7 @@ function renderStudy(){
   let face='';
   const img=c.img?`<img src="${c.img}" alt="">`:'';
   const arBlock=`<div class="ar big">${esc(c.ar)}</div>${c.pl?`<div class="plural-l">Plural</div><div class="ar plural">${esc(c.pl)}</div>`:''}${opts.tr&&c.tr?`<div class="tr">${esc(c.tr)}</div>`:''}`;
-  const enBlock=`<div class="en">${esc(c.en)}</div>`;
+  const enBlock=`<div class="en">${esc(c.en)} ${gTag(c)}</div>`;
   if(isG){
     face=`${img}<div class="ar big">${esc(c.ar)}</div>${sess.answered?`${c.pl?`<div class="plural-l">Plural</div><div class="ar plural">${esc(c.pl)}</div>`:''}<hr>${enBlock}${gBadge(c.g)}`:`<div class="hint" style="position:static;margin-top:10px">Is this word masculine or feminine?</div>`}`;
   } else if(!sess.flipped){
@@ -322,7 +329,7 @@ function list(){
   const shown=r.slice(0,300);
   $('#res').innerHTML= r.length? `<p class="sub">${r.length} card${r.length===1?'':'s'}${r.length>300?' (showing first 300)':''}</p><div class="list">`+shown.map(c=>`
     <div class="item">${c.img?`<img loading="lazy" src="${c.img}" alt="">`:`<div class="noimg">${ICON[c.cat]||'📘'}</div>`}
-    <div class="w"><div class="e">${esc(c.en)}</div><div class="ar a">${esc(c.ar)}</div>${c.pl?`<div class="ar p">${esc(c.pl)}</div>`:''}${gBadge(c.g)}</div>
+    <div class="w"><div class="e">${esc(c.en)} ${gTag(c)}</div><div class="ar a">${esc(c.ar)}</div>${c.pl?`<div class="ar p">${esc(c.pl)}</div>`:''}${gBadge(c.g)}</div>
     ${c.aud?`<button class="play" onclick="play('${c.aud}',event)">🔊</button>`:''}</div>`).join('')+`</div>` : `<div class="empty">No cards match.</div>`;
 }
 
