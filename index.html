@@ -275,7 +275,7 @@ function quoteHTML(){
   return `<div class="quote"><button class="qmore" id="qmore" title="Show another quote">↻ another</button>
     <div class="qa">«${esc(q.ar)}»</div><div class="qe">“${esc(q.en)}”</div>
     <div class="qw">${esc(q.who)} <span>· ${esc(q.era)}</span></div>
-    <div class="qr">${esc(q.ref)}</div>${q.note?`<div class="qn">${esc(q.note)}</div>`:''}</div>`;
+    <div class="qr">${esc(q.ref)}${q.link?` · <a href="${q.link}" target="_blank" rel="noopener" style="color:var(--accent)">see the narration</a>`:''}</div>${q.note?`<div class="qn">${esc(q.note)}</div>`:''}</div>`;
 }
 function pill(k,v,label){return `<button class="pill ${opts[k]===v?'on':''}" data-k="${k}" data-v="${v}">${label}</button>`}
 function bindPills(cb){document.querySelectorAll('.pill').forEach(p=>p.onclick=()=>{opts[p.dataset.k]=p.dataset.v; cb();});}
