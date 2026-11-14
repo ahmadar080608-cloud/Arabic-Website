@@ -367,6 +367,30 @@ header nav button.soon{opacity:1;color:rgba(255,255,255,.35)}
 }
 .plural-l{text-transform:none;letter-spacing:0;font-size:13px;font-style:italic;font-family:Lora,Georgia,serif}
 @media (max-width:899px){.hero-btns button{padding:12px 10px}}
+
+/* header picture */
+.hero{position:relative;overflow:hidden;background:var(--hdr) url("img/book.svg") center/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--hdr) 0%,color-mix(in srgb,var(--hdr) 70%,transparent) 35%,transparent 70%),linear-gradient(0deg,color-mix(in srgb,var(--hdr) 70%,transparent),transparent 45%);pointer-events:none}
+.hero{min-height:330px;display:flex!important;flex-direction:column;align-items:stretch!important;justify-content:space-between;background-position:right center!important;background-color:#120d08!important}
+.hero-ar,.hero-ref{text-align:right}
+.hero>*{position:relative}
+.hero-ar{text-shadow:0 2px 18px rgba(0,0,0,.45)}
+.hero-rule{height:1px;width:120px;background:var(--gold);margin:14px 0 0 auto}
+.hero-row{border-top:0;margin-top:22px;padding-top:6px}
+/* one orchestrated moment: the āyah is written right-to-left, then a gold line draws */
+@keyframes write{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero-ar.write{animation:write 2.2s cubic-bezier(.45,.05,.25,1) .2s both}
+.hero-rule.grow{transform-origin:right;animation:grow .9s ease-out 2.2s both}
+.hero-ref.rise{animation:rise .7s ease-out 2.6s both}
+/* card flip when you reveal */
+@keyframes flipin{from{transform:perspective(1200px) rotateY(-14deg);opacity:.4}to{transform:none;opacity:1}}
+.flash.flipin{animation:flipin .38s ease-out}
+@media (prefers-reduced-motion:reduce){.hero-ar.write,.hero-rule.grow,.hero-ref.rise,.flash.flipin{animation:none}}
+.hero>*{width:100%}
+.hero .hero-ar{display:block}
+.hero .hero-rule{width:120px!important;margin:12px 0 8px auto}
 </style>
 </head>
 <body>
@@ -446,6 +470,7 @@ document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.d
 function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress})[view](); }
 
 // ---- home ----
+let animateHero=true;
 function renderHome(){
   const total=CARDS.length, kn=CARDS.filter(known).length, due=CARDS.filter(isDue).length, wk=CARDS.filter(weak).length;
   const today=(S.days[dayKey()]||{n:0}).n, st=streak();
@@ -453,8 +478,8 @@ function renderHome(){
   const hr=new Date().getHours();
   let h=`
   <section class="hero">
-    <div class="hero-ar ar">وَهَٰذَا لِسَانٌ عَرَبِيٌّ مُّبِينٌ</div>
-    <div class="hero-ref">An-Naḥl 16:103</div>
+    <div class="hero-top"><div class="hero-ar ar${animateHero?' write':''}">وَهَٰذَا لِسَانٌ عَرَبِيٌّ مُّبِينٌ</div><div class="hero-rule${animateHero?' grow':''}"></div>
+    <div class="hero-ref${animateHero?' rise':''}">An-Naḥl 16:103</div></div>
     <div class="hero-row">
       <div>
         <p class="lead">${due+wk?`${due+wk} card${due+wk===1?' is':'s are'} waiting for review.`:(today?`You reviewed ${today} card${today===1?'':'s'} today.`:'Nothing is due. Pick a topic to learn new words.')}</p>
@@ -495,6 +520,7 @@ function renderHome(){
   bindPills(renderHome);
   $('#tr').onchange=e=>{opts.tr=e.target.checked};
   $('#all').onclick=()=>{ selected.size===ORDER.length?selected.clear():ORDER.forEach(c=>selected.add(c)); renderHome(); };
+  animateHero=false;
   $('#start').onclick=()=>startSession();
   $('#pick').onclick=()=>$('#topics').scrollIntoView({behavior:'smooth'});
   $('#quick').onclick=()=>{ ORDER.forEach(c=>selected.add(c)); opts.mode='flip'; opts.order=(due+wk)?'due':'smart'; startSession(); if(opts.order==='due')opts.order='smart'; };
@@ -556,7 +582,8 @@ function renderStudy(){
   }
   h+=`</div>`;
   $('#app').innerHTML=h;
-  if(!isG) $('#flash').onclick=()=>{sess.flipped=!sess.flipped; renderStudy(); if(sess.flipped&&c.aud&&c.cat==='Common Phrases')play(c.aud);};
+  if(sess.justFlipped){ $('#flash').classList.add('flipin'); sess.justFlipped=false; }
+  if(!isG) $('#flash').onclick=()=>{sess.flipped=!sess.flipped; sess.justFlipped=true; renderStudy(); if(sess.flipped&&c.aud&&c.cat==='Common Phrases')play(c.aud);};
   document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>rate(+b.dataset.r));
   const rv=$('#reveal'); if(rv) rv.onclick=()=>$('#flash').click();
   const sk=$('#skip'); if(sk) sk.onclick=skip;
