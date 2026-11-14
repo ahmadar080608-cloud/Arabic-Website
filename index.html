@@ -6,8 +6,8 @@
 <title>My Arabic Journey · رحلتي مع العربية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>try{const t=localStorage.getItem('arabic-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Lateef:wght@400;700&family=Reem+Kufi:wght@500;700&family=Markazi+Text:wght@400;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>try{const f=localStorage.getItem('arabic-font');if(f){document.documentElement.style.setProperty('--arfont','"'+f+'"');document.documentElement.style.setProperty('--artitle','"'+f+'"')}}catch(e){}try{const t=localStorage.getItem('arabic-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{
   --bg:#f6f3ec; --card:#fffdf8; --ink:#1f2a24; --muted:#6b736d; --line:#e4ddcf;
@@ -50,7 +50,8 @@
 *{box-sizing:border-box}
 body{font-variant-numeric:lining-nums;margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif}
 button{font:inherit;color:inherit;cursor:pointer}
-.ar{font-family:Amiri,"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;unicode-bidi:isolate}
+:root{--arfont:"Scheherazade New";--artitle:"Scheherazade New"}
+.ar{font-family:var(--arfont),Amiri,"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;unicode-bidi:isolate}
 header{position:sticky;top:0;z-index:5;background:var(--hdr,color-mix(in srgb,var(--accent) 22%,#0d1512));border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 2px 14px rgba(0,0,0,.12)}
 header .brand .title-ar{color:#f3e7c9}
 header nav{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
@@ -59,14 +60,14 @@ header nav button.on{background:var(--gold);color:#1a1408}
 header .gear{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
 .bar{max-width:1080px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .brand{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;cursor:pointer;margin-right:auto}
-.brand .title-ar{font-family:"Aref Ruqaa",Amiri,serif;font-size:30px;color:var(--accent);font-weight:700;line-height:1.35}
+.brand .title-ar{font-family:var(--artitle),Amiri,serif;font-size:30px;color:var(--accent);font-weight:700;line-height:1.35}
 .brand .title-en{font-family:Lora,Georgia,serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-top:4px}
 nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}
 nav button{border:0;background:none;padding:6px 12px;border-radius:7px;font-size:14px;font-weight:500;color:var(--muted)}
 nav button.on{background:var(--accent-soft);color:var(--accent)}
 main{max-width:1080px;margin:auto;padding:22px 18px 60px}
 h1{font-family:Lora,Georgia,serif;font-size:34px;font-weight:600;margin:0 0 2px;letter-spacing:.01em}
-h1 .ar{font-family:"Aref Ruqaa",Amiri,serif;font-size:.9em;color:var(--gold);margin-left:10px;font-weight:400}
+h1 .ar{font-family:var(--artitle),Amiri,serif;font-size:.9em;color:var(--gold);margin-left:10px;font-weight:400}
 .orn{display:flex;align-items:center;gap:12px;color:var(--gold);margin:4px 0 18px;max-width:420px}
 .orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 .orn span{font-size:16px;line-height:1}
@@ -195,7 +196,7 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 .hero{display:grid;grid-template-columns:1.6fr 1fr;gap:26px;align-items:center;padding:34px 36px;border-radius:var(--r);margin-bottom:22px;color:#f6f1e4;
   background:radial-gradient(600px 300px at 90% 10%,color-mix(in srgb,var(--gold) 30%,transparent),transparent 70%),linear-gradient(135deg,var(--hdr,#12201b),color-mix(in srgb,var(--hdr,#12201b) 70%,var(--accent)));box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .hero h1{color:#fff}
-.hero .salam{font-family:"Aref Ruqaa",Amiri,serif;font-size:26px;color:var(--gold);margin-bottom:4px}
+.hero .salam{font-family:var(--artitle),Amiri,serif;font-size:26px;color:var(--gold);margin-bottom:4px}
 .hero .lead{font-size:16px;color:rgba(255,255,255,.78);margin:12px 0 22px;max-width:46ch}
 .hero .lead b{color:#fff}
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap}
@@ -260,6 +261,32 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 .hero .salam{display:block;text-align:left;direction:rtl;unicode-bidi:plaintext}
 @media (min-width:900px){header .brand .title-ar{font-size:24px;white-space:nowrap}header .brand{align-items:flex-start}}
 @media (max-width:899px){.hero h1{font-size:28px}.hero-r{flex-wrap:wrap;gap:12px}.mini{flex-wrap:wrap}.mini div{min-width:64px;padding:6px 10px}.hero-btns button{flex:1}}
+
+.modal{max-height:calc(100vh - 100px);overflow-y:auto}
+.fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.fontopt{border:2px solid var(--line);border-radius:12px;background:var(--bg);padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px}
+.fontopt.on{border-color:var(--accent)}
+.fontopt .fs{font-size:24px;direction:rtl;text-align:right;line-height:1.7}
+.fontopt .fn{font-weight:600;font-size:14px}.fontopt .fd{font-size:12px;color:var(--muted)}
+/* AMAU-style topic covers */
+.cover{position:relative;width:100%;height:100%;border-radius:15px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px;color:#fff;text-align:center}
+.cover.g0{background:linear-gradient(140deg,#1f4e46,#163a34)}
+.cover.g1{background:linear-gradient(140deg,#e2603f,#c84b2d)}
+.cover.g2{background:linear-gradient(140deg,#2c3e57,#1f2d40)}
+.cover::before{content:"";position:absolute;inset:0;opacity:.12;background:
+ radial-gradient(circle at 0 0,transparent 26px,#fff 27px,#fff 28px,transparent 29px) 0 0/56px 56px,
+ radial-gradient(circle at 100% 100%,transparent 26px,#fff 27px,#fff 28px,transparent 29px) 0 0/56px 56px}
+.cover::after{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.28);border-radius:10px}
+.cover .ca{position:relative;font-family:var(--arfont),Amiri,serif;font-size:30px;line-height:1.35;direction:rtl;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+.cover .ce{position:relative;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;font-weight:600}
+.cover .ci{position:absolute;left:14px;top:12px;font-size:16px;opacity:.9;z-index:1}
+.cat .thumb{background:none!important;border:0;padding:0}
+@media (max-width:899px){.cover .ca{font-size:22px}.cover .ce{font-size:9px;letter-spacing:.12em}}
+.cover .ca.long{font-size:24px}
+.cat .thumb em{top:12px;right:12px;bottom:auto;z-index:1;background:rgba(0,0,0,.35)}
+.cat .thumb u{z-index:1;left:12px;top:12px}
+.cover{padding:18px 20px}
+@media (max-width:899px){.cover .ca.long{font-size:18px}}
 </style>
 </head>
 <body>
@@ -281,6 +308,7 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 const CARDS = window.CARDS;
 const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
 const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
+const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Describing Words":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
 const GROUPS = [["Nouns & topics",ORDER.slice(0,21)],["Grammar words",ORDER.slice(21,24)],["Phrases",ORDER.slice(24)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 // words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
@@ -378,13 +406,13 @@ function renderHome(){
       <button class="ghost" id="all">${selected.size===ORDER.length?'Clear all':'Select all topics'}</button>
       <button class="cta" id="start" ${pool.length?'':'disabled'}>Start ${pool.length?`· ${pool.length} cards`:''}</button></div>
   </section>`;
-  for(const [gname,list] of GROUPS){
+  for(const [gi,[gname,list]] of GROUPS.entries()){
     const allSel=list.every(c=>selected.has(c));
     h+=`<div class="rowhead"><h2>${gname}</h2><button class="seeall" data-group="${esc(gname)}">${allSel?'Clear':'Select all'}</button></div><div class="row">`;
     for(const c of list){ const arr=cats[c]||[]; if(!arr.length)continue;
       const k=arr.filter(known).length, img=(arr.find(x=>x.img)||{}).img;
       h+=`<button class="cat ${selected.has(c)?'sel':''}" data-c="${esc(c)}">
-        <div class="thumb" style="${img?`background-image:url('${img}')`:''}">${img?'':`<span>${ICON[c]||'📘'}</span>`}<em>${arr.length}</em>${selected.has(c)?'<u>✓</u>':''}</div>
+        <div class="thumb"><div class="cover g${gi%3}"><div class="ca ${(AR_NAME[c]||'').replace(/[\u064B-\u0652]/g,'').length>14?'long':''}">${AR_NAME[c]||''}</div><div class="ce">${esc(c)}</div></div><em>${arr.length}</em>${selected.has(c)?'<u>✓</u>':''}</div>
         <div class="name">${esc(c)}</div>
         <div class="meta">${k} of ${arr.length} known</div>
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></button>`;}
@@ -566,6 +594,9 @@ const THEMES=[
  ['desert','Desert',['#f5ebdc','#fffaf2','#b4532a']],
  ['autumn','Autumn Leaves',['#120a04','#d97f22','#f0b14a']],
  ['ink','Ink & Paper',['#ffffff','#eeeeee','#111111']]];
+const FONTS=[['Scheherazade New','Scheherazade','Classic naskh, clear ḥarakāt (default)'],['Amiri','Amiri','Book naskh, like printed classics'],['Noto Naskh Arabic','Noto Naskh','Clean and modern'],['Lateef','Lateef','Soft, rounded naskh'],['Markazi Text','Markazi','Elegant, slightly condensed'],['Reem Kufi','Reem Kufi','Geometric Kufi (no tashkīl detail)'],['Aref Ruqaa','Ruqʿah','Handwritten calligraphy style']];
+const curFont=()=>{try{return localStorage.getItem('arabic-font')||'Scheherazade New'}catch(e){return 'Scheherazade New'}};
+function setFont(f){document.documentElement.style.setProperty('--arfont',`"${f}"`);document.documentElement.style.setProperty('--artitle',`"${f}"`);try{localStorage.setItem('arabic-font',f)}catch(e){} openSettings(); render();}
 const getTheme=()=>{try{return localStorage.getItem('arabic-theme')||'auto'}catch(e){return 'auto'}};
 function setTheme(t){ if(t==='auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=t; try{localStorage.setItem('arabic-theme',t)}catch(e){} openSettings(); }
 function openSettings(){
@@ -574,12 +605,14 @@ function openSettings(){
   bg.innerHTML=`<div class="modal"><h2>Settings <button id="closeS" aria-label="Close">×</button></h2>
     <h3>Colour theme</h3><div class="themes">${THEMES.map(([id,name,[a,b,c]])=>`<button class="theme ${cur===id?'on':''}" data-t="${id}">
       <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>${id==='autumn'?'🍂':'ع'}</span></div><div class="nm">${name}</div></button>`).join('')}</div>
+    <h3>Arabic font</h3><div class="fonts">${FONTS.map(([f,n,d])=>`<button class="fontopt ${curFont()===f?'on':''}" data-f="${f}"><span class="fs" style="font-family:'${f}',serif">العَرَبِيَّةُ لُغَةُ القُرْآنِ</span><span class="fn">${n}</span><span class="fd">${d}</span></button>`).join('')}</div>
     <h3>Flashcards</h3><label><input type="checkbox" id="trS" ${opts.tr?'checked':''}> Show transliteration</label>
     <p class="note" style="margin-top:16px">Settings are saved on this device.</p></div>`;
   document.body.appendChild(bg);
   bg.onclick=e=>{if(e.target===bg)bg.remove()};
   bg.querySelector('#closeS').onclick=()=>bg.remove();
   bg.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+  bg.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>setFont(b.dataset.f));
   bg.querySelector('#trS').onchange=e=>{opts.tr=e.target.checked; render();};
 }
 $('#gear').onclick=openSettings;
