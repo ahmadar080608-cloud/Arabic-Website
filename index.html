@@ -132,14 +132,6 @@ input[type=search]{min-width:220px;flex:1}
 .item .play{border:0;background:none;font-size:18px;padding:4px}
 .section-h{font-size:15px;font-weight:600;margin:22px 0 10px;color:var(--muted)}
 .empty{color:var(--muted);padding:30px;text-align:center}
-.quote{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:40px 22px 18px;margin:0 0 22px;position:relative;box-shadow:var(--shadow)}
-.quote .qa{font-family:Amiri,serif;direction:rtl;font-size:24px;line-height:1.9;color:var(--ink)}
-.quote .qe{font-size:15px;color:var(--ink);margin-top:6px;font-style:italic}
-.quote .qw{font-size:14px;font-weight:600;color:var(--accent);margin-top:10px}
-.quote .qw span{font-weight:400;color:var(--muted)}
-.quote .qr{font-size:12px;color:var(--muted);margin-top:4px}
-.quote .qn{font-size:12px;color:var(--muted);margin-top:2px}
-.quote .qmore{position:absolute;top:10px;left:12px;border:1px solid var(--line);background:var(--bg);border-radius:999px;font-size:12px;padding:3px 10px;color:var(--muted)}
 .note{font-size:13px;color:var(--muted);margin-top:26px}
 kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px}
 @media (max-width:560px){.flash .big{font-size:42px}.flash{min-height:360px}.bar{gap:8px}nav button{padding:6px 9px}}
@@ -156,7 +148,6 @@ kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:
 </div></header>
 <main id="app"></main>
 <script src="cards.js"></script>
-<script src="quotes.js"></script>
 <script>
 const CARDS = window.CARDS;
 const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
@@ -220,7 +211,7 @@ function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy})[vie
 function renderHome(){
   const total=CARDS.length, kn=CARDS.filter(known).length;
   const pool=poolFor([...selected]);
-  let h=`${quoteHTML()}<h1>Your flashcards</h1><p class="sub">${total} cards from your AMAU deck, sorted by topic. Pick one or more categories, then start.</p>
+  let h=`<h1>Your flashcards</h1><p class="sub">${total} cards from your AMAU deck, sorted by topic. Pick one or more categories, then start.</p>
   <div class="stats"><div class="stat"><b>${total}</b><span>cards</span></div><div class="stat"><b>${kn}</b><span>known</span></div><div class="stat"><b>${CARDS.filter(isDue).length}</b><span>due for review</span></div><div class="stat"><b>${CARDS.filter(weak).length}</b><span>weak cards</span></div>
   <div class="stat"><b>${CARDS.filter(c=>c.img).length}</b><span>with pictures</span></div><div class="stat"><b>${CARDS.filter(c=>c.aud).length}</b><span>with audio</span></div></div>
   <div class="toolbar">
@@ -259,24 +250,8 @@ function renderHome(){
   $('#tr').onchange=e=>{opts.tr=e.target.checked};
   $('#all').onclick=()=>{ selected.size===ORDER.length?selected.clear():ORDER.forEach(c=>selected.add(c)); renderHome(); };
   $('#start').onclick=()=>startSession();
-  const qm=$('#qmore'); if(qm) qm.onclick=()=>{pickQuote(); renderHome();};
 }
-// ---- quote of the visit ----
-let QI=-1;
-function pickQuote(){
-  const Q=window.QUOTES||[]; if(!Q.length) return;
-  let last=-1; try{last=+localStorage.getItem('arabic-quote')}catch(e){}
-  let i; do{ i=Math.random()*Q.length|0 }while(Q.length>1 && (i===last||i===QI));
-  QI=i; try{localStorage.setItem('arabic-quote',i)}catch(e){}
-}
-pickQuote();
-function quoteHTML(){
-  const q=(window.QUOTES||[])[QI]; if(!q) return '';
-  return `<div class="quote"><button class="qmore" id="qmore" title="Show another quote">↻ another</button>
-    <div class="qa">«${esc(q.ar)}»</div><div class="qe">“${esc(q.en)}”</div>
-    <div class="qw">${esc(q.who)} <span>· ${esc(q.era)}</span></div>
-    <div class="qr">${esc(q.ref)}${q.link?` · <a href="${q.link}" target="_blank" rel="noopener" style="color:var(--accent)">see the narration</a>`:''}</div>${q.note?`<div class="qn">${esc(q.note)}</div>`:''}</div>`;
-}
+
 function pill(k,v,label){return `<button class="pill ${opts[k]===v?'on':''}" data-k="${k}" data-v="${v}">${label}</button>`}
 function bindPills(cb){document.querySelectorAll('.pill').forEach(p=>p.onclick=()=>{opts[p.dataset.k]=p.dataset.v; cb();});}
 function poolFor(list){
