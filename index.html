@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arabic Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f3ec; --card:#fffdf8; --ink:#1f2a24; --muted:#6b736d; --line:#e4ddcf;
+  --accent:#1f6f54; --accent-soft:#e3f0ea; --m:#2f5d9e; --m-soft:#e6eef9; --f:#a3456b; --f-soft:#f8e8ef;
+  --again:#b5482f; --good:#1f6f54; --shadow:0 1px 2px rgba(0,0,0,.05),0 6px 20px rgba(40,30,10,.06);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141816; --card:#1d2320; --ink:#ecefe9; --muted:#9aa39c; --line:#2d3530;
+  --accent:#5fbf98; --accent-soft:#1f3229; --m:#8fb3ea; --m-soft:#1e2a3b; --f:#e79ab9; --f-soft:#3a2230;
+  --again:#e7866f; --good:#5fbf98; --shadow:none;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.ar{font-family:Amiri,"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;unicode-bidi:isolate}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:1080px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px;cursor:pointer;margin-right:auto}
+.brand .ar{font-size:24px;color:var(--accent);font-weight:700}
+nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}
+nav button{border:0;background:none;padding:6px 12px;border-radius:7px;font-size:14px;font-weight:500;color:var(--muted)}
+nav button.on{background:var(--accent-soft);color:var(--accent)}
+main{max-width:1080px;margin:auto;padding:22px 18px 60px}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:120px}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:left;padding:0;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .12s}
+.cat:hover{transform:translateY(-2px)}
+.cat.sel{outline:3px solid var(--accent);outline-offset:-3px}
+.cat .thumb{height:110px;background:var(--accent-soft) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:40px}
+.cat .body{padding:10px 14px 12px}
+.cat .name{font-weight:600}
+.cat .meta{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;margin-top:2px}
+.prog{height:5px;background:var(--line);border-radius:5px;margin-top:8px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;font-size:14px}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+select,input[type=search]{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:7px 12px}
+input[type=search]{min-width:220px;flex:1}
+.go{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:9px 18px;font-weight:600}
+.go:disabled{opacity:.4;cursor:default}
+.ghost{background:none;border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+/* study */
+.study{max-width:620px;margin:auto}
+.topline{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:14px;margin-bottom:10px}
+.flash{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 26px 34px;text-align:center;cursor:pointer;position:relative;user-select:none}
+.flash img{max-width:100%;max-height:220px;border-radius:12px;margin-bottom:16px;object-fit:contain}
+.flash .en{font-size:26px;font-weight:600}
+.flash .big{font-size:52px;line-height:1.5}
+.flash .plural{font-size:26px;color:var(--muted);margin-top:4px}
+.plural-l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+.flash .tr{color:var(--muted);font-style:italic;margin-top:6px}
+.flash .hint{position:absolute;bottom:14px;font-size:13px;color:var(--muted)}
+.flash hr{width:60%;border:0;border-top:1px solid var(--line);margin:16px 0}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;border-radius:999px;padding:3px 11px;margin-top:10px}
+.badge.m{background:var(--m-soft);color:var(--m)} .badge.f{background:var(--f-soft);color:var(--f)}
+.badge .ar{font-size:16px;font-weight:400}
+.tag{font-size:12px;color:var(--muted);position:absolute;top:14px;left:18px}
+.audio{position:absolute;top:10px;right:12px;border:1px solid var(--line);background:var(--bg);border-radius:999px;width:42px;height:42px;font-size:18px}
+.rate{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.rate button{border:0;border-radius:12px;padding:14px;font-weight:600;color:#fff;font-size:16px}
+.rate .a{background:var(--again)} .rate .g{background:var(--good)}
+.rate button small{display:block;font-weight:400;opacity:.85;font-size:12px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.choices button{border:2px solid var(--line);background:var(--card);border-radius:12px;padding:14px;font-weight:600;font-size:16px}
+.choices button.right{border-color:var(--good);background:var(--accent-soft)}
+.choices button.wrong{border-color:var(--again)}
+.done{text-align:center;padding:50px 20px}
+.done b{font-size:40px;display:block}
+/* browse */
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:12px;align-items:center;position:relative}
+.item img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex:none;background:var(--accent-soft)}
+.item .noimg{width:64px;height:64px;border-radius:10px;flex:none;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:22px}
+.item .w{min-width:0;flex:1}
+.item .e{font-weight:600;font-size:14px}
+.item .a{font-size:24px;line-height:1.4}
+.item .p{font-size:16px;color:var(--muted)}
+.item .badge{margin-top:2px;font-size:11px;padding:1px 8px}
+.item .play{border:0;background:none;font-size:18px;padding:4px}
+.section-h{font-size:15px;font-weight:600;margin:22px 0 10px;color:var(--muted)}
+.empty{color:var(--muted);padding:30px;text-align:center}
+.note{font-size:13px;color:var(--muted);margin-top:26px}
+kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px}
+@media (max-width:560px){.flash .big{font-size:42px}.flash{min-height:360px}.bar{gap:8px}nav button{padding:6px 9px}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="brand" onclick="go('home')"><span class="ar">بِطَاقَات</span> Arabic Flashcards</div>
+  <nav id="nav">
+    <button data-v="home">Categories</button>
+    <button data-v="browse">Browse</button>
+  </nav>
+</div></header>
+<main id="app"></main>
+<script src="cards.js"></script>
+<script>
+const CARDS = window.CARDS;
+const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","Jobs","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Character & Values","Prepositions & Position","Small Linking Words","Verbs","Verbal Nouns (Maṣdar)","Doers (Ism Fāʿil)","Phrases & Sentences","Example Sentences"];
+const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Character & Values":"🌱","Prepositions & Position":"📍","Small Linking Words":"🔗","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Phrases & Sentences":"💬","Example Sentences":"🗒️"};
+const GROUPS = [["Nouns & topics",ORDER.slice(0,23)],["Grammar words",ORDER.slice(23,28)],["Sentences",ORDER.slice(28)]];
+const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
+
+// ---- storage (per device) ----
+const KEY='arabic-flash-v1';
+let S={box:{},seen:{}}; try{S=Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const known=c=>(S.box[c.id]||0)>=3;
+
+// ---- state ----
+let view='home', selected=new Set(), opts={dir:'en-ar', gender:'all', order:'smart', mode:'flip', tr:true};
+let browseCat='all', q='';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const gBadge=g=>g==='m'?`<span class="badge m">Masculine <span class="ar">مُذَكَّر</span></span>`:g==='f'?`<span class="badge f">Feminine <span class="ar">مُؤَنَّث</span></span>`:'';
+let audio=null; function play(src,e){e&&e.stopPropagation(); if(audio)audio.pause(); audio=new Audio(src); audio.play().catch(()=>{});}
+
+function go(v){view=v; document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='study'&&b.dataset.v==='home'))); render(); scrollTo(0,0);}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy})[view](); }
+
+// ---- home ----
+function renderHome(){
+  const total=CARDS.length, kn=CARDS.filter(known).length;
+  const pool=poolFor([...selected]);
+  let h=`<h1>Your flashcards</h1><p class="sub">${total} cards from your AMAU deck, sorted by topic. Pick one or more categories, then start.</p>
+  <div class="stats"><div class="stat"><b>${total}</b><span>cards</span></div><div class="stat"><b>${kn}</b><span>known</span></div>
+  <div class="stat"><b>${CARDS.filter(c=>c.img).length}</b><span>with pictures</span></div><div class="stat"><b>${CARDS.filter(c=>c.aud).length}</b><span>with audio</span></div></div>
+  <div class="toolbar">
+    <span style="font-weight:600">Show</span>
+    ${pill('dir','en-ar','English → Arabic')}${pill('dir','ar-en','Arabic → English')}
+    <span style="width:8px"></span>
+    ${pill('mode','flip','Flashcards')}${pill('mode','gender','Guess the gender')}
+  </div>
+  <div class="toolbar">
+    <span style="font-weight:600">Gender</span>${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}
+    <span style="width:8px"></span>
+    <label><input type="checkbox" id="tr" ${opts.tr?'checked':''}> Show transliteration</label>
+    <span style="flex:1"></span>
+    <button class="ghost" id="all">${selected.size===ORDER.length?'Clear all':'Select all'}</button>
+    <button class="go" id="start" ${pool.length?'':'disabled'}>Start ${pool.length?`(${pool.length})`:''}</button>
+  </div>`;
+  for(const [gname,list] of GROUPS){
+    h+=`<div class="section-h">${gname}</div><div class="grid">`;
+    for(const c of list){ const arr=cats[c]||[]; if(!arr.length)continue;
+      const k=arr.filter(known).length, img=(arr.find(x=>x.img)||{}).img;
+      h+=`<button class="cat ${selected.has(c)?'sel':''}" data-c="${esc(c)}">
+        <div class="thumb" style="${img?`background-image:url('${img}')`:''}">${img?'':ICON[c]||'📘'}</div>
+        <div class="body"><div class="name">${ICON[c]||''} ${esc(c)}</div>
+        <div class="meta"><span>${arr.length} cards</span><span>${k} known</span></div>
+        <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></div></button>`;}
+    h+=`</div>`;
+  }
+  h+=`<p class="note">Your progress is saved in this browser on this device. Tip: in a study session press <kbd>Space</kbd> to flip, <kbd>1</kbd> for "Again", <kbd>2</kbd> for "Got it".</p>`;
+  $('#app').innerHTML=h;
+  document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const c=b.dataset.c; selected.has(c)?selected.delete(c):selected.add(c); renderHome();});
+  bindPills(renderHome);
+  $('#tr').onchange=e=>{opts.tr=e.target.checked};
+  $('#all').onclick=()=>{ selected.size===ORDER.length?selected.clear():ORDER.forEach(c=>selected.add(c)); renderHome(); };
+  $('#start').onclick=()=>startSession();
+}
+function pill(k,v,label){return `<button class="pill ${opts[k]===v?'on':''}" data-k="${k}" data-v="${v}">${label}</button>`}
+function bindPills(cb){document.querySelectorAll('.pill').forEach(p=>p.onclick=()=>{opts[p.dataset.k]=p.dataset.v; cb();});}
+function poolFor(list){
+  let p=list.flatMap(c=>cats[c]||[]);
+  if(opts.gender!=='all'||opts.mode==='gender') p=p.filter(c=>opts.gender==='all'?c.g:c.g===opts.gender);
+  return p;
+}
+
+// ---- study session ----
+let sess=null;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function startSession(){
+  let pool=shuffle(poolFor([...selected]));
+  // smart order: unseen and weak cards first
+  pool.sort((a,b)=>(S.box[a.id]||0)-(S.box[b.id]||0));
+  sess={queue:pool, i:0, flipped:false, again:0, good:0, total:pool.length, answered:null};
+  go('study');
+}
+function renderStudy(){
+  if(!sess){go('home');return}
+  if(sess.i>=sess.queue.length){
+    $('#app').innerHTML=`<div class="study"><div class="done"><b>🎉</b><h1>Session complete</h1>
+      <p class="sub">${sess.good} got right · ${sess.again} to practise again</p>
+      <button class="go" onclick="startSession()">Go again</button> <button class="ghost" onclick="go('home')">Back to categories</button></div></div>`;
+    return;
+  }
+  const c=sess.queue[sess.i], isG=opts.mode==='gender';
+  const front=isG||opts.dir==='ar-en';
+  let face='';
+  const img=c.img?`<img src="${c.img}" alt="">`:'';
+  const arBlock=`<div class="ar big">${esc(c.ar)}</div>${c.pl?`<div class="plural-l">Plural</div><div class="ar plural">${esc(c.pl)}</div>`:''}${opts.tr&&c.tr?`<div class="tr">${esc(c.tr)}</div>`:''}`;
+  const enBlock=`<div class="en">${esc(c.en)}</div>`;
+  if(isG){
+    face=`${img}<div class="ar big">${esc(c.ar)}</div>${sess.answered?`${c.pl?`<div class="plural-l">Plural</div><div class="ar plural">${esc(c.pl)}</div>`:''}<hr>${enBlock}${gBadge(c.g)}`:`<div class="hint" style="position:static;margin-top:10px">Is this word masculine or feminine?</div>`}`;
+  } else if(!sess.flipped){
+    face= front? `${img}${arBlock}` : `${img}${enBlock}`;
+    face+=`<div class="hint">Tap to flip</div>`;
+  } else {
+    face= front? `${img}${arBlock}<hr>${enBlock}${gBadge(c.g)}` : `${img}${enBlock}<hr>${arBlock}${gBadge(c.g)}`;
+  }
+  const showAudio=c.aud&&(sess.flipped||front||isG);
+  let h=`<div class="study"><div class="topline"><button class="ghost" onclick="go('home')">← Categories</button><span>${sess.i+1} / ${sess.queue.length}</span></div>
+    <div class="flash" id="flash"><span class="tag">${esc(c.cat)}${c.lesson&&c.lesson!==c.cat?` · ${esc(c.lesson)}`:''}</span>${showAudio?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:''}${face}</div>`;
+  if(isG){
+    h+=`<div class="choices"><button data-g="m" class="${sess.answered?(c.g==='m'?'right':sess.answered==='m'?'wrong':''):''}">Masculine <span class="ar">مُذَكَّر</span></button>
+       <button data-g="f" class="${sess.answered?(c.g==='f'?'right':sess.answered==='f'?'wrong':''):''}">Feminine <span class="ar">مُؤَنَّث</span></button></div>
+       ${sess.answered?`<div class="rate" style="grid-template-columns:1fr"><button class="g" id="next">Next →</button></div>`:''}`;
+  } else if(sess.flipped){
+    h+=`<div class="rate"><button class="a" data-r="0">Again<small>show it later</small></button><button class="g" data-r="1">Got it<small>I knew this</small></button></div>`;
+  }
+  h+=`</div>`;
+  $('#app').innerHTML=h;
+  if(!isG) $('#flash').onclick=()=>{sess.flipped=!sess.flipped; renderStudy(); if(sess.flipped&&c.aud&&c.cat.includes('Sentences'))play(c.aud);};
+  document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>rate(+b.dataset.r));
+  document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ if(sess.answered)return; sess.answered=b.dataset.g; const ok=b.dataset.g===c.g; ok?sess.good++:sess.again++; renderStudy(); });
+  const n=$('#next'); if(n) n.onclick=()=>{sess.answered=null; sess.i++; renderStudy();};
+}
+function rate(ok){
+  const c=sess.queue[sess.i];
+  S.seen[c.id]=Date.now();
+  if(ok){S.box[c.id]=Math.min((S.box[c.id]||0)+1,5); sess.good++;}
+  else {S.box[c.id]=0; sess.again++; const back=Math.min(sess.queue.length, sess.i+4+(Math.random()*3|0)); sess.queue.splice(back,0,c);}
+  save(); sess.i++; sess.flipped=false; renderStudy();
+}
+document.addEventListener('keydown',e=>{
+  if(view!=='study'||!sess||e.target.tagName==='INPUT')return;
+  if(opts.mode==='gender'){ if(e.key==='m'||e.key==='1')$('[data-g=m]')?.click(); if(e.key==='f'||e.key==='2')$('[data-g=f]')?.click(); if((e.key==='Enter'||e.key===' ')&&$('#next')){e.preventDefault();$('#next').click()} return;}
+  if(e.key===' '){e.preventDefault(); $('#flash')?.click();}
+  if(sess.flipped&&e.key==='1')rate(0);
+  if(sess.flipped&&e.key==='2')rate(1);
+});
+
+// ---- browse ----
+function renderBrowse(){
+  let h=`<h1>Browse</h1><p class="sub">Search any word in English or Arabic.</p>
+  <div class="toolbar"><input type="search" id="q" placeholder="Search…" value="${esc(q)}">
+  <select id="bc"><option value="all">All categories</option>${ORDER.filter(c=>cats[c]).map(c=>`<option ${browseCat===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
+  ${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div><div id="res"></div>`;
+  $('#app').innerHTML=h;
+  $('#q').oninput=e=>{q=e.target.value; list();};
+  $('#bc').onchange=e=>{browseCat=e.target.value; list();};
+  bindPills(()=>{renderBrowse(); $('#q').focus();});
+  list();
+}
+const strip=s=>(s||'').replace(/[ً-ٰٟـ]/g,'').toLowerCase();
+function list(){
+  const t=strip(q.trim());
+  let r=CARDS.filter(c=>(browseCat==='all'||c.cat===browseCat)&&(opts.gender==='all'||c.g===opts.gender)&&(!t||strip(c.en+' '+c.ar+' '+c.pl+' '+c.tr).includes(t)));
+  const shown=r.slice(0,300);
+  $('#res').innerHTML= r.length? `<p class="sub">${r.length} card${r.length===1?'':'s'}${r.length>300?' (showing first 300)':''}</p><div class="list">`+shown.map(c=>`
+    <div class="item">${c.img?`<img loading="lazy" src="${c.img}" alt="">`:`<div class="noimg">${ICON[c.cat]||'📘'}</div>`}
+    <div class="w"><div class="e">${esc(c.en)}</div><div class="ar a">${esc(c.ar)}</div>${c.pl?`<div class="ar p">${esc(c.pl)}</div>`:''}${gBadge(c.g)}</div>
+    ${c.aud?`<button class="play" onclick="play('${c.aud}',event)">🔊</button>`:''}</div>`).join('')+`</div>` : `<div class="empty">No cards match.</div>`;
+}
+
+go('home');
+</script>
+</body>
+</html>
