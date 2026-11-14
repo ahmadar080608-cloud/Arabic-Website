@@ -121,9 +121,9 @@ kbd{font:12px Inter,sans-serif;border:1px solid var(--line);border-bottom-width:
 <script src="cards.js"></script>
 <script>
 const CARDS = window.CARDS;
-const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","Jobs","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Character & Values","Prepositions & Position","Small Linking Words","Verbs","Verbal Nouns (Maṣdar)","Doers (Ism Fāʿil)","Phrases & Sentences","Example Sentences"];
-const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Character & Values":"🌱","Prepositions & Position":"📍","Small Linking Words":"🔗","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Phrases & Sentences":"💬","Example Sentences":"🗒️"};
-const GROUPS = [["Nouns & topics",ORDER.slice(0,23)],["Grammar words",ORDER.slice(23,28)],["Sentences",ORDER.slice(28)]];
+const ORDER = ["People & Family","Pronouns & Pointing Words","Question Words","Jobs","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Describing Words","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Character & Values","Prepositions & Position","Small Linking Words","Verbs","Verbal Nouns (Maṣdar)","Doers (Ism Fāʿil)","Common Phrases"];
+const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Describing Words":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Character & Values":"🌱","Prepositions & Position":"📍","Small Linking Words":"🔗","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
+const GROUPS = [["Nouns & topics",ORDER.slice(0,23)],["Grammar words",ORDER.slice(23,28)],["Phrases",ORDER.slice(28)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 
 // ---- storage (per device) ----
@@ -271,7 +271,7 @@ function renderStudy(){
   }
   h+=`</div>`;
   $('#app').innerHTML=h;
-  if(!isG) $('#flash').onclick=()=>{sess.flipped=!sess.flipped; renderStudy(); if(sess.flipped&&c.aud&&c.cat.includes('Sentences'))play(c.aud);};
+  if(!isG) $('#flash').onclick=()=>{sess.flipped=!sess.flipped; renderStudy(); if(sess.flipped&&c.aud&&c.cat==='Common Phrases')play(c.aud);};
   document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>rate(+b.dataset.r));
   const rv=$('#reveal'); if(rv) rv.onclick=()=>$('#flash').click();
   const sk=$('#skip'); if(sk) sk.onclick=skip;
