@@ -71,6 +71,17 @@ input[type=search]{min-width:220px;flex:1}
 .tag{font-size:12px;color:var(--muted);position:absolute;top:14px;left:18px}
 .audio{position:absolute;top:10px;right:12px;border:1px solid var(--line);background:var(--bg);border-radius:999px;width:42px;height:42px;font-size:18px}
 .rate{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.rate5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px}
+.rate5 button{border:0;border-radius:12px;padding:12px 6px;font-weight:600;color:#fff;font-size:14px;line-height:1.25}
+.rate5 button small{display:block;font-weight:400;opacity:.9;font-size:11px;margin-top:3px}
+.rate5 .r0{background:#a8322a}.rate5 .r1{background:#d0702c}.rate5 .r2{background:#c9a227;color:#2a2205}.rate5 .r3{background:#4f9a6b}.rate5 .r4{background:#1f6f54}
+.under{display:flex;gap:10px;margin-top:12px}
+.under .reveal{flex:1;background:var(--accent);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:600;font-size:16px}
+.under .skip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--muted)}
+.sumgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:560px;margin:18px auto}
+.sumgrid div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 4px;font-size:12px;color:var(--muted)}
+.sumgrid b{display:block;font-size:22px;color:var(--ink)}
+@media (max-width:560px){.rate5{grid-template-columns:repeat(5,1fr);gap:5px}.rate5 button{font-size:12px;padding:10px 3px}.rate5 button small{display:none}}
 .rate button{border:0;border-radius:12px;padding:14px;font-weight:600;color:#fff;font-size:16px}
 .rate .a{background:var(--again)} .rate .g{background:var(--good)}
 .rate button small{display:block;font-weight:400;opacity:.85;font-size:12px}
@@ -119,7 +130,35 @@ const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 const KEY='arabic-flash-v1';
 let S={box:{},seen:{}}; try{S=Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-const known=c=>(S.box[c.id]||0)>=3;
+S.r=S.r||{};
+const DAY=864e5, now=()=>Date.now();
+const RATINGS=[
+  {label:"Didn't know at all", short:"No idea", hint:"again in a moment"},
+  {label:"Didn't know", short:"Didn't know", hint:"again soon"},
+  {label:"Just got it", short:"Just got it", hint:"again later"},
+  {label:"Knew it fairly well", short:"Fairly well", hint:"in a few days"},
+  {label:"Knew it very well", short:"Very well", hint:"in a week+"}];
+// state per card: ease (how easy), ivl (days until next review), due (timestamp), last (last rating), reps
+const st=c=>S.r[c.id];
+const known=c=>{const r=st(c); return !!r && r.ivl>=4;};
+const isDue=c=>{const r=st(c); return !!r && r.due<=now();};
+const weak=c=>{const r=st(c); return !!r && r.last<=1;};
+function schedule(c,q){
+  const r=S.r[c.id]||{ease:2.5,ivl:0,due:0,last:null,reps:0,lapses:0};
+  if(q<=1){ r.ease=Math.max(1.3,r.ease-(q===0?0.25:0.15)); r.ivl=0; r.lapses++; r.due=now()+(q===0?60e3:5*60e3); }
+  else if(q===2){ r.ease=Math.max(1.3,r.ease-0.1); r.ivl=r.ivl?Math.max(1,Math.round(r.ivl*1.2)):1; }
+  else if(q===3){ r.ivl=r.ivl?Math.round(r.ivl*r.ease):3; }
+  else { r.ease=Math.min(3.2,r.ease+0.15); r.ivl=r.ivl?Math.round(r.ivl*r.ease*1.3):7; }
+  if(q>=2) r.due=now()+r.ivl*DAY;
+  r.last=q; r.reps++; r.seen=now(); S.r[c.id]=r; save();
+}
+// priority: lower = shown earlier
+function priority(c){
+  const r=st(c);
+  if(!r) return 2;                                  // never seen
+  if(r.due<=now()) return r.last<=1?0:1;            // due now, weakest first
+  return 3+r.ivl;                                   // not due yet: shortest interval first
+}
 
 // ---- state ----
 let view='home', selected=new Set(), opts={dir:'en-ar', gender:'all', order:'smart', mode:'flip', tr:true};
@@ -139,13 +178,16 @@ function renderHome(){
   const total=CARDS.length, kn=CARDS.filter(known).length;
   const pool=poolFor([...selected]);
   let h=`<h1>Your flashcards</h1><p class="sub">${total} cards from your AMAU deck, sorted by topic. Pick one or more categories, then start.</p>
-  <div class="stats"><div class="stat"><b>${total}</b><span>cards</span></div><div class="stat"><b>${kn}</b><span>known</span></div>
+  <div class="stats"><div class="stat"><b>${total}</b><span>cards</span></div><div class="stat"><b>${kn}</b><span>known</span></div><div class="stat"><b>${CARDS.filter(isDue).length}</b><span>due for review</span></div><div class="stat"><b>${CARDS.filter(weak).length}</b><span>weak cards</span></div>
   <div class="stat"><b>${CARDS.filter(c=>c.img).length}</b><span>with pictures</span></div><div class="stat"><b>${CARDS.filter(c=>c.aud).length}</b><span>with audio</span></div></div>
   <div class="toolbar">
     <span style="font-weight:600">Show</span>
     ${pill('dir','en-ar','English → Arabic')}${pill('dir','ar-en','Arabic → English')}
     <span style="width:8px"></span>
     ${pill('mode','flip','Flashcards')}${pill('mode','gender','Guess the gender')}
+  </div>
+  <div class="toolbar">
+    <span style="font-weight:600">Which cards</span>${pill('order','smart','Smart (weakest & due first)')}${pill('order','due','Only due & weak')}${pill('order','random','Random')}
   </div>
   <div class="toolbar">
     <span style="font-weight:600">Gender</span>${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}
@@ -166,7 +208,7 @@ function renderHome(){
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></div></button>`;}
     h+=`</div>`;
   }
-  h+=`<p class="note">Your progress is saved in this browser on this device. Tip: in a study session press <kbd>Space</kbd> to flip, <kbd>1</kbd> for "Again", <kbd>2</kbd> for "Got it".</p>`;
+  h+=`<p class="note">Your progress is saved in this browser on this device. Cards you rate low come back again in the same session and sooner on later days; cards you know well are spaced further apart. Keys: <kbd>Space</kbd> reveal, <kbd>1</kbd>–<kbd>5</kbd> rate (1 = didn't know at all, 5 = very well), <kbd>S</kbd> skip.</p>`;
   $('#app').innerHTML=h;
   document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const c=b.dataset.c; selected.has(c)?selected.delete(c):selected.add(c); renderHome();});
   bindPills(renderHome);
@@ -178,6 +220,7 @@ function pill(k,v,label){return `<button class="pill ${opts[k]===v?'on':''}" dat
 function bindPills(cb){document.querySelectorAll('.pill').forEach(p=>p.onclick=()=>{opts[p.dataset.k]=p.dataset.v; cb();});}
 function poolFor(list){
   let p=list.flatMap(c=>cats[c]||[]);
+  if(opts.order==='due') p=p.filter(c=>isDue(c)||weak(c));
   if(opts.gender!=='all'||opts.mode==='gender') p=p.filter(c=>opts.gender==='all'?c.g:c.g===opts.gender);
   return p;
 }
@@ -187,16 +230,15 @@ let sess=null;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
 function startSession(){
   let pool=shuffle(poolFor([...selected]));
-  // smart order: unseen and weak cards first
-  pool.sort((a,b)=>(S.box[a.id]||0)-(S.box[b.id]||0));
-  sess={queue:pool, i:0, flipped:false, again:0, good:0, total:pool.length, answered:null};
+  if(opts.order!=='random') pool.sort((a,b)=>priority(a)-priority(b));
+  sess={queue:pool, i:0, flipped:false, again:0, good:0, total:pool.length, answered:null, counts:[0,0,0,0,0], skipped:0, tries:{}};
   go('study');
 }
 function renderStudy(){
   if(!sess){go('home');return}
   if(sess.i>=sess.queue.length){
     $('#app').innerHTML=`<div class="study"><div class="done"><b>🎉</b><h1>Session complete</h1>
-      <p class="sub">${sess.good} got right · ${sess.again} to practise again</p>
+      ${opts.mode==='gender'?`<p class="sub">${sess.good} right · ${sess.again} wrong</p>`:`<div class="sumgrid">${RATINGS.map((r,i)=>`<div><b>${sess.counts[i]}</b>${r.short}</div>`).join('')}</div><p class="sub">${sess.skipped?`${sess.skipped} skipped · `:''}${CARDS.filter(isDue).length} cards due for review overall</p>`}
       <button class="go" onclick="startSession()">Go again</button> <button class="ghost" onclick="go('home')">Back to categories</button></div></div>`;
     return;
   }
@@ -215,35 +257,50 @@ function renderStudy(){
     face= front? `${img}${arBlock}<hr>${enBlock}${gBadge(c.g)}` : `${img}${enBlock}<hr>${arBlock}${gBadge(c.g)}`;
   }
   const showAudio=c.aud&&(sess.flipped||front||isG);
-  let h=`<div class="study"><div class="topline"><button class="ghost" onclick="go('home')">← Categories</button><span>${sess.i+1} / ${sess.queue.length}</span></div>
+  let h=`<div class="study"><div class="topline"><button class="ghost" onclick="go('home')">← Categories</button><span>${sess.queue.length-sess.i} left</span></div>
     <div class="flash" id="flash"><span class="tag">${esc(c.cat)}${c.lesson&&c.lesson!==c.cat?` · ${esc(c.lesson)}`:''}</span>${showAudio?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:''}${face}</div>`;
   if(isG){
     h+=`<div class="choices"><button data-g="m" class="${sess.answered?(c.g==='m'?'right':sess.answered==='m'?'wrong':''):''}">Masculine <span class="ar">مُذَكَّر</span></button>
        <button data-g="f" class="${sess.answered?(c.g==='f'?'right':sess.answered==='f'?'wrong':''):''}">Feminine <span class="ar">مُؤَنَّث</span></button></div>
        ${sess.answered?`<div class="rate" style="grid-template-columns:1fr"><button class="g" id="next">Next →</button></div>`:''}`;
   } else if(sess.flipped){
-    h+=`<div class="rate"><button class="a" data-r="0">Again<small>show it later</small></button><button class="g" data-r="1">Got it<small>I knew this</small></button></div>`;
+    h+=`<div class="rate5">${RATINGS.map((r,i)=>`<button class="r${i}" data-r="${i}" title="${r.label} (${i+1})">${r.label}<small>${r.hint}</small></button>`).join('')}</div>
+        <div class="under"><button class="skip" id="skip">Skip</button></div>`;
+  } else {
+    h+=`<div class="under"><button class="reveal" id="reveal">Reveal answer</button><button class="skip" id="skip">Skip</button></div>`;
   }
   h+=`</div>`;
   $('#app').innerHTML=h;
   if(!isG) $('#flash').onclick=()=>{sess.flipped=!sess.flipped; renderStudy(); if(sess.flipped&&c.aud&&c.cat.includes('Sentences'))play(c.aud);};
   document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>rate(+b.dataset.r));
+  const rv=$('#reveal'); if(rv) rv.onclick=()=>$('#flash').click();
+  const sk=$('#skip'); if(sk) sk.onclick=skip;
   document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ if(sess.answered)return; sess.answered=b.dataset.g; const ok=b.dataset.g===c.g; ok?sess.good++:sess.again++; renderStudy(); });
   const n=$('#next'); if(n) n.onclick=()=>{sess.answered=null; sess.i++; renderStudy();};
 }
-function rate(ok){
+function rate(q){
   const c=sess.queue[sess.i];
-  S.seen[c.id]=Date.now();
-  if(ok){S.box[c.id]=Math.min((S.box[c.id]||0)+1,5); sess.good++;}
-  else {S.box[c.id]=0; sess.again++; const back=Math.min(sess.queue.length, sess.i+4+(Math.random()*3|0)); sess.queue.splice(back,0,c);}
-  save(); sess.i++; sess.flipped=false; renderStudy();
+  schedule(c,q); sess.counts[q]++;
+  // active recall within the session: the weaker the answer, the sooner it comes back
+  const t=(sess.tries[c.id]=(sess.tries[c.id]||0)+1);
+  let gap=null;
+  if(q===0) gap=2+(Math.random()*2|0);        // 2–3 cards later
+  else if(q===1) gap=5+(Math.random()*3|0);   // 5–7 cards later
+  else if(q===2 && t===1) gap=12+(Math.random()*5|0); // once more, much later
+  if(gap!==null && t<6) sess.queue.splice(Math.min(sess.queue.length, sess.i+1+gap),0,c);
+  sess.i++; sess.flipped=false; renderStudy();
+}
+function skip(){
+  const c=sess.queue[sess.i]; sess.skipped++;
+  sess.sk=sess.sk||{}; if(!sess.sk[c.id]){ sess.sk[c.id]=1; sess.queue.push(c); }
+  sess.i++; sess.flipped=false; renderStudy();
 }
 document.addEventListener('keydown',e=>{
   if(view!=='study'||!sess||e.target.tagName==='INPUT')return;
   if(opts.mode==='gender'){ if(e.key==='m'||e.key==='1')$('[data-g=m]')?.click(); if(e.key==='f'||e.key==='2')$('[data-g=f]')?.click(); if((e.key==='Enter'||e.key===' ')&&$('#next')){e.preventDefault();$('#next').click()} return;}
   if(e.key===' '){e.preventDefault(); $('#flash')?.click();}
-  if(sess.flipped&&e.key==='1')rate(0);
-  if(sess.flipped&&e.key==='2')rate(1);
+  if(sess.flipped&&/^[1-5]$/.test(e.key))rate(+e.key-1);
+  if(e.key==='s'||e.key==='S')skip();
 });
 
 // ---- browse ----
