@@ -225,6 +225,7 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 .optgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px 26px}
 .optgrid label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px;font-weight:600}
 .optgrid .pill{margin:0 6px 6px 0}
+.lessonrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.lsel{border:1px solid var(--line);background:var(--card);color:inherit;border-radius:999px;padding:6px 30px 6px 14px;font:inherit;font-size:14px;margin:0 6px 6px 0;appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;background-size:5px 5px;background-repeat:no-repeat}.lessonrow .pill{margin:0 0 6px}.newtag{font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:800}
 .panel-f{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:16px;padding-top:16px}
 .chk{font-size:14px;display:flex;align-items:center;gap:6px}
 .panel-f .ghost{border-radius:12px}
@@ -571,6 +572,8 @@ header nav .sm{display:none}
 <main id="app"></main>
 <script src="cards.js"></script>
 <script src="sentences.js"></script>
+<script src="gen.js"></script>
+<script src="generator.js"></script>
 <script>
 const CARDS = window.CARDS;
 const ORDER = ["People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Verbs","Verbal Nouns (Maṣdar)","Ism Fāʿil (Doers)","Adjectives","Colours","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Common Phrases"];
@@ -635,6 +638,7 @@ let audio=null; function play(src,e){e&&e.stopPropagation(); if(audio)audio.paus
 function go(v){view=v; document.querySelectorAll('#nav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='study'&&b.dataset.v==='home')||(v==='sentence'&&b.dataset.v==='sentences'))); render(); scrollTo(0,0);}
 document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
+const LESSONS=[...new Set(CARDS.map(c=>c.ln).filter(n=>n>=1&&n<100))].sort((a,b)=>a-b);
 function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence})[view](); }
 
 // ---- home ----
@@ -666,6 +670,7 @@ function renderHome(){
       <div><label>Direction</label><div>${pill('dir','en-ar','English → Arabic')}${pill('dir','ar-en','Arabic → English')}</div></div>
       <div><label>Which cards</label><div>${pill('order','smart','Smart')}${pill('order','due','Due & weak')}${pill('order','random','Random')}</div></div>
       <div><label>Gender</label><div>${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div></div>
+      <div><label>Lessons</label><div class="lessonrow"><select id="hupto" class="lsel"><option value="0">All lessons</option>${LESSONS.map(n=>`<option value="${n}" ${S.upto===n?'selected':''}>Up to lesson ${n}</option>`).join('')}</select>${S.upto?`<button class="pill ${(S.comp??true)?'on':''}" id="hcomp">${(S.comp??true)?'✓ ':''}Comprehension words</button>`:''}</div></div>
       ${selected.has('People & Family')?`<div><label>People & Family</label><div>${pill('pf','all','All')}${pill('pf','people','People')}${pill('pf','jobs','Jobs')}</div></div>`:''}
     </div>
     <div class="panel-f"><label class="chk"><input type="checkbox" id="tr" ${opts.tr?'checked':''}> Show transliteration</label><span style="flex:1"></span>
@@ -689,6 +694,8 @@ function renderHome(){
   document.querySelectorAll('.seeall').forEach(b=>b.onclick=()=>{const l=GROUPS.find(g=>g[0]===b.dataset.group)[1]; const all=l.every(c=>selected.has(c)); l.forEach(c=>all?selected.delete(c):selected.add(c)); renderHome();});
   bindPills(renderHome);
   $('#tr').onchange=e=>{opts.tr=e.target.checked};
+  $('#hupto').onchange=e=>{S.upto=+e.target.value; sbo.upto=S.upto; save(); const y=scrollY; renderHome(); scrollTo(0,y);};
+  $('#hcomp')&&($('#hcomp').onclick=()=>{S.comp=!(S.comp??true); sbo.comp=S.comp; save(); const y=scrollY; renderHome(); scrollTo(0,y);});
   $('#all').onclick=()=>{ selected.size===ORDER.length?selected.clear():ORDER.forEach(c=>selected.add(c)); renderHome(); };
   animateHero=false;
   $('#start').onclick=()=>startSession();
@@ -701,6 +708,7 @@ function bindPills(cb){document.querySelectorAll('.pill').forEach(p=>p.onclick=(
 function poolFor(list){
   let p=list.flatMap(c=>cats[c]||[]);
   if(opts.pf!=='all') p=p.filter(c=>c.cat!=='People & Family'||c.sub===opts.pf);
+  if(S.upto) p=p.filter(c=>inLessons(c,{upto:S.upto,comp:S.comp??true}));
   if(opts.order==='due') p=p.filter(c=>isDue(c)||weak(c));
   if(opts.gender!=='all'||opts.mode==='gender') p=p.filter(c=>opts.gender==='all'?c.g:c.g===opts.gender);
   // words that change with gender (adjectives, colours, numbers, ism fāʿil, or any word with both forms) aren't fair to guess
@@ -797,28 +805,36 @@ const SB_TOPICS={n:GROUPS[0][1],v:GROUPS[1][1],a:GROUPS[2][1]};
 const DIFFS=[[1,'Easy'],[2,'Medium'],[3,'Hard'],[4,'Extra hard']];
 const LENS=[['s','Short'],['l','Long'],['p','Paragraphs']];
 S.sb=S.sb||{};
-let sbo={dir:'en-ar',style:'reveal',types:{n:true,v:true,a:true},topics:new Set(),d:1,len:'s',open:null};
+let sbo={dir:'en-ar',style:'reveal',types:{n:true,v:true,a:true},topics:new Set(),d:1,len:'s',open:null,upto:S.upto??0,comp:S.comp??true};
+function inLessons(c,o=sbo){ return !o.upto || (c.ln>=1&&c.ln<=o.upto) || (o.comp&&c.ln===0) || c.ln>=100; }
 function sbContent(s){ return s.w.map(id=>CARD_BY_ID[id]).filter(c=>c&&TYPE_OF[c.cat]&&!'gp'.includes(TYPE_OF[c.cat])); }
+function sbOk(id){ const c=CARD_BY_ID[id]; if(!c) return true; const t=TYPE_OF[c.cat]; if(!t||'gp'.includes(t)) return true; return sbo.types[t] && inLessons(c); }
+function sbPrefer(){ return sbo.topics.size ? new Set(CARDS.filter(c=>sbo.topics.has(c.cat)).map(c=>c.id)) : null; }
 function sbPool(){
   return SENT.filter(s=>{
     if(s.d!==sbo.d||s.len!==sbo.len) return false;
     const cw=sbContent(s);
-    if(!cw.every(c=>sbo.types[TYPE_OF[c.cat]])) return false;           // no words from a type you switched off
+    if(!cw.every(c=>sbo.types[TYPE_OF[c.cat]]&&inLessons(c))) return false; // no words from a type you switched off, or from later lessons
     if(sbo.topics.size && !cw.some(c=>sbo.topics.has(c.cat))) return false; // at least one word from your chosen topics
     return true;
   });
 }
-function sbCountFor(d,len){const o={...sbo}; sbo={...sbo,d,len}; const n=sbPool().length; sbo=o; return n;}
+function sbGen(avoid){ if(sbo.len==='p'||!window.makeSentence) return null; return makeSentence({d:sbo.d,len:sbo.len,ok:sbOk,prefer:sbPrefer(),avoid}); }
+function sbCanGen(){ for(let i=0;i<3;i++) if(sbGen()) return true; return false; }
+function sbCountFor(d,len){const o={...sbo}; sbo={...sbo,d,len}; const n=sbPool().length+(sbCanGen()?1:0); sbo=o; return n?'✓':'none';}
 function renderSentences(){
-  const pool=sbPool();
+  const pool=sbPool(), gen=sbCanGen(), any=pool.length||gen;
+  const ready = gen ? `New sentences every time${pool.length?` · plus ${pool.length} hand-written`:''}` : `${pool.length} ${sbo.len==='p'?'paragraph':'sentence'}${pool.length===1?'':'s'} ready`;
   let h=`<div class="pagehead grain g4"><i class="bgl">جمل</i><span class="otag">Sentence builder</span><div class="ph-ar">الجُمَل</div><div class="ph-en">Read, translate and build sentences from your words</div></div>
   <section class="panel">
-    <div class="panel-h"><h2>Set up your practice</h2><span class="muted">${pool.length} ${sbo.len==='p'?'paragraph':'sentence'}${pool.length===1?'':'s'} ready</span></div>
+    <div class="panel-h"><h2>Set up your practice</h2><span class="muted">${ready}</span></div>
     <div class="optgrid">
       <div><label>Direction</label><div>${sp('dir','en-ar','English → Arabic')}${sp('dir','ar-en','Arabic → English')}</div></div>
       <div><label>How to practise</label><div>${sp('style','reveal','Translate, then reveal')}${sp('style','build','Build it from tiles')}</div></div>
       <div><label>Difficulty</label><div>${DIFFS.map(([d,n])=>`<button class="pill ${sbo.d===d?'on':''}" data-sd="${d}">${n}</button>`).join('')}</div></div>
       <div><label>Length</label><div>${LENS.map(([l,n])=>`<button class="pill ${sbo.len===l?'on':''}" data-sl="${l}">${n}</button>`).join('')}</div></div>
+      <div><label>Lessons</label><div class="lessonrow"><select id="sbupto" class="lsel"><option value="0">All lessons</option>${LESSONS.map(n=>`<option value="${n}" ${sbo.upto===n?'selected':''}>Up to lesson ${n}</option>`).join('')}</select>
+        ${sbo.upto?`<button class="pill ${sbo.comp?'on':''}" id="sbcomp">${sbo.comp?'✓ ':''}Comprehension words</button>`:''}</div></div>
     </div>
     <div class="sbwords"><label>Words to use</label>
       <div class="typerow">${SB_TYPES.map(([t,n])=>`<div class="typecard ${sbo.types[t]?'on':''}"><button class="tt" data-tt="${t}"><span class="tick">${sbo.types[t]?'✓':''}</span>${n}</button><button class="tmore" data-tm="${t}">${sbo.open===t?'Hide topics':'Choose topics'}${[...sbo.topics].filter(c=>SB_TOPICS[t].includes(c)).length?` · ${[...sbo.topics].filter(c=>SB_TOPICS[t].includes(c)).length}`:''}</button></div>`).join('')}</div>
@@ -826,8 +842,8 @@ function renderSentences(){
       <p class="muted small">Grammar words (pronouns, prepositions, question words, وَ، لَا، لَمْ، هَلْ، سَـ، كَانَ) are always included.${sbo.len==='p'?' Paragraphs can also use your common phrases.':''}</p>
     </div>
     <div class="panel-f"><span class="muted small">${sbo.style==='build'&&sbo.len==='p'?'Paragraphs are practised with “Translate, then reveal”.':''}</span><span style="flex:1"></span>
-      <button class="cta" id="sbstart" ${pool.length?'':'disabled'}>${pool.length?`Practise ${pool.length}`:'Nothing matches yet'}</button></div>
-    ${pool.length?'':`<p class="muted small" style="margin-top:10px">Try another difficulty or length, switch on more word types, or clear your topics. ${DIFFS.map(([d,n])=>`${n}: ${sbCountFor(d,sbo.len)}`).join(' · ')}</p>`}
+      <button class="cta" id="sbstart" ${any?'':'disabled'}>${any?'Start practising':'Nothing matches yet'}</button></div>
+    ${any?'':`<p class="muted small" style="margin-top:10px">${sbo.upto?'Your earlier lessons don’t have enough verbs for this level yet. Pick a later lesson, include comprehension words, or try ':'Try '}another difficulty or length, switch on more word types, or clear your topics. ${DIFFS.map(([d,n])=>`${n}: ${sbCountFor(d,sbo.len)}`).join(' · ')}</p>`}
   </section>`;
   $('#app').innerHTML=h;
   document.querySelectorAll('[data-sk]').forEach(b=>b.onclick=()=>{sbo[b.dataset.sk]=b.dataset.v; renderSentences();});
@@ -836,14 +852,28 @@ function renderSentences(){
   document.querySelectorAll('[data-tt]').forEach(b=>b.onclick=()=>{const t=b.dataset.tt; sbo.types[t]=!sbo.types[t]; if(!sbo.types[t]) SB_TOPICS[t].forEach(c=>sbo.topics.delete(c)); renderSentences();});
   document.querySelectorAll('[data-tm]').forEach(b=>b.onclick=()=>{sbo.open=sbo.open===b.dataset.tm?null:b.dataset.tm; if(sbo.open) sbo.types[sbo.open]=true; renderSentences();});
   document.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{const c=b.dataset.tp; sbo.topics.has(c)?sbo.topics.delete(c):sbo.topics.add(c); renderSentences();});
+  $('#sbupto').onchange=e=>{sbo.upto=+e.target.value; S.upto=sbo.upto; save(); renderSentences();};
+  $('#sbcomp')&&($('#sbcomp').onclick=()=>{sbo.comp=!sbo.comp; S.comp=sbo.comp; save(); renderSentences();});
   $('#sbstart').onclick=()=>sbStart();
 }
 function sp(k,v,label){return `<button class="pill ${sbo[k]===v?'on':''}" data-sk="${k}" data-v="${v}">${label}</button>`}
 let sbs=null;
-function sbStart(){
-  // unseen first, then the ones you found hardest
-  const pool=shuffle(sbPool()).sort((a,b)=>(S.sb[a.id]?.score??-1)-(S.sb[b.id]?.score??-1));
-  sbs={q:pool,i:0,shown:false,picked:[],checked:null,counts:[0,0,0],total:pool.length};
+const SB_ROUND=15;
+// one round: a few hand-written sentences you haven't mastered (unseen first, then the hardest), topped up with new generated ones
+function sbBatch(seen){
+  const bank=shuffle(sbPool().filter(s=>!seen.has(s.ar))).sort((a,b)=>(S.sb[a.id]?.score??-1)-(S.sb[b.id]?.score??-1));
+  if(sbo.len==='p') return bank.slice(0,6);
+  const fresh=bank.filter(s=>(S.sb[s.id]?.score??-1)<2);
+  const q=fresh.slice(0,5).map(s=>({...s}));
+  const avoid=new Set([...seen,...q.map(s=>s.ar)]);
+  for(let k=0;q.length<SB_ROUND&&k<SB_ROUND*3;k++){ const g=sbGen(avoid); if(!g) break; avoid.add(g.ar); q.push(g); }
+  if(q.length<SB_ROUND) bank.filter(s=>!avoid.has(s.ar)).slice(0,SB_ROUND-q.length).forEach(s=>q.push({...s}));
+  return shuffle(q);
+}
+function sbStart(keep){
+  const seen=keep&&sbs?sbs.seen:new Set();
+  const q=sbBatch(seen); q.forEach(s=>seen.add(s.ar));
+  sbs={q,i:0,shown:false,picked:[],checked:null,counts:keep&&sbs?sbs.counts:[0,0,0],round:[0,0,0],seen,rounds:(keep&&sbs?sbs.rounds:0)+1};
   view='sentence'; render(); scrollTo(0,0);
 }
 const tokAr=t=>t.match(/[ء-يً-ْٰـ]+/g)||[];
@@ -852,9 +882,11 @@ const normEnTok=w=>w.toLowerCase().replace(/[’']/g,"'");
 function renderSentence(){
   if(!sbs) return go('sentences');
   if(sbs.i>=sbs.q.length){
-    $('#app').innerHTML=`<div class="study"><div class="done"><h1>Practice complete</h1>
-      <div class="sumgrid" style="grid-template-columns:repeat(3,1fr)">${['Missed it','Partly','Got it'].map((n,i)=>`<div><b>${sbs.counts[i]}</b>${n}</div>`).join('')}</div>
-      <button class="cta" onclick="sbStart()">Go again</button> <button class="ghost" onclick="go('sentences')">Change options</button></div></div>`;
+    const more=sbo.len!=='p'||sbPool().some(s=>!sbs.seen.has(s.ar));
+    $('#app').innerHTML=`<div class="study"><div class="done"><h1>Round ${sbs.rounds} done</h1>
+      <div class="sumgrid" style="grid-template-columns:repeat(3,1fr)">${['Missed it','Partly','Got it'].map((n,i)=>`<div><b>${sbs.round[i]}</b>${n}</div>`).join('')}</div>
+      ${sbs.rounds>1?`<p class="muted">So far: ${sbs.counts[2]} got, ${sbs.counts[1]} partly, ${sbs.counts[0]} missed</p>`:''}
+      ${more?`<button class="cta" onclick="sbStart(true)">Keep going</button>`:`<p class="muted">You’ve done every paragraph for these options.</p><button class="cta" onclick="sbStart()">Start over</button>`} <button class="ghost" onclick="go('sentences')">Change options</button></div></div>`;
     return;
   }
   const s=sbs.q[sbs.i], toAr=sbo.dir==='en-ar', build=sbo.style==='build'&&s.len!=='p';
@@ -874,7 +906,7 @@ function renderSentence(){
   } else {
     body=sbs.shown?`<hr>${answer}${chips}`:`<div class="hint" style="position:static;margin-top:16px">${toAr?'Say or write it in Arabic, then reveal':'Translate it in your head, then reveal'}</div>`;
   }
-  let h=`<div class="study sbstudy"><div class="topline"><button class="ghost" onclick="go('sentences')">← Options</button><span>${sbs.q.length-sbs.i} left</span></div>
+  let h=`<div class="study sbstudy"><div class="topline"><button class="ghost" onclick="go('sentences')">← Options</button><span>${sbs.q.length-sbs.i} left${s.gen?' · <em class="newtag">new</em>':''}</span></div>
     <div class="flash sbcard"><div class="fband grain g4"><span class="otag">${DIFFS[s.d-1][1]} · ${LENS.find(l=>l[0]===s.len)[1]}</span><span class="fl">${toAr?'English → Arabic':'Arabic → English'}</span></div>
     <div class="sbbody">${prompt}${body}</div></div>`;
   if(build){
@@ -904,8 +936,9 @@ function renderSentence(){
 function sbNext(score){
   const s=sbs.q[sbs.i];
   if(score!==null){
-    sbs.counts[score]++; logReview(score===2);
-    const r=S.sb[s.id]||{n:0}; r.n++; r.score=score; r.t=Date.now(); S.sb[s.id]=r; save();
+    sbs.counts[score]++; sbs.round[score]++; logReview(score===2);
+    if(!s.gen){ const r=S.sb[s.id]||{n:0}; r.n++; r.score=score; r.t=Date.now(); S.sb[s.id]=r; }
+    save();
     if(score===0 && !s._again){ s._again=true; sbs.q.splice(Math.min(sbs.q.length,sbs.i+4),0,s); }
   } else if(!sbs.skipped?.[s.id]){ (sbs.skipped??={})[s.id]=1; sbs.q.push(s); }
   sbs.i++; sbs.shown=false; sbs.tiles=null; sbs.picked=[]; sbs.checked=null; renderSentence(); scrollTo(0,0);
