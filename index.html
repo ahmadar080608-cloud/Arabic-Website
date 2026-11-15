@@ -592,6 +592,15 @@ header nav button small{margin-right:4px}
 @media (max-width:899px){.typerow{grid-template-columns:1fr}.sb-ar{font-size:28px}.sb-en{font-size:19px}.sbbody{padding:0 16px}}
 header nav .sm{display:none}
 @media (max-width:899px){header nav .lg{display:none}header nav .sm{display:inline}header nav button{padding:8px 6px;font-size:12px}.sbcard .fband .fl{display:none}}
+
+.rate6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:16px}
+.rate6 button{display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 6px 12px;cursor:pointer;transition:border-color .15s,transform .1s}
+.rate6 button:hover{border-color:currentColor}.rate6 button:active{transform:scale(.97)}
+.rate6 i{display:block;width:24px;height:24px}.rate6 svg{width:24px;height:24px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.rate6 b{font-size:14px;font-weight:700;line-height:1.2;text-align:center}.rate6 small{font-size:12px;color:var(--muted)}
+.rate6 .q0 svg{stroke:#e5534b}.rate6 .q1 svg{stroke:#f0883e}.rate6 .q2 svg{stroke:#e3b341}.rate6 .q3 svg{stroke:#3fb950}.rate6 .q4 svg{stroke:#6e9cff;fill:#6e9cff33}.rate6 .qs svg{stroke:var(--muted)}
+.rate6 .q4 svg path{fill:none}.rate6 .qs b{color:var(--muted)}
+@media (max-width:640px){.rate6{grid-template-columns:repeat(3,1fr)}.rate6 button{padding:11px 4px 10px}}
 </style>
 </head>
 <body>
@@ -651,6 +660,22 @@ const st=c=>S.r[c.id];
 const known=c=>{const r=st(c); return !!r && r.ivl>=4;};
 const isDue=c=>{const r=st(c); return !!r && r.due<=now();};
 const weak=c=>{const r=st(c); return !!r && r.last<=1;};
+// when would this card come back if rated q? (same maths as schedule, without saving)
+function nextIn(c,q){
+  const r=S.r[c.id]||{ease:2.5,ivl:0};
+  if(q===0) return 60e3; if(q===1) return 5*60e3;
+  if(q===2) return (r.ivl?Math.max(1,Math.round(r.ivl*1.2)):1)*DAY;
+  if(q===3) return (r.ivl?Math.round(r.ivl*r.ease):3)*DAY;
+  return (r.ivl?Math.round(r.ivl*Math.min(3.2,r.ease+0.15)*1.3):7)*DAY;
+}
+function fmtIn(ms){ const m=Math.round(ms/60e3); if(m<60) return m+' min'; const d=Math.round(ms/DAY); if(d<30) return d+(d===1?' day':' days'); const mo=Math.round(d/30); if(mo<12) return mo+(mo===1?' month':' months'); return Math.round(d/365)+' yr'; }
+const R_ICON=[
+  '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  '<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/></svg>',
+  '<svg viewBox="0 0 24 24"><path d="M3 13c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg>',
+  '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  '<svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>'];
+const SKIP_ICON='<svg viewBox="0 0 24 24"><path d="M5 5l7 7-7 7M13 5l7 7-7 7"/></svg>';
 function schedule(c,q){
   const r=S.r[c.id]||{ease:2.5,ivl:0,due:0,last:null,reps:0,lapses:0};
   if(q<=1){ r.ease=Math.max(1.3,r.ease-(q===0?0.25:0.15)); r.ivl=0; r.lapses++; r.due=now()+(q===0?60e3:5*60e3); }
@@ -796,8 +821,7 @@ function renderStudy(){
        <button data-g="f" class="${sess.answered?(c.g==='f'?'right':sess.answered==='f'?'wrong':''):''}">Feminine <span class="ar">مُؤَنَّث</span></button></div>
        ${sess.answered?`<div class="rate" style="grid-template-columns:1fr"><button class="g" id="next">Next →</button></div>`:''}`;
   } else if(sess.flipped){
-    h+=`<div class="rate5">${RATINGS.map((r,i)=>`<button class="r${i}" data-r="${i}" title="${r.label} (${i+1})">${r.label}<small>${r.hint}</small></button>`).join('')}</div>
-        <div class="under"><button class="skip" id="skip">Skip</button></div>`;
+    h+=`<div class="rate6">${RATINGS.map((r,i)=>`<button class="q${i}" data-r="${i}" title="${r.label} — key ${i+1}"><i>${R_ICON[i]}</i><b>${r.short}</b><small>${fmtIn(nextIn(c,i))}</small></button>`).join('')}<button class="qs" id="skip" title="Skip — key S"><i>${SKIP_ICON}</i><b>Skip</b><small>later today</small></button></div>`;
   } else {
     h+=`<div class="under"><button class="reveal" id="reveal">Reveal answer</button><button class="skip" id="skip">Skip</button></div>`;
   }
