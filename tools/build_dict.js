@@ -2,6 +2,11 @@
 global.window={};
 require('../cards.js'); require('../gen.js'); require('./dict_extra.js');
 const fs=require('fs');
+const {root:autoRoot}=require('./roots.js');
+const {FIX,FIXV}=require('./root_fix.js');
+const plainW=w=>((w.replace(/[\[\]()،.؟!:'’]/g,' ').trim().split(/\s+/).find(t=>/[\u0621-\u064A]/.test(t)))||'').replace(/[\u064B-\u0652\u0670\u0640]/g,'');
+function rootOf(w,isVerb){ const v0=(w.trim().split(/\s+/)[0]||'').replace(/[،.؟!:]/g,''); if(v0 in FIXV) return FIXV[v0]; const p=plainW(w); if(p in FIX) return FIX[p]; const q=p.replace(/^ال/,''); if(q in FIX) return FIX[q]; return autoRoot(w,isVerb)||''; }
+const CARD_ROOT={};
 const C=window.CARDS, G=window.GEN, X=window.DICT_EXTRA;
 const MARKS=/[ً-ْٰـ]/g;
 const plain=w=>w.replace(MARKS,'').replace(/[،.:!؟?؛«»"()]/g,'');
@@ -12,11 +17,16 @@ const seen=new Map();
 function put(a,e,n,c,prio){
   a=a.trim(); if(!a) return;
   const key=a+'|'+e+'|'+n; if(seen.has(key)) return seen.get(key);
-  const i=E.length; E.push(c?{a,e,n,c}:{a,e,n}); seen.set(key,i);
+  const r = c && CARD_ROOT[c]!==undefined ? CARD_ROOT[c] : rootOf(a, /tense|subjunctive|jussive|command|passive/.test(n||''));
+  const o={a,e,n}; if(c) o.c=c; if(r) o.r=r;
+  const i=E.length; E.push(o); seen.set(key,i);
   add(V,a.replace(/[،.:!؟?]/g,''),i); add(P,plain(a),i); add(L,loose(a),i);
   return i;
 }
 const TYPE={Verbs:'verb','Verbal Nouns (Maṣdar)':'verbal noun (maṣdar)','Ism Fāʿil (Doers)':'doer noun (ism fāʿil)',Adjectives:'adjective',Colours:'colour adjective','Pronouns & Pointing Words':'pronoun / pointing word','Question Words':'question word','Prepositions & Particles':'particle'};
+// roots of deck words, from each card's first form
+const RIDX={};
+C.forEach(c=>{ if(c.cat==='Common Phrases') return; const f=c.ar.split(/\s*\/\s*/)[0]; const r=rootOf(f,c.cat==='Verbs'); CARD_ROOT[c.id]=r; if(r) (RIDX[r]=RIDX[r]||[]).push(c.id); });
 // 1. hand-written extras first (best notes)
 X.forEach(([a,e,n])=>put(a,e,n||''));
 // 2. generator forms (exact case / tense)
@@ -66,5 +76,5 @@ C.forEach(c=>{
   });
   if(c.pl) c.pl.split(/\s*[\/،,]\s*/).filter(Boolean).forEach(p=>put(p,c.en+' (plural)','plural'+(t==='noun'?'':' · '+t),c.id));
 });
-fs.writeFileSync(__dirname+'/../dict.js','window.DICT='+JSON.stringify({E,V,P,L})+';\n');
+fs.writeFileSync(__dirname+'/../dict.js','window.DICT='+JSON.stringify({E,V,P,L,R:RIDX})+';\n');
 console.log('entries',E.length);
