@@ -1044,7 +1044,7 @@ function libToComp(p){
     :q[0]==='ar'?{type:'ar',q:`Find the Arabic in the text that means “${q[1]}”.`,opts:sh(q.slice(2)),ans:q[2]}
     :{type:'mc',q:q[1],opts:sh(q.slice(2)),ans:q[2]});
   const paras=p.p.map(([ar,en])=>[{ar,en}]);
-  return {lib:true,id:p.id,topic:p.tp,ty:p.ty,title:{ar:p.ti[0],en:p.ti[1]},paras,vocab:p.v,qs,words:p.p.map(x=>x[0]).join(' ').split(/\s+/).length};
+  return {lib:true,id:p.id,lv:p.lv,topic:p.tp,ty:p.ty,title:{ar:p.ti[0],en:p.ti[1]},paras,vocab:p.v,qs,words:p.p.map(x=>x[0]).join(' ').split(/\s+/).length};
 }
 function rcLibPool(all){ return (window.LIB||[]).filter(p=>p.lv===rc.level&&(rc.topic==='any'||p.tp===rc.topic)&&(all||!S.rcDone.includes(p.id))); }
 const stripT=t=>t.replace(/[\u064B-\u0652\u0670]/g,'');
@@ -1071,14 +1071,14 @@ function renderReading(){
   $('#app').innerHTML=`<div class="pagehead grain g2"><i class="bgl">فهم</i><span class="otag">Comprehension</span><div class="ph-ar">فَهْمُ المَقْرُوءِ</div><div class="ph-en">Read a new passage and answer the questions</div></div>
   <section class="panel rc-set">
     <div class="optgrid">
-      <div><label>Level</label><div>${rcPill('level','f','Foundation')}${rcPill('level','h','Higher')}</div></div>
+      <div><label>Level</label><div>${rcPill('level','f','Beginner')}${rcPill('level','h','Intermediate')}</div></div>
       <div><label>Topic</label><div>${RC_TOPICS.map(([k,n])=>rcPill('topic',k,n)).join('')}</div></div>
       <div><label>Text</label><div><button class="pill ${rc.tash?'on':''}" id="rctash">${rc.tash?'✓ ':''}Show tashkīl</button></div></div>
     </div>
     <p class="muted small" style="margin:12px 0 0">${(()=>{const all=rcLibPool(true), unread=rcLibPool(false); const gen=rc.topic==='any'||(window.COMP_TOPICS||[]).includes(rc.topic); return all.length?`Hand-written passages: ${all.length-unread.length} of ${all.length} read for this level and topic${rc.restart?' — you’d read them all, so they’re starting again':''}.${gen?' Generated passages are mixed in, so you won’t run out.':''}`:'Every passage for this level and topic is generated fresh each time.';})()}</p>
   </section>
   <div class="rc-grid">
-    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${rc.level==='h'?'Higher':'Foundation'} · ${RC_TYPES[D.ty]||'Story'} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
+    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${D.lib?(D.lv==='h'?'Intermediate':'Beginner'):(rc.level==='h'?'Intermediate':'Beginner')} · ${RC_TYPES[D.ty]||'Story'} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
       <div class="rc-body"><div class="rc-title ar">${esc(T(D.title.ar))}</div><div class="rc-text ar" dir="rtl">${passage}</div>
         <div class="rc-tools"><button class="ghost" id="rcvocab">${rc.showVocab?'Hide':'Show'} vocabulary</button>${rc.marked?`<button class="ghost" id="rcen">${rc.showEn?'Hide':'Show'} translation</button>`:''}</div>
         ${rc.showVocab?`<div class="rc-vocab">${D.vocab.map(([a,e])=>`<span class="wchip"><span class="ar">${esc(T(a))}</span><em>${esc(e)}</em></span>`).join('')}</div>`:''}
