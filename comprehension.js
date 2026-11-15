@@ -365,6 +365,243 @@ function myTrip(P, L){
   return d;
 }
 
+
+// ---------------------------------------------------------------- My school (present)
+function mySchool(P, L){
+  const d = Doc(P), g = P.g, N = P.name.en, he = P.he, his = P.his;
+  d.title = O('مَدْرَسَتِي', `${N}'s school`);
+  const SCH = [O('مَدْرَسَةٍ إِسْلَامِيَّةٍ','an Islamic school'),O('مَدْرَسَةٍ ثَانَوِيَّةٍ','a secondary school'),O('مَدْرَسَةٍ كَبِيرَةٍ','a big school')];
+  const sch = R(SCH), near = Math.random()<.5;
+  d.s(`اسْمِي ${P.name.ar}، وَأَنَا ${g('طَالِبٌ','طَالِبَةٌ')} فِي ${sch.ar}. مَدْرَسَتِي ${near?'قَرِيبَةٌ مِنْ بَيْتِي، لِذَلِكَ أَذْهَبُ إِلَيْهَا مَشْيًا':'بَعِيدَةٌ عَنْ بَيْتِي، لِذَلِكَ أَذْهَبُ إِلَيْهَا بِالحَافِلَةِ'}.`,
+      `My name is ${N}, and I am a pupil at ${sch.en}. My school is ${near?'near my house, so I walk there':'far from my house, so I go there by bus'}.`, [['ثَانَوِيَّةٌ','secondary'],['قَرِيبَةٌ مِنْ','near to'],['بَعِيدَةٌ عَنْ','far from'],['لِذَلِكَ','so, therefore']]);
+  d.fact(`What kind of school does ${N} go to?`, sch, SCH, v=>`${N} goes to ${v}.`);
+  d.fact(`How does ${N} get to school?`, near?O('مَشْيًا','on foot'):O('بِالحَافِلَةِ','by bus'), [O('مَشْيًا','on foot'),O('بِالحَافِلَةِ','by bus'),O('بِالسَّيَّارَةِ','by car'),O('بِالدَّرَّاجَةِ','by bike')], v=>`${N} gets to school ${v}.`);
+  d.fact(`Why does ${N} go to school ${near?'on foot':'by bus'}?`, O('',near?'because it is near home':'because it is far from home'), [O('','because it is near home'),O('','because it is far from home'),O('','because the bus is free'),O('','because '+he+' likes exercise')], null, {why:1});
+  const FAC = [O('مَلْعَبٌ كَبِيرٌ','a big sports field'),O('مَكْتَبَةٌ جَمِيلَةٌ','a beautiful library',{lib:1}),O('مُخْتَبَرٌ حَدِيثٌ','a modern science lab'),O('مُصَلًّى','a prayer room',{pr:1}),O('مَقْصَفٌ','a canteen'),O('مَسْبَحٌ','a swimming pool')];
+  const [f1,f2,f3] = pickN(FAC,3);
+  d.para();
+  d.s(`فِي مَدْرَسَتِي ${f1.ar} وَ${f2.ar}، لَكِنْ لَيْسَ فِيهَا ${f3.ar}.`, `In my school there is ${f1.en} and ${f2.en}, but there is no ${f3.en.replace(/^an? /,'')}.`, [['مَلْعَبٌ','sports field, pitch'],['مَكْتَبَةٌ','library'],['مُخْتَبَرٌ','laboratory'],['حَدِيثٌ','modern'],['مُصَلًّى','prayer room'],['مَقْصَفٌ','canteen'],['مَسْبَحٌ','swimming pool']].filter(v=>[f1,f2,f3].some(f=>f.ar.startsWith(v[0].slice(0,4)))));
+  d.fact(null,null,null,null,{tf:[`${N}'s school has ${f1.en}.`, `${N}'s school has ${f3.en}.`]});
+  d.fact(`What does ${N}'s school NOT have?`, f3, FAC, null, {why:1, noAr:1});
+  const ST = [O('الثَّامِنَةِ','8 o’clock'),O('التَّاسِعَةِ','9 o’clock')], EN = [O('الثَّالِثَةِ','3 o’clock'),O('الرَّابِعَةِ','4 o’clock')];
+  const st = R(ST), en = R(EN);
+  const NL = [O('خَمْسَةُ دُرُوسٍ','five lessons'),O('سِتَّةُ دُرُوسٍ','six lessons'),O('سَبْعَةُ دُرُوسٍ','seven lessons')], nl = R(NL);
+  d.s(`يَبْدَأُ اليَوْمُ الدِّرَاسِيُّ فِي السَّاعَةِ ${st.ar}، وَيَنْتَهِي فِي السَّاعَةِ ${en.ar}، وَعِنْدَنَا ${nl.ar} كُلَّ يَوْمٍ.`,
+      `The school day starts at ${st.en} and finishes at ${en.en}, and we have ${nl.en} every day.`, [['يَبْدَأُ','it starts'],['يَنْتَهِي','it finishes'],['الدِّرَاسِيُّ','school (adj.)']]);
+  d.fact(`What time does the school day start?`, st, [...ST,O('','7 o’clock'),O('','10 o’clock')], v=>`School starts at ${v}.`);
+  d.fact(`What time does school finish?`, en, [...EN,O('','2 o’clock'),O('','5 o’clock')], v=>`School finishes at ${v}.`);
+  d.fact(`How many lessons does ${N} have each day?`, nl, NL.concat([O('','four lessons')]), v=>`${N} has ${v} every day.`);
+  const tm = Math.random()<.5;
+  const SUB = [O('الرِّيَاضِيَّاتِ','maths'),O('العُلُومَ','science'),O('التَّارِيخَ','history'),O('اللُّغَةَ العَرَبِيَّةَ','Arabic'),O('الجُغْرَافِيَا','geography')];
+  const TA = tm ? [O('صَبُورٌ','patient'),O('لَطِيفٌ','kind'),O('مُضْحِكٌ','funny')] : [O('صَبُورَةٌ','patient'),O('لَطِيفَةٌ','kind'),O('مُضْحِكَةٌ','funny')];
+  const sub = R(SUB), ta = R(TA);
+  let tn; do tn = R(NAMES[tm?'m':'f']); while(tn.en===N);
+  d.para();
+  d.s(tm ? `مُدَرِّسِي المُفَضَّلُ هُوَ الأُسْتَاذُ ${tn.ar}، يُدَرِّسُنَا ${sub.ar}، وَهُوَ ${ta.ar} جِدًّا.` : `مُدَرِّسَتِي المُفَضَّلَةُ هِيَ الأُسْتَاذَةُ ${tn.ar}، تُدَرِّسُنَا ${sub.ar}، وَهِيَ ${ta.ar} جِدًّا.`,
+      `My favourite teacher is ${tm?'Mr':'Ms'} ${tn.en}; ${tm?'he':'she'} teaches us ${sub.en}, and ${tm?'he':'she'} is very ${ta.en}.`, [['المُفَضَّلُ','favourite'],['الأُسْتَاذُ','teacher, Mr'],['يُدَرِّسُنَا','he teaches us'],['صَبُورٌ','patient']].filter(v=>v[0]!=='صَبُورٌ'||ta.en==='patient'));
+  d.fact(`What does ${N}'s favourite teacher teach?`, sub, SUB, v=>`${N}'s favourite teacher teaches ${v}.`);
+  d.fact(`What is ${N}'s favourite teacher like?`, ta, TA.concat([O('','strict')]), v=>`${N}'s favourite teacher is ${v}.`);
+  const RULE = [O('بِاسْتِخْدَامِ الهَاتِفِ فِي الفَصْلِ','use their phones in class',{e1:'use our phones in class'}),O('بِالأَكْلِ فِي الفَصْلِ','eat in class'),O('بِالرَّكْضِ فِي المَمَرَّاتِ','run in the corridors')];
+  const rule = R(RULE), fair = Math.random()<.5;
+  if(L==='h' || Math.random()<.5){
+    d.s(`فِي مَدْرَسَتِنَا قَوَانِينُ كَثِيرَةٌ: يَجِبُ عَلَيْنَا أَنْ نَلْبَسَ الزِّيَّ المَدْرَسِيَّ، وَلَا يُسْمَحُ لَنَا ${rule.ar}. ${fair?'أَرَى أَنَّ هَذِهِ القَوَانِينَ عَادِلَةٌ.':'أَرَى أَنَّ بَعْضَ هَذِهِ القَوَانِينِ غَيْرُ عَادِلَةٍ.'}`,
+        `Our school has many rules: we must wear school uniform, and we are not allowed to ${rule.e1||rule.en}. ${fair?'I think these rules are fair.':'I think some of these rules are unfair.'}`, [['قَوَانِينُ','rules'],['يَجِبُ عَلَيْنَا','we must'],['الزِّيُّ المَدْرَسِيُّ','school uniform'],['لَا يُسْمَحُ لَنَا','we are not allowed'],['عَادِلَةٌ','fair'],['غَيْرُ','not, un-']]);
+    d.fact(`What are pupils not allowed to do?`, rule, RULE.concat([O('','speak Arabic')]), v=>`Pupils are not allowed to ${v}.`);
+    d.fact(`What does ${N} think of the school rules?`, O('',fair?'they are fair':'some of them are unfair'), [O('','they are fair'),O('','some of them are unfair'),O('','they are too easy'),O('','there are not enough rules')], null, {why:1});
+    d.fact(null,null,null,null,{tf:[`Pupils have to wear a uniform.`, `Pupils can wear whatever they like.`]});
+  }
+  const BRK = [O('أَلْعَبُ كُرَةَ القَدَمِ مَعَ أَصْدِقَائِي',`plays football with ${his} friends`,{e1:'I play football with my friends'}),O('آكُلُ شَطِيرَةً وَأَتَحَدَّثُ مَعَ أَصْدِقَائِي',`eats a sandwich and chats with ${his} friends`,{e1:'I eat a sandwich and chat with my friends'})];
+  if([f1,f2].some(f=>f.lib)) BRK.push(O('أَجْلِسُ فِي المَكْتَبَةِ وَأَقْرَأُ',`sits in the library and reads`,{e1:'I sit in the library and read'}));
+  if([f1,f2].some(f=>f.pr)) BRK.push(O('أُصَلِّي الظُّهْرَ فِي المُصَلَّى',`prays Ẓuhr in the prayer room`,{e1:'I pray Ẓuhr in the prayer room'}));
+  const brk = R(BRK);
+  d.s(`فِي الاسْتِرَاحَةِ ${brk.ar}.`, `At break time ${brk.e1}.`, [['الاسْتِرَاحَةُ','break time'],['شَطِيرَةٌ','sandwich'],['أَتَحَدَّثُ','I talk, I chat']].filter(v=>v[0]==='الاسْتِرَاحَةُ'||brk.ar.includes(v[0].slice(0,4))));
+  d.fact(`What does ${N} do at break time?`, brk, BRK.concat([O('','does homework'),O('','phones home')]), v=>`At break time ${N} ${v}.`);
+  const FUT = [[O('الطِّبَّ','medicine'),g('طَبِيبًا','طَبِيبَةً'),'a doctor'],[O('طِبَّ الأَسْنَانِ','dentistry'),g('طَبِيبَ أَسْنَانٍ','طَبِيبَةَ أَسْنَانٍ'),'a dentist'],[O('الهَنْدَسَةَ','engineering'),g('مُهَنْدِسًا','مُهَنْدِسَةً'),'an engineer'],[O('الشَّرِيعَةَ','Islamic studies'),g('عَالِمًا','عَالِمَةً'),'a scholar'],[O('القَانُونَ','law'),g('مُحَامِيًا','مُحَامِيَةً'),'a lawyer']];
+  const fu = R(FUT);
+  d.para();
+  d.s(`بَعْدَ المَدْرَسَةِ أُرِيدُ أَنْ أَدْرُسَ ${fu[0].ar} فِي الجَامِعَةِ، لِأَنِّي أُرِيدُ أَنْ أُصْبِحَ ${fu[1]}.`, `After school I want to study ${fu[0].en} at university, because I want to become ${fu[2]}.`, [['أُصْبِحَ','(that) I become'],['عَالِمٌ','scholar'],['مُحَامٍ','lawyer']].filter(v=>v[0]==='أُصْبِحَ'||fu[1].startsWith(v[0].slice(0,4))));
+  d.fact(`What does ${N} want to study at university?`, fu[0], FUT.map(f=>f[0]), v=>`${N} wants to study ${v}.`);
+  d.fact(`What job does ${N} want in the future?`, O('',fu[2]), FUT.map(f=>O('',f[2])), v=>`${N} wants to become ${v}.`);
+  d.nm = [`${N} is in Year 10.`,`${N}'s best friend is called Ali.`,`${N} gets a lot of homework.`,`${N}'s school has a football team.`,`${N} is the best pupil in the class.`];
+  return d;
+}
+
+// ---------------------------------------------------------------- At the market (past)
+function myMarket(P, L){
+  const d = Doc(P), g = P.g, N = P.name.en, he = P.he, his = P.his;
+  d.title = O('يَوْمٌ فِي السُّوقِ', `${N}'s day at the market`);
+  const DAY = [O('السَّبْتِ','Saturday'),O('الأَحَدِ','Sunday'),O('الخَمِيسِ','Thursday')];
+  const PL = [O('السُّوقِ','the market'),O('المَرْكَزِ التِّجَارِيِّ','the shopping centre')];
+  const COMP = [O('أُمِّي','my mother',{e3:`${his} mother`}),O('أَبِي','my father',{e3:`${his} father`}),O('أُخْتِي الكَبِيرَةِ','my older sister',{e3:`${his} older sister`}),O(g('صَدِيقِي','صَدِيقَتِي'),'my friend',{e3:`${his} friend`})];
+  const WHY = [O('لِأَنَّ العِيدَ قَرِيبٌ','because Eid is coming'),O('لِأَنَّنَا نَحْتَاجُ طَعَامًا لِلْأُسْبُوعِ','because they needed food for the week',{e1:'because we needed food for the week'}),O('لِأَنَّ عِنْدَ ابْنِ عَمِّي حَفْلَةَ زَوَاجٍ',`because ${his} cousin is getting married`,{e1:'because my cousin is having a wedding'})];
+  const day = R(DAY), pl = R(PL), comp = R(COMP), why = R(WHY);
+  d.s(`يَوْمَ ${day.ar} المَاضِي ذَهَبْتُ مَعَ ${comp.ar} إِلَى ${pl.ar} ${why.ar}.`, `Last ${day.en} I went with ${comp.en} to ${pl.en} ${why.e1||why.en}.`, [['المَاضِي','last'],['المَرْكَزُ التِّجَارِيُّ','shopping centre'],['نَحْتَاجُ','we need'],['حَفْلَةُ زَوَاجٍ','wedding party'],['ابْنُ عَمِّي','my cousin']].filter(v=>v[0]==='المَاضِي'||(pl.ar+why.ar).includes(v[0].slice(0,5))));
+  d.fact(`When did ${N} go shopping?`, O('','last '+day.en), DAY.map(x=>O('','last '+x.en)).concat([O('','last Friday')]), v=>`${N} went shopping ${v}.`);
+  d.fact(`Who did ${N} go with?`, O(comp.ar,comp.e3), COMP.map(c=>O(c.ar,c.e3)), v=>`${N} went with ${v}.`);
+  d.fact(`Why did they go shopping?`, why, WHY.concat([O('','because it was raining')]), null, {why:1});
+  const ITEMS = P.sex==='m' ? [['قَمِيصًا','shirt','m'],['ثَوْبًا','thobe','m'],['حِذَاءً','pair of shoes','m'],['حَقِيبَةً','bag','f']] : [['حَقِيبَةً','bag','f'],['عَبَاءَةً','abaya','f'],['حِذَاءً','pair of shoes','m'],['وِشَاحًا','scarf','m']];
+  const COL = [['أَبْيَضَ','بَيْضَاءَ','white'],['أَسْوَدَ','سَوْدَاءَ','black'],['أَزْرَقَ','زَرْقَاءَ','blue'],['أَحْمَرَ','حَمْرَاءَ','red']];
+  const it = R(ITEMS), co = R(COL);
+  const PRICE = [O('بِعِشْرِينَ جُنَيْهًا','for twenty pounds'),O('بِثَلَاثِينَ جُنَيْهًا','for thirty pounds'),O('بِأَرْبَعِينَ جُنَيْهًا','for forty pounds'),O('بِخَمْسِينَ جُنَيْهًا','for fifty pounds')];
+  const pr = R(PRICE), expensive = pr.en.includes('forty')||pr.en.includes('fifty');
+  const itemO = O(`${it[0]} ${it[2]==='m'?co[0]:co[1]}`, `a ${co[2]} ${it[1]}`);
+  d.para();
+  d.s(`اشْتَرَيْتُ ${itemO.ar} ${pr.ar}. كَانَ ${expensive?'غَالِيًا قَلِيلًا':'رَخِيصًا'}، لَكِنِّي ${g('سَعِيدٌ','سَعِيدَةٌ')} بِهِ.`,
+      `I bought ${itemO.en} ${pr.en}. It was ${expensive?'a little expensive':'cheap'}, but I am happy with it.`, [['اشْتَرَيْتُ','I bought'],['جُنَيْهًا','pound(s)'],['غَالٍ','expensive'],['رَخِيصٌ','cheap']].filter(v=>v[0]!=='غَالٍ'||expensive).filter(v=>v[0]!=='رَخِيصٌ'||!expensive));
+  d.fact(`What did ${N} buy for ${him(P)}self?`, itemO, ITEMS.flatMap(i=>[O(`${i[0]} ${i[2]==='m'?co[0]:co[1]}`,`a ${co[2]} ${i[1]}`)]).concat(COL.filter(c=>c!==co).slice(0,1).map(c=>O(`${it[0]} ${it[2]==='m'?c[0]:c[1]}`,`a ${c[2]} ${it[1]}`))), v=>`${N} bought ${v}.`);
+  d.fact(`How much did it cost?`, pr, PRICE, v=>`It cost ${v.replace('for ','')}.`);
+  d.fact(`What did ${N} think of the price?`, O('',expensive?'a little expensive':'cheap'), [O('','a little expensive'),O('','cheap'),O('','far too expensive'),O('','free')], null, {why:1});
+  const FR = [O('التُّفَّاحَ','apples'),O('المَوْزَ','bananas'),O('العِنَبَ','grapes'),O('البِطِّيخَ','watermelon'),O('البُرْتُقَالَ','oranges')];
+  const VG = [O('الطَّمَاطِمَ','tomatoes'),O('البَطَاطِسَ','potatoes'),O('الجَزَرَ','carrots'),O('البَصَلَ','onions')];
+  const fr = R(FR), vg = R(VG);
+  d.s(`ثُمَّ اشْتَرَيْنَا ${fr.ar} مِنْ بَائِعِ الفَوَاكِهِ، وَ${vg.ar} مِنْ بَائِعِ الخُضَارِ.`, `Then we bought ${fr.en} from the fruit seller, and ${vg.en} from the vegetable seller.`, [['بَائِعٌ','seller'],['الفَوَاكِهُ','fruit'],['الخُضَارُ','vegetables']]);
+  d.fact(`What fruit did they buy?`, fr, FR, v=>`They bought ${v}.`);
+  d.fact(`What vegetables did they buy?`, vg, VG, v=>`They bought ${v}.`);
+  const GF = [O('عِطْرًا','some perfume'),O('كِتَابًا','a book'),O('سَاعَةً','a watch')], FW = [O('لِأُمِّي',`for ${his} mother`,{e1:'for my mother'}),O('لِأَبِي',`for ${his} father`,{e1:'for my father'}),O('لِجَدَّتِي',`for ${his} grandmother`,{e1:'for my grandmother'})];
+  const gf = R(GF), fw = R(FW.filter(f=>!comp.ar.includes(f.ar.slice(2))));
+  d.s(`وَاشْتَرَيْتُ أَيْضًا ${gf.ar} ${fw.ar} هَدِيَّةً.`, `I also bought ${gf.en} ${fw.e1} as a present.`, [['أَيْضًا','also'],['هَدِيَّةٌ','present, gift'],['عِطْرٌ','perfume']].filter(v=>v[0]!=='عِطْرٌ'||gf.ar.startsWith('عِطْر')));
+  d.fact(`What present did ${N} buy ${fw.en}?`, gf, GF.concat([O('','some sweets')]), v=>`${N} bought ${v} ${fw.en}.`);
+  const ok = Math.random()<.5;
+  if(L==='h' || Math.random()<.5){
+    d.s(`حَاوَلْتُ أَنْ أُخَفِّضَ السِّعْرَ، ${ok?'وَوَافَقَ البَائِعُ!':'لَكِنَّ البَائِعَ رَفَضَ.'}`, `I tried to bring the price down, ${ok?'and the seller agreed!':'but the seller refused.'}`, [['حَاوَلْتُ','I tried'],['أُخَفِّضَ','(that) I lower'],['السِّعْرُ','the price'],['وَافَقَ','he agreed'],['رَفَضَ','he refused']].filter(v=>!['وَافَقَ','رَفَضَ'].includes(v[0])||(ok?v[0]==='وَافَقَ':v[0]==='رَفَضَ')));
+    d.fact(null,null,null,null,{tf:[ok?`The seller agreed to lower the price.`:`The seller refused to lower the price.`, ok?`The seller refused to lower the price.`:`The seller agreed to lower the price.`]});
+  }
+  const LU = [O('الشَّاوَرْمَا','shawarma'),O('الفَلَافِلَ','falafel'),O('البِيتْزَا','pizza'),O('السَّمَكَ','fish')];
+  const BACK = [O('بِالحَافِلَةِ','by bus'),O('بِالسَّيَّارَةِ','by car'),O('مَشْيًا','on foot')];
+  const FEEL = [O(g('مُتْعَبًا','مُتْعَبَةً'),'tired'),O(g('سَعِيدًا','سَعِيدَةً'),'happy'),O(g('جَائِعًا','جَائِعَةً'),'hungry')];
+  const lu = R(LU), bk = R(BACK), fe = R(FEEL.slice(0,2));
+  d.para();
+  d.s(`بَعْدَ ذَلِكَ أَكَلْنَا ${lu.ar} فِي مَطْعَمٍ صَغِيرٍ، ثُمَّ رَجَعْنَا إِلَى البَيْتِ ${bk.ar}، وَكُنْتُ ${fe.ar} جِدًّا.`, `After that we ate ${lu.en} in a small restaurant, then we went back home ${bk.en}, and I was very ${fe.en}.`, [['رَجَعْنَا','we went back'],['مُتْعَبٌ','tired']].filter(v=>v[0]==='رَجَعْنَا'||fe.en==='tired'));
+  d.fact(`What did they eat?`, lu, LU, v=>`They ate ${v}.`);
+  d.fact(`How did they get home?`, bk, BACK.concat([O('','by train')]), v=>`They went home ${v}.`);
+  d.fact(`How did ${N} feel at the end of the day?`, fe, FEEL.concat([O('','bored')]), v=>`At the end of the day ${N} felt ${v}.`);
+  d.nm = [`${N} paid by card.`,`The market was very crowded.`,`${N} met a friend at the market.`,`It was raining.`,`${N} lost ${his} wallet.`];
+  return d;
+}
+const him = P => P.he==='he'?'him':'her';
+
+// ---------------------------------------------------------------- Ramadan and Eid (present)
+function myRamadan(P, L){
+  const d = Doc(P), g = P.g, N = P.name.en, he = P.he, his = P.his;
+  d.title = O('رَمَضَانُ وَالعِيدُ', `Ramadan and Eid for ${N}`);
+  const WHY = [O('لِأَنَّ الأُسْرَةَ تَجْتَمِعُ عَلَى الإِفْطَارِ كُلَّ يَوْمٍ','because the family gets together for iftar every day'),O('لِأَنَّ المَسَاجِدَ تَكُونُ مُمْتَلِئَةً بِالنَّاسِ','because the mosques are full of people'),O('لِأَنِّي أَقْرَأُ القُرْآنَ أَكْثَرَ',`because ${he} reads more Qur’an`,{e1:'because I read more Qur’an'})];
+  const why = R(WHY);
+  d.s(`اسْمِي ${P.name.ar}، وَأُحِبُّ شَهْرَ رَمَضَانَ كَثِيرًا ${why.ar}.`, `My name is ${N}, and I love the month of Ramadan ${why.e1||why.en}.`, [['شَهْرٌ','month'],['تَجْتَمِعُ','it gathers'],['الإِفْطَارُ','iftar, breaking the fast'],['مُمْتَلِئَةٌ','full'],['أَكْثَرَ','more']].filter(v=>v[0]==='شَهْرٌ'||why.ar.includes(v[0].slice(0,4))));
+  d.fact(`Why does ${N} love Ramadan?`, why, WHY.concat([O('','because there is no school')]), null, {why:1});
+  const SF = [O('التَّمْرَ','dates'),O('الشُّوفَانَ','porridge'),O('البَيْضَ','eggs'),O('الخُبْزَ وَالجُبْنَ','bread and cheese')];
+  const sf = R(SF);
+  const FEEL = [O('بِالعَطَشِ','thirsty'),O('بِالتَّعَبِ','tired'),O('بِالجُوعِ','hungry')], fe = R(FEEL);
+  d.para();
+  d.s(`أَسْتَيْقِظُ قَبْلَ الفَجْرِ لِلسُّحُورِ، وَعَادَةً آكُلُ ${sf.ar} وَأَشْرَبُ مَاءً كَثِيرًا. فِي النَّهَارِ أَذْهَبُ إِلَى المَدْرَسَةِ كَالعَادَةِ، لَكِنِّي أَشْعُرُ ${fe.ar} أَحْيَانًا.`,
+      `I wake up before Fajr for suhoor, and I usually eat ${sf.en} and drink lots of water. In the daytime I go to school as usual, but I sometimes feel ${fe.en}.`, [['السُّحُورُ','suhoor (pre-dawn meal)'],['النَّهَارُ','daytime'],['كَالعَادَةِ','as usual'],['أَشْعُرُ بِـ','I feel'],['العَطَشُ','thirst'],['التَّعَبُ','tiredness'],['الجُوعُ','hunger']].filter(v=>!['العَطَشُ','التَّعَبُ','الجُوعُ'].includes(v[0])||fe.ar.includes(v[0].slice(2,5))));
+  d.fact(`What does ${N} usually eat for suhoor?`, sf, SF, v=>`${N} usually eats ${v} for suhoor.`);
+  d.fact(`How does ${N} sometimes feel during the day?`, fe, FEEL.concat([O('','bored')]), v=>`${N} sometimes feels ${v} during the day.`);
+  const DISH = [O('الشَّوْرَبَةَ وَالسَّمْبُوسَةَ','soup and samosas'),O('الأَرُزَّ وَاللَّحْمَ','rice and meat'),O('الدَّجَاجَ مَعَ الخُضَارِ','chicken with vegetables')];
+  const COOK = [O('أُمِّي تَطْبُخُ','my mother cooks',{e3:`${his} mother`}),O('جَدَّتِي تَطْبُخُ','my grandmother cooks',{e3:`${his} grandmother`}),O('أَبِي يَطْبُخُ','my father cooks',{e3:`${his} father`})];
+  const di = R(DISH), ck = R(COOK);
+  d.s(`عِنْدَ المَغْرِبِ نُفْطِرُ عَلَى التَّمْرِ وَالمَاءِ، ثُمَّ نُصَلِّي، وَبَعْدَ ذَلِكَ نَأْكُلُ ${di.ar}. ${ck.ar} الطَّعَامَ كُلَّ يَوْمٍ.`,
+      `At Maghrib we break our fast with dates and water, then we pray, and after that we eat ${di.en}. ${cap(ck.en)} the food every day.`, [['نُفْطِرُ','we break our fast'],['المَغْرِبُ','sunset, Maghrib'],['السَّمْبُوسَةُ','samosas'],['اللَّحْمُ','meat']].filter(v=>!['السَّمْبُوسَةُ','اللَّحْمُ'].includes(v[0])||di.ar.includes(v[0].slice(2,6))));
+  d.fact(`What does the family break their fast with?`, O('التَّمْرِ وَالمَاءِ','dates and water'), [O('التَّمْرِ وَالمَاءِ','dates and water'),O('','soup'),O('','milk and bread'),O('','fruit juice')], v=>`They break their fast with ${v}.`);
+  d.fact(`Who cooks the food in Ramadan?`, O(ck.ar,ck.e3), COOK.map(c=>O(c.ar,c.e3)), v=>`In Ramadan, ${v} cooks the food.`);
+  d.fact(`What do they eat after praying Maghrib?`, di, DISH, null);
+  const TW = [O('مَعَ أَبِي','with my father',{e3:`with ${his} father`}),O('مَعَ أَصْدِقَائِي','with my friends',{e3:`with ${his} friends`}),O('مَعَ أُسْرَتِي','with my family',{e3:`with ${his} family`})];
+  const GOOD = [O('أَتَصَدَّقَ كُلَّ يَوْمٍ','give charity every day'),O('أَخْتِمَ القُرْآنَ','finish reading the whole Qur’an'),O('أُكْثِرَ مِنَ الدُّعَاءِ','make a lot of duʿāʾ')];
+  const tw = R(TW), gd = R(GOOD);
+  d.para();
+  d.s(`فِي اللَّيْلِ أَذْهَبُ إِلَى المَسْجِدِ ${tw.ar} لِصَلَاةِ التَّرَاوِيحِ، وَفِي العَشْرِ الأَوَاخِرِ أُحَاوِلُ أَنْ ${gd.ar}.`,
+      `At night I go to the mosque ${tw.en} for Tarāwīḥ prayer, and in the last ten nights I try to ${gd.en}.`, [['التَّرَاوِيحُ','Tarāwīḥ (night prayer in Ramadan)'],['العَشْرُ الأَوَاخِرُ','the last ten (nights)'],['أُحَاوِلُ','I try'],['أَتَصَدَّقَ','(that) I give charity'],['أَخْتِمَ','(that) I finish'],['الدُّعَاءُ','supplication, duʿāʾ']].filter(v=>!['أَتَصَدَّقَ','أَخْتِمَ','الدُّعَاءُ'].includes(v[0])||gd.ar.includes(v[0].slice(0,4))));
+  d.fact(`Who does ${N} go to Tarāwīḥ with?`, O(tw.ar,tw.e3), TW.map(t=>O(t.ar,t.e3)).concat([O('','on '+his+' own')]), v=>`${N} goes to Tarāwīḥ ${v}.`);
+  d.fact(`What does ${N} try to do in the last ten nights?`, gd, GOOD.concat([O('','sleep early')]), v=>`In the last ten nights ${N} tries to ${v}.`);
+  const EP = [O('فِي المَسْجِدِ','at the mosque'),O('فِي الحَدِيقَةِ العَامَّةِ','in the park')];
+  const EA = [O('نَزُورُ الأَقَارِبَ','visit relatives'),O('نَأْكُلُ الحَلْوَى','eat sweets'),O('يُعْطِينَا الكِبَارُ العِيدِيَّةَ','the adults give us Eid money')];
+  const ep = R(EP), ea = R(EA);
+  d.s(`وَفِي يَوْمِ العِيدِ نَلْبَسُ مَلَابِسَ جَدِيدَةً، وَنُصَلِّي صَلَاةَ العِيدِ ${ep.ar}، ثُمَّ ${ea.ar}. العِيدُ أَجْمَلُ يَوْمٍ فِي السَّنَةِ عِنْدِي.`,
+      `On the day of Eid we wear new clothes and pray the Eid prayer ${ep.en}, then ${ea.en.startsWith('the')?ea.en:'we '+ea.en}. Eid is the best day of the year for me.`, [['العِيدُ','Eid'],['نَلْبَسُ','we wear'],['مَلَابِسُ','clothes'],['الأَقَارِبُ','relatives'],['الحَلْوَى','sweets'],['الكِبَارُ','the adults'],['العِيدِيَّةُ','Eid money']].filter(v=>!['الأَقَارِبُ','الحَلْوَى','الكِبَارُ','العِيدِيَّةُ'].includes(v[0])||ea.ar.includes(v[0].slice(2,6))));
+  d.fact(`Where do they pray the Eid prayer?`, ep, EP.concat([O('','at home'),O('','at school')]), v=>`They pray the Eid prayer ${v}.`);
+  d.fact(null,null,null,null,{tf:[`The family wears new clothes on Eid.`, `The family wears old clothes on Eid.`]});
+  d.nm = [`${N} fasts the six days of Shawwāl.`,`${N} goes for ʿUmrah in Ramadan.`,`The family invites the neighbours to iftar.`,`${N} finds fasting easy.`,`${N} gets new shoes for Eid.`];
+  return d;
+}
+
+// ---------------------------------------------------------------- A visit to the doctor (past)
+function myDoctor(P, L){
+  const d = Doc(P), g = P.g, N = P.name.en, he = P.he, his = P.his;
+  d.title = O('عِنْدَ الطَّبِيبِ', `${N} at the doctor’s`);
+  const DAY = [O('الاثْنَيْنِ','Monday'),O('الثُّلَاثَاءِ','Tuesday'),O('الأَرْبِعَاءِ','Wednesday')];
+  const SYM = [O('صُدَاعٌ','a headache'),O('أَلَمٌ فِي بَطْنِي','a stomach ache',{e3:'a stomach ache'}),O('حُمَّى','a fever'),O('سُعَالٌ','a cough'),O('أَلَمٌ فِي حَلْقِي','a sore throat')];
+  const day = R(DAY), [s1,s2,s3] = pickN(SYM,3);
+  d.s(`يَوْمَ ${day.ar} المَاضِي اسْتَيْقَظْتُ وَأَنَا ${g('مَرِيضٌ','مَرِيضَةٌ')}؛ كَانَ عِنْدِي ${s1.ar} وَ${s2.ar}.`, `Last ${day.en} I woke up ill; I had ${s1.en} and ${s2.en}.`, [['اسْتَيْقَظْتُ','I woke up'],['مَرِيضٌ','ill'],['كَانَ عِنْدِي','I had'],['صُدَاعٌ','headache'],['أَلَمٌ','pain'],['بَطْنٌ','stomach'],['حُمَّى','fever'],['سُعَالٌ','cough'],['حَلْقٌ','throat']].filter(v=>['اسْتَيْقَظْتُ','مَرِيضٌ','كَانَ عِنْدِي'].includes(v[0])||(s1.ar+s2.ar).includes(v[0].slice(0,3))));
+  d.fact(`When did ${N} become ill?`, O('','last '+day.en), DAY.map(x=>O('','last '+x.en)).concat([O('','last Friday')]), null);
+  d.fact(null,null,null,null,{tf:[`${N} had ${s1.en}.`, `${N} had a broken arm.`]});
+  d.nm.push(`${N} had ${s3.en}.`);
+  const WHO = [O('أُمِّي','my mother',{e3:`${his} mother`}),O('أَبِي','my father',{e3:`${his} father`}),O('أَخِي الكَبِيرِ','my older brother',{e3:`${his} older brother`})];
+  const WAIT = [O('عِشْرِينَ دَقِيقَةً','twenty minutes'),O('نِصْفَ سَاعَةٍ','half an hour'),O('سَاعَةً كَامِلَةً','a whole hour')];
+  const who = R(WHO), wt = R(WAIT), place = R([O('المَدْرَسَةِ','school'),O('العَمَلِ','work')]);
+  d.s(`لَمْ أَذْهَبْ إِلَى ${place.ar}، بَلْ ذَهَبْتُ مَعَ ${who.ar} إِلَى العِيَادَةِ، وَانْتَظَرْنَا ${wt.ar} فِي غُرْفَةِ الانْتِظَارِ.`, `I did not go to ${place.en}; instead I went with ${who.en} to the clinic, and we waited ${wt.en} in the waiting room.`, [['بَلْ','rather, instead'],['العِيَادَةُ','the clinic'],['انْتَظَرْنَا','we waited'],['غُرْفَةُ الانْتِظَارِ','waiting room']]);
+  d.fact(`Who took ${N} to the clinic?`, O(who.ar,who.e3), WHO.map(w=>O(w.ar,w.e3)), v=>`${N} went to the clinic with ${v}.`);
+  d.fact(`How long did they wait?`, wt, WAIT.concat([O('','ten minutes')]), v=>`They waited ${v}.`);
+  const DX = [O('زُكَامًا','a cold'),O('إِنْفِلْوَنْزَا','flu'),O('الْتِهَابًا فِي الحَلْقِ','a throat infection')];
+  const ADV = [O('أَشْرَبَ مَاءً كَثِيرًا','drink lots of water'),O('أَرْتَاحَ فِي البَيْتِ ثَلَاثَةَ أَيَّامٍ','rest at home for three days'),O('آخُذَ الدَّوَاءَ مَرَّتَيْنِ فِي اليَوْمِ','take the medicine twice a day'),O('آكُلَ الحَلْوَى','not eat sweets',{neg:1})];
+  const dx = R(DX), [a1,a2] = pickN(ADV,2);
+  d.para();
+  const an_ = a => (a.neg?'أَلَّا ':'أَنْ ')+a.ar;
+  d.s(`فَحَصَنِي الطَّبِيبُ وَقَالَ إِنَّ عِنْدِي ${dx.ar}، وَنَصَحَنِي ${an_(a1)}، وَ${an_(a2)}.`, `The doctor examined me and said that I had ${dx.en}, and he advised me to ${a1.en} and ${a2.neg?'':'to '}${a2.en}.`, [['فَحَصَنِي','he examined me'],['قَالَ إِنَّ','he said that'],['زُكَامٌ','a cold'],['الْتِهَابٌ','infection, inflammation'],['نَصَحَنِي','he advised me'],['الدَّوَاءُ','medicine'],['مَرَّتَيْنِ','twice']].filter(v=>!['زُكَامٌ','الْتِهَابٌ','الدَّوَاءُ','مَرَّتَيْنِ'].includes(v[0])||(dx.ar+a1.ar+a2.ar).includes(v[0].replace(/^ال/,'').slice(0,3))));
+  d.fact(`What did the doctor say ${N} had?`, dx, DX.concat([O('','an allergy')]), v=>`The doctor said ${N} had ${v}.`);
+  d.fact(`What advice did the doctor give?`, a1, ADV.filter(a=>a!==a2).concat([O('','do lots of sport')]), v=>`The doctor told ${N} to ${v}.`, {why:1});
+  const TASTE = [O('مُرًّا','bitter'),O('حُلْوًا','sweet')], ta = R(TASTE);
+  const AFTER = [O('ثَلَاثَةِ أَيَّامٍ','three days'),O('أَرْبَعَةِ أَيَّامٍ','four days'),O('أُسْبُوعٍ','a week')], af = R(AFTER);
+  d.s(`بَعْدَ ذَلِكَ ذَهَبْنَا إِلَى الصَّيْدَلِيَّةِ وَاشْتَرَيْنَا الدَّوَاءَ، وَكَانَ طَعْمُهُ ${ta.ar}.`,
+      `After that we went to the pharmacy and bought the medicine; it tasted ${ta.en}.`, [['الصَّيْدَلِيَّةُ','the pharmacy'],['طَعْمُهُ','its taste'],['مُرٌّ','bitter'],['حُلْوٌ','sweet']].filter(v=>!['مُرٌّ','حُلْوٌ'].includes(v[0])||ta.ar.startsWith(v[0].slice(0,2))));
+  d.para();
+  const HOME = [O('بَقِيتُ فِي السَّرِيرِ وَشَرِبْتُ الشَّايَ بِالعَسَلِ',`stayed in bed and drank tea with honey`,{e1:'I stayed in bed and drank tea with honey'}),O('قَرَأْتُ كِتَابًا وَنِمْتُ كَثِيرًا',`read a book and slept a lot`,{e1:'I read a book and slept a lot'}),O('شَاهَدْتُ دُرُوسًا عَلَى الإِنْتَرْنِت',`watched lessons online`,{e1:'I watched lessons online'})];
+  const hm = R(HOME), called = Math.random()<.5;
+  if(L==='h' || Math.random()<.5){
+    d.s(`فِي البَيْتِ ${hm.ar}${called?'، وَاتَّصَلَ بِي صَدِيقِي لِيَسْأَلَ عَنِّي':''}.`, `At home ${hm.e1}${called?', and my friend phoned to ask how I was':''}.`, [['بَقِيتُ','I stayed'],['السَّرِيرُ','bed'],['نِمْتُ','I slept'],['شَاهَدْتُ','I watched'],['اتَّصَلَ بِي','he phoned me'],['لِيَسْأَلَ عَنِّي','to ask about me']].filter(v=>(hm.ar+(called?'اتَّصَلَ لِيَسْأَلَ':'')).includes(v[0].replace(/^ال/,'').slice(0,4))));
+    d.fact(`What did ${N} do at home?`, hm, HOME.concat([O('','played football')]), v=>`At home ${N} ${v}.`);
+    if(called) d.fact(null,null,null,null,{tf:[`A friend phoned ${N}.`,`Nobody phoned ${N}.`]}); else d.nm.push(`A friend phoned ${N}.`);
+  }
+  d.s(`وَبَعْدَ ${af.ar} أَصْبَحْتُ أَحْسَنَ، وَرَجَعْتُ إِلَى ${place.ar}.`, `After ${af.en} I was better, and I went back to ${place.en}.`, [['أَصْبَحْتُ أَحْسَنَ','I got better']]);
+  d.fact(`What did the medicine taste like?`, ta, TASTE.concat([O('','salty'),O('','it had no taste')]), v=>`The medicine tasted ${v}.`);
+  d.fact(`How long was it before ${N} was better?`, af, AFTER.concat([O('','two weeks')]), v=>`${N} was better after ${v}.`);
+  d.nm.push(`${N} had to go to hospital.`,`The medicine was free.`,`${N} caught the illness from a friend.`,`${N} missed an exam.`);
+  return d;
+}
+
+// ---------------------------------------------------------------- Jumuʿah at the masjid (present)
+function myJumuah(P, L){
+  const d = Doc(P), g = P.g, N = P.name.en, he = P.he, his = P.his;
+  d.title = O('يَوْمُ الجُمُعَةِ', `${N}'s Friday`);
+  const WHO = [O('أَبِي','my father',{e3:`${his} father`}),O('أَخِي','my brother',{e3:`${his} brother`}),O('جَدِّي','my grandfather',{e3:`${his} grandfather`}),O('أُسْرَتِي','my family',{e3:`${his} family`})];
+  const MOS = [O('مَسْجِدِ الحَيِّ','the local mosque'),O('المَسْجِدِ الكَبِيرِ فِي وَسَطِ المَدِينَةِ','the big mosque in the city centre')];
+  const who = R(WHO), mos = R(MOS);
+  d.s(`كُلَّ يَوْمِ جُمُعَةٍ أَذْهَبُ مَعَ ${who.ar} إِلَى ${mos.ar}.`, `Every Friday I go with ${who.en} to ${mos.en}.`, [['الحَيُّ','neighbourhood'],['وَسَطُ المَدِينَةِ','the city centre']].filter(v=>mos.ar.includes(v[0].slice(2,5))));
+  d.fact(`Who does ${N} go to the mosque with?`, O(who.ar,who.e3), WHO.map(w=>O(w.ar,w.e3)), v=>`${N} goes to the mosque with ${v}.`);
+  d.fact(`Which mosque do they go to?`, mos, MOS.concat([O('','the mosque at school')]), v=>`They go to ${v}.`);
+  const CL = [O(g('ثَوْبًا أَبْيَضَ','عَبَاءَةً سَوْدَاءَ'), g('a white thobe','a black abaya')),O('مَلَابِسَ نَظِيفَةً','clean clothes')], cl = R(CL);
+  const ARR = [O('مُبَكِّرًا','early'),O('قَبْلَ الأَذَانِ بِنِصْفِ سَاعَةٍ','half an hour before the adhān'),O('مُتَأَخِّرِينَ قَلِيلًا أَحْيَانًا','a little late sometimes')], ar = R(ARR);
+  d.s(`قَبْلَ الصَّلَاةِ أَغْتَسِلُ وَأَلْبَسُ ${cl.ar} وَأَضَعُ العِطْرَ، وَنَصِلُ إِلَى المَسْجِدِ ${ar.ar}.`, `Before the prayer I have a bath (ghusl), put on ${cl.en} and wear perfume, and we arrive at the mosque ${ar.en}.`, [['أَغْتَسِلُ','I do ghusl, I bathe'],['أَلْبَسُ','I wear'],['أَضَعُ العِطْرَ','I put on perfume'],['نَصِلُ','we arrive'],['الأَذَانُ','the call to prayer'],['مُتَأَخِّرِينَ','late (plural)']].filter(v=>!['الأَذَانُ','مُتَأَخِّرِينَ'].includes(v[0])||ar.ar.includes(v[0].slice(2,6))));
+  d.fact(`What does ${N} wear to the mosque?`, cl, CL.concat([O('','sports clothes'),O('','school uniform')]), v=>`${N} wears ${v} to the mosque.`);
+  d.fact(`When do they arrive at the mosque?`, ar, ARR.concat([O('','after the khuṭbah')]), v=>`They arrive ${v}.`);
+  if(L==='h' || Math.random()<.6) { d.s(`وَأَقْرَأُ سُورَةَ الكَهْفِ قَبْلَ الخُطْبَةِ.`, `And I read Sūrat al-Kahf before the khuṭbah.`, [['سُورَةُ الكَهْفِ','Sūrat al-Kahf'],['الخُطْبَةُ','the sermon, khuṭbah']]); d.fact(null,null,null,null,{tf:[`${N} reads Sūrat al-Kahf before the khuṭbah.`,`${N} reads Sūrat al-Baqarah before the khuṭbah.`]}); }
+  const LANG = [O('بِالعَرَبِيَّةِ وَالإِنْجِلِيزِيَّةِ','in Arabic and English'),O('بِالعَرَبِيَّةِ فَقَطْ','in Arabic only')], la = R(LANG);
+  const TOP = [O('بِرِّ الوَالِدَيْنِ','being good to parents'),O('الصِّدْقِ','honesty'),O('الصَّبْرِ','patience'),O('أَهَمِّيَّةِ الصَّلَاةِ','the importance of prayer')], tp = R(TOP);
+  d.para();
+  d.s(`يَخْطُبُ الإِمَامُ ${la.ar}، وَكَانَتِ الخُطْبَةُ الأُسْبُوعَ المَاضِيَ عَنْ ${tp.ar}.`, `The imam gives the khuṭbah ${la.en}, and last week the khuṭbah was about ${tp.en}.`, [['يَخْطُبُ','he gives a sermon'],['الخُطْبَةُ','the khuṭbah'],['فَقَطْ','only'],['بِرُّ الوَالِدَيْنِ','being good to parents'],['الصِّدْقُ','honesty'],['الصَّبْرُ','patience'],['أَهَمِّيَّةٌ','importance']].filter(v=>['يَخْطُبُ','الخُطْبَةُ'].includes(v[0])||(la.ar+tp.ar).includes(v[0].replace(/^ال/,'').slice(0,3))));
+  d.fact(`What language is the khuṭbah in?`, la, LANG.concat([O('','in English only'),O('','in Urdu')]), v=>`The khuṭbah is ${v}.`);
+  d.fact(`What was last week's khuṭbah about?`, tp, TOP, v=>`Last week's khuṭbah was about ${v}.`);
+  const AF = [O('نُسَلِّمُ عَلَى أَصْدِقَائِنَا','say salām to our friends',{e3:'greet their friends'}),O('نَشْتَرِي الحَلْوَى مِنَ المَحَلِّ بِجَانِبِ المَسْجِدِ','buy sweets from the shop next to the mosque',{e3:'buy sweets from the shop next to the mosque'}),O('نَأْكُلُ الغَدَاءَ عِنْدَ جَدَّتِي','eat lunch at my grandmother’s house',{e3:`eat lunch at ${his} grandmother’s house`})];
+  const af = R(AF);
+  d.s(`بَعْدَ الصَّلَاةِ ${af.ar}.`, `After the prayer we ${af.en}.`, [['نُسَلِّمُ عَلَى','we greet'],['المَحَلُّ','the shop'],['بِجَانِبِ','next to']].filter(v=>af.ar.includes(v[0].slice(0,4))));
+  d.fact(`What do they do after the prayer?`, O(af.ar,af.e3), AF.map(a=>O(a.ar,a.e3)).concat([O('','go to the park')]), v=>`After the prayer they ${v}.`, {noAr:1});
+  const WHYJ = [O('لِأَنَّهُ عِيدُ المُسْلِمِينَ فِي كُلِّ أُسْبُوعٍ','because it is the Muslims’ weekly Eid'),O('لِأَنَّهُ يَوْمٌ مُبَارَكٌ','because it is a blessed day'),O('لِأَنِّي أَلْتَقِي فِيهِ بِأَصْدِقَائِي',`because ${he} meets ${his} friends then`,{e1:'because I meet my friends on it'})];
+  const wj = R(WHYJ), crowd = L==='h' || Math.random()<.5;
+  d.s(`${crowd?'يَكُونُ المَسْجِدُ مُزْدَحِمًا جِدًّا، لِذَلِكَ يُصَلِّي بَعْضُ النَّاسِ فِي الخَارِجِ. ':''}أُحِبُّ يَوْمَ الجُمُعَةِ كَثِيرًا ${wj.ar}.`, `${crowd?'The mosque is very crowded, so some people pray outside. ':''}I love Friday ${wj.e1||wj.en}.`, [['مُبَارَكٌ','blessed'],['أَلْتَقِي بِـ','I meet'],['بَعْضُ','some'],['الخَارِجُ','outside']].filter(v=>(wj.ar+(crowd?' بَعْضُ الخَارِجِ':'')).includes(v[0].replace(/^ال/,'').slice(0,3))));
+  d.fact(`Why does ${N} love Friday?`, wj, WHYJ.concat([O('','because there is no school')]), null, {why:1});
+  if(crowd) d.fact(null,null,null,null,{tf:[`Some people pray outside the mosque.`,`The mosque is always half empty.`]}); else d.nm.push(`Some people have to pray outside.`);
+  d.nm.push(`The imam is from Egypt.`,`${N} gives charity every Friday.`,`There is a school at the mosque.`,`${N} gives the adhān.`);
+  return d;
+}
+
 // ---------------------------------------------------------------- questions
 function questions(d, L){
   const qs = [];
@@ -399,7 +636,7 @@ function questions(d, L){
   return [...qs, ...tfs.filter(Boolean), ...findAr];
 }
 
-const FRAMES = {day:myDay, family:myFamily, trip:myTrip};
+const FRAMES = {day:myDay, family:myFamily, trip:myTrip, school:mySchool, market:myMarket, ramadan:myRamadan, doctor:myDoctor, jumuah:myJumuah};
 function makeComprehension(o={}){
   const level = o.level==='h' ? 'h' : 'f';
   const topic = FRAMES[o.topic] ? o.topic : R(Object.keys(FRAMES));

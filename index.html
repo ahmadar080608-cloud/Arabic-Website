@@ -1024,7 +1024,7 @@ addEventListener('scroll',()=>{ if(!pop.classList.contains('sheet')) closePop();
 // ---- reading comprehension ----
 S.rc=S.rc||{n:0,right:0,total:0};
 let rc={level:S.rcLevel||'f',topic:'any',tash:S.rcTash??true,data:null,picks:{},marked:false,showEn:false,showVocab:false};
-const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['trip','A trip']];
+const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['school','School'],['trip','A trip'],['market','At the market'],['ramadan','Ramadan & Eid'],['doctor','At the doctor’s'],['jumuah','Jumuʿah']];
 const stripT=t=>t.replace(/[\u064B-\u0652\u0670]/g,'');
 function rcNew(){ rc.data=makeComprehension({level:rc.level,topic:rc.topic}); rc.picks={}; rc.marked=false; rc.showEn=false; rc.showVocab=false; }
 function rcPill(k,v,label){return `<button class="pill ${rc[k]===v?'on':''}" data-rk="${k}" data-rv="${v}">${label}</button>`}
