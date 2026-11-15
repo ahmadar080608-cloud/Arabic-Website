@@ -511,6 +511,13 @@ h2{font-family:Inter,sans-serif!important;font-weight:800!important;font-size:15
 @media (min-width:900px){header .brand .title-ar{font-size:27px!important}}
 header nav button small{margin-right:4px}
 @media (max-width:899px){.hero-brand{display:none}.hero .otag{font-size:10px}}
+
+.g0{background-color:#e0603f!important}.g1{background-color:#1f4f4a!important}.g2{background-color:#b9822b!important}.g3{background-color:#283746!important}.g4{background-color:#7a2e3c!important}
+.cover.g0{background-color:#e0603f}.cover.g1{background-color:#1f4f4a}.cover.g2{background-color:#b9822b}.cover.g3{background-color:#283746}.cover.g4{background-color:#7a2e3c}
+.cover.g1 .tag,.cover.g3 .tag,.cover.g4 .tag{border-color:rgba(255,255,255,.55)}
+.cover.g2 .tag{border-color:rgba(0,0,0,.5)}
+.cover.g1 .cb,.cover.g3 .cb,.cover.g4 .cb{color:rgba(255,255,255,.55)}
+.cover.g2 .cb{color:rgba(0,0,0,.6)}
 </style>
 </head>
 <body>
@@ -528,13 +535,13 @@ header nav button small{margin-right:4px}
 <script src="cards.js"></script>
 <script>
 const CARDS = window.CARDS;
-const ORDER = ["Adjectives","People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Colours","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Verbs","Verbal Nouns (Maṣdar)","Common Phrases"];
-const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Adjectives":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬"};
-const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Adjectives":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ"};
+const ORDER = ["People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Verbs","Verbal Nouns (Maṣdar)","Ism Fāʿil (Doers)","Adjectives","Colours","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Common Phrases"];
+const ICON = {"People & Family":"👪","Pronouns & Pointing Words":"👉","Question Words":"❓","Jobs":"🧑‍⚕️","School & Classroom":"📚","Home & Furniture":"🏠","Kitchen & Table":"🍽️","Food & Drink":"🍞","Body":"✋","Clothes & Accessories":"👕","Colours":"🎨","Adjectives":"⚖️","Numbers, Ordinals & Clock":"🔢","Time & Days":"🕰️","Weather & Seasons":"🌦️","Nature & the Outdoors":"🏞️","Animals & Insects":"🐪","Transport & Cars":"🚗","Play & Sport":"⚽","Post & Mail":"✉️","Travel & Immigration":"🛂","Office & Business":"💼","Prepositions & Particles":"📍","Verbs":"🏃","Verbal Nouns (Maṣdar)":"📝","Doers (Ism Fāʿil)":"🧑‍🏫","Common Phrases":"💬","Ism Fāʿil (Doers)":"🧑‍🏫"};
+const AR_NAME={"People & Family":"النَّاسُ وَالأُسْرَةُ","Pronouns & Pointing Words":"الضَّمَائِرُ وَأَسْمَاءُ الإِشَارَةِ","Question Words":"أَدَوَاتُ الاِسْتِفْهَامِ","School & Classroom":"المَدْرَسَةُ وَالفَصْلُ","Home & Furniture":"البَيْتُ وَالأَثَاثُ","Kitchen & Table":"المَطْبَخُ وَالمَائِدَةُ","Food & Drink":"الطَّعَامُ وَالشَّرَابُ","Body":"الجِسْمُ","Clothes & Accessories":"المَلَابِسُ وَالزِّينَةُ","Colours":"الأَلْوَانُ","Adjectives":"الصِّفَاتُ","Numbers, Ordinals & Clock":"الأَعْدَادُ وَالسَّاعَةُ","Time & Days":"الوَقْتُ وَالأَيَّامُ","Weather & Seasons":"الطَّقْسُ وَالفُصُولُ","Nature & the Outdoors":"الطَّبِيعَةُ","Animals & Insects":"الحَيَوَانَاتُ وَالحَشَرَاتُ","Transport & Cars":"المُوَاصَلَاتُ","Play & Sport":"اللَّعِبُ وَالرِّيَاضَةُ","Post & Mail":"البَرِيدُ","Travel & Immigration":"السَّفَرُ وَالجَوَازَاتُ","Office & Business":"المَكْتَبُ وَالعَمَلُ","Prepositions & Particles":"حُرُوفُ الجَرِّ وَالأَدَوَاتُ","Verbs":"الأَفْعَالُ","Verbal Nouns (Maṣdar)":"المَصَادِرُ","Common Phrases":"عِبَارَاتٌ شَائِعَةٌ","Ism Fāʿil (Doers)":"اِسْمُ الفَاعِلِ"};
 const plainAr=s=>s.replace(/[\u064B-\u0652\u0670]/g,'');
 const coverLetters=c=>{const w=plainAr(AR_NAME[c]||'عربية').replace(/^ال/,'').replace(/\s.*$/,''); return w.slice(0,3);};
-const secOf=cat=>{const i=GROUPS.findIndex(g=>g[1].includes(cat)); return i<0?0:i%3;};
-const GROUPS = [["Everyday words",ORDER.slice(0,19)],["Grammar",ORDER.slice(19,24)],["Phrases",ORDER.slice(24)]];
+const secOf=cat=>{const i=GROUPS.findIndex(g=>g[1].includes(cat)); return i<0?0:i;};
+const GROUPS = [["Nouns",ORDER.slice(0,17)],["Verbs",ORDER.slice(17,20)],["Adjectives",ORDER.slice(20,22)],["Grammar",ORDER.slice(22,25)],["Phrases",ORDER.slice(25)]];
 const cats = {}; CARDS.forEach(c=>(cats[c.cat]??=[]).push(c));
 // words whose English is shared by a masculine and a feminine card (e.g. "Baby/young child", colours, adjectives, numbers)
 const normEn=e=>e.toLowerCase().replace(/\s+/g,' ').trim();
@@ -621,7 +628,7 @@ function renderHome(){
       <div><label>Direction</label><div>${pill('dir','en-ar','English → Arabic')}${pill('dir','ar-en','Arabic → English')}</div></div>
       <div><label>Which cards</label><div>${pill('order','smart','Smart')}${pill('order','due','Due & weak')}${pill('order','random','Random')}</div></div>
       <div><label>Gender</label><div>${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div></div>
-      ${selected.has('People & Family')?`<div><label>People & Family</label><div>${pill('pf','all','All')}${pill('pf','people','People')}${pill('pf','jobs','Jobs')}${pill('pf','fail','Ism Fāʿil')}</div></div>`:''}
+      ${selected.has('People & Family')?`<div><label>People & Family</label><div>${pill('pf','all','All')}${pill('pf','people','People')}${pill('pf','jobs','Jobs')}</div></div>`:''}
     </div>
     <div class="panel-f"><label class="chk"><input type="checkbox" id="tr" ${opts.tr?'checked':''}> Show transliteration</label><span style="flex:1"></span>
       <button class="ghost" id="all">${selected.size===ORDER.length?'Clear all':'Select all topics'}</button>
@@ -633,7 +640,7 @@ function renderHome(){
     for(const c of list){ const arr=cats[c]||[]; if(!arr.length)continue;
       const k=arr.filter(known).length, img=(arr.find(x=>x.img)||{}).img;
       h+=`<button class="cat ${selected.has(c)?'sel':''}" data-c="${esc(c)}">
-        <div class="thumb"><div class="cover g${gi%3}"><i class="bgl">${coverLetters(c)}</i><span class="tag">${esc(gname)}</span><span class="cnt">${arr.length} cards</span><div class="ca s${Math.min(3,Math.floor(plainAr(AR_NAME[c]||'').length/7))}">${plainAr(AR_NAME[c]||'')}</div><div class="ce">${esc(c)}</div><div class="cb">${esc(gname==='Grammar'?'Grammar':gname==='Phrases'?'Phrases':'Vocabulary')}</div></div>${selected.has(c)?'<u>✓</u>':''}</div>
+        <div class="thumb"><div class="cover g${gi}"><i class="bgl">${coverLetters(c)}</i><span class="tag">${esc(gname)}</span><span class="cnt">${arr.length} cards</span><div class="ca s${Math.min(3,Math.floor(plainAr(AR_NAME[c]||'').length/7))}">${plainAr(AR_NAME[c]||'')}</div><div class="ce">${esc(c)}</div><div class="cb">${esc(gname)}</div></div>${selected.has(c)?'<u>✓</u>':''}</div>
         <div class="meta">${k} of ${arr.length} known</div>
         <div class="prog"><i style="width:${arr.length?k/arr.length*100:0}%"></i></div></button>`;}
     h+=`</div>`;
@@ -659,7 +666,7 @@ function poolFor(list){
   if(opts.order==='due') p=p.filter(c=>isDue(c)||weak(c));
   if(opts.gender!=='all'||opts.mode==='gender') p=p.filter(c=>opts.gender==='all'?c.g:c.g===opts.gender);
   // words that change with gender (adjectives, colours, numbers, ism fāʿil, or any word with both forms) aren't fair to guess
-  if(opts.mode==='gender') p=p.filter(c=>!needsG(c)&&!['Adjectives','Colours','Numbers, Ordinals & Clock'].includes(c.cat)&&c.sub!=='fail');
+  if(opts.mode==='gender') p=p.filter(c=>!needsG(c)&&!['Adjectives','Colours','Numbers, Ordinals & Clock'].includes(c.cat)&&c.cat!=='Ism Fāʿil (Doers)');
   return p;
 }
 
@@ -789,7 +796,7 @@ function renderBrowse(){
   <div class="toolbar"><input type="search" id="q" placeholder="Search…" value="${esc(q)}">
   <select id="bc"><option value="all">All categories</option>${ORDER.filter(c=>cats[c]).map(c=>`<option ${browseCat===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
   ${pill('gender','all','All')}${pill('gender','m','Masculine')}${pill('gender','f','Feminine')}</div>
-  ${browseCat==='People & Family'?`<div class="toolbar">${pill('pf','all','All')}${pill('pf','people','People & family')}${pill('pf','jobs','Jobs')}${pill('pf','fail','Ism Fāʿil')}</div>`:''}<div id="res"></div>`;
+  ${browseCat==='People & Family'?`<div class="toolbar">${pill('pf','all','All')}${pill('pf','people','People & family')}${pill('pf','jobs','Jobs')}</div>`:''}<div id="res"></div>`;
   $('#app').innerHTML=h;
   $('#q').oninput=e=>{q=e.target.value; list();};
   $('#bc').onchange=e=>{browseCat=e.target.value; renderBrowse();};
