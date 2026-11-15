@@ -518,21 +518,59 @@ header nav button small{margin-right:4px}
 .cover.g2 .tag{border-color:rgba(0,0,0,.5)}
 .cover.g1 .cb,.cover.g3 .cb,.cover.g4 .cb{color:rgba(255,255,255,.55)}
 .cover.g2 .cb{color:rgba(0,0,0,.6)}
+
+/* sentence builder */
+.sbwords{margin-top:18px}
+.sbwords>label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--muted);margin-bottom:8px}
+.typerow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.typecard{border:1.5px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.typecard.on{border-color:var(--ink)}
+.typecard .tt{background:none;border:0;padding:14px 14px 8px;text-align:left;font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px}
+.typecard .tick{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.typecard.on .tick{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.typecard .tmore{background:none;border:0;border-top:1px solid var(--line);padding:9px 14px;text-align:left;font-size:13px;color:var(--coral);font-weight:600}
+.topicchips{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.small{font-size:13px}
+.sbcard{min-height:0;cursor:default}
+.sbbody{align-self:stretch;padding:0 28px;display:flex;flex-direction:column;align-items:center}
+.sb-en{font-family:Inter,sans-serif;font-weight:700;font-size:24px;line-height:1.45;max-width:60ch}
+.sb-ar{font-size:38px;line-height:1.9;font-weight:700;max-width:100%}
+.sbcard hr{width:60%;border:0;border-top:1px solid var(--line);margin:18px 0}
+.sb-ask{margin-top:18px;font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:var(--muted)}
+.answerline{min-height:64px;width:100%;margin-top:10px;border:2px dashed var(--line);border-radius:16px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.answerline.ok{border-color:#1f4f4a;border-style:solid}.answerline.no{border-color:#9b2f22;border-style:solid}
+.tilebank{width:100%;margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.rtl{direction:rtl}
+.tile{border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 14px;font-weight:600;font-size:16px;color:var(--ink)}
+.tile.ar{font-size:24px;padding:4px 14px;line-height:1.6}
+.tile.ghosted{opacity:.25}
+.verdict{margin:16px 0 6px;font-weight:800}
+.verdict.ok{color:#1f4f4a}.verdict.no{color:#9b2f22}
+.wchips{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:680px}
+.wchips label{width:100%;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:var(--muted);margin-bottom:4px}
+.wchip{display:inline-flex;align-items:baseline;gap:6px;background:var(--bg);border-radius:999px;padding:3px 12px}
+.wchip .ar{font-size:18px}.wchip em{font-style:normal;font-size:12px;color:var(--muted)}
+.rate3{grid-template-columns:repeat(3,1fr)!important}
+.under .reveal:disabled{opacity:.45}
+@media (max-width:899px){.typerow{grid-template-columns:1fr}.sb-ar{font-size:28px}.sb-en{font-size:19px}.sbbody{padding:0 16px}}
+header nav .sm{display:none}
+@media (max-width:899px){header nav .lg{display:none}header nav .sm{display:inline}header nav button{padding:8px 6px;font-size:12px}.sbcard .fband .fl{display:none}}
 </style>
 </head>
 <body>
 <header><div class="bar">
   <div class="brand" onclick="go('home')"><span class="ar title-ar">رِحْلَتِي مَعَ العَرَبِيَّةِ</span><span class="title-en">My Arabic Journey</span></div>
   <nav id="nav">
-    <button data-v="home"><span>Home</span></button>
-    <button data-v="browse"><span>Browse words</span></button>
-    <button data-v="progress"><span>Progress</span></button>
-    <button class="soon" disabled><span>Sentence builder</span><small>Soon</small></button>
+    <button data-v="home"><span class="lg">Flashcards</span><span class="sm">Cards</span></button>
+    <button data-v="sentences"><span class="lg">Sentence builder</span><span class="sm">Sentences</span></button>
+    <button data-v="browse"><span class="lg">Browse words</span><span class="sm">Words</span></button>
+    <button data-v="progress"><span class="lg">Progress</span><span class="sm">Progress</span></button>
     <button class="gear-nav" id="gear"><span>Settings</span></button>
   </nav>
 </div></header>
 <main id="app"></main>
 <script src="cards.js"></script>
+<script src="sentences.js"></script>
 <script>
 const CARDS = window.CARDS;
 const ORDER = ["People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Verbs","Verbal Nouns (Maṣdar)","Ism Fāʿil (Doers)","Adjectives","Colours","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Common Phrases"];
@@ -594,10 +632,10 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&g
 const gBadge=g=>g==='m'?`<span class="badge m">Masculine <span class="ar">مُذَكَّر</span></span>`:g==='f'?`<span class="badge f">Feminine <span class="ar">مُؤَنَّث</span></span>`:'';
 let audio=null; function play(src,e){e&&e.stopPropagation(); if(audio)audio.pause(); audio=new Audio(src); audio.play().catch(()=>{});}
 
-function go(v){view=v; document.querySelectorAll('#nav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='study'&&b.dataset.v==='home'))); render(); scrollTo(0,0);}
+function go(v){view=v; document.querySelectorAll('#nav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v||(v==='study'&&b.dataset.v==='home')||(v==='sentence'&&b.dataset.v==='sentences'))); render(); scrollTo(0,0);}
 document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
-function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress})[view](); }
+function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence})[view](); }
 
 // ---- home ----
 let animateHero=true;
@@ -748,6 +786,138 @@ document.addEventListener('keydown',e=>{
   if(sess.flipped&&/^[1-5]$/.test(e.key))rate(+e.key-1);
   if(e.key==='s'||e.key==='S')skip();
 });
+
+// ---- sentence builder ----
+const SENT=window.SENTENCES||[];
+const CARD_BY_ID={}; CARDS.forEach(c=>CARD_BY_ID[c.id]=c);
+const TYPE_OF={}; // card category -> word type
+GROUPS.forEach(([g,l])=>l.forEach(c=>TYPE_OF[c]=g==='Nouns'?'n':g==='Verbs'?'v':g==='Adjectives'?'a':g==='Grammar'?'g':'p'));
+const SB_TYPES=[['n','Nouns'],['v','Verbs'],['a','Adjectives']];
+const SB_TOPICS={n:GROUPS[0][1],v:GROUPS[1][1],a:GROUPS[2][1]};
+const DIFFS=[[1,'Easy'],[2,'Medium'],[3,'Hard'],[4,'Extra hard']];
+const LENS=[['s','Short'],['l','Long'],['p','Paragraphs']];
+S.sb=S.sb||{};
+let sbo={dir:'en-ar',style:'reveal',types:{n:true,v:true,a:true},topics:new Set(),d:1,len:'s',open:null};
+function sbContent(s){ return s.w.map(id=>CARD_BY_ID[id]).filter(c=>c&&TYPE_OF[c.cat]&&!'gp'.includes(TYPE_OF[c.cat])); }
+function sbPool(){
+  return SENT.filter(s=>{
+    if(s.d!==sbo.d||s.len!==sbo.len) return false;
+    const cw=sbContent(s);
+    if(!cw.every(c=>sbo.types[TYPE_OF[c.cat]])) return false;           // no words from a type you switched off
+    if(sbo.topics.size && !cw.some(c=>sbo.topics.has(c.cat))) return false; // at least one word from your chosen topics
+    return true;
+  });
+}
+function sbCountFor(d,len){const o={...sbo}; sbo={...sbo,d,len}; const n=sbPool().length; sbo=o; return n;}
+function renderSentences(){
+  const pool=sbPool();
+  let h=`<div class="pagehead grain g4"><i class="bgl">جمل</i><span class="otag">Sentence builder</span><div class="ph-ar">الجُمَل</div><div class="ph-en">Read, translate and build sentences from your words</div></div>
+  <section class="panel">
+    <div class="panel-h"><h2>Set up your practice</h2><span class="muted">${pool.length} ${sbo.len==='p'?'paragraph':'sentence'}${pool.length===1?'':'s'} ready</span></div>
+    <div class="optgrid">
+      <div><label>Direction</label><div>${sp('dir','en-ar','English → Arabic')}${sp('dir','ar-en','Arabic → English')}</div></div>
+      <div><label>How to practise</label><div>${sp('style','reveal','Translate, then reveal')}${sp('style','build','Build it from tiles')}</div></div>
+      <div><label>Difficulty</label><div>${DIFFS.map(([d,n])=>`<button class="pill ${sbo.d===d?'on':''}" data-sd="${d}">${n}</button>`).join('')}</div></div>
+      <div><label>Length</label><div>${LENS.map(([l,n])=>`<button class="pill ${sbo.len===l?'on':''}" data-sl="${l}">${n}</button>`).join('')}</div></div>
+    </div>
+    <div class="sbwords"><label>Words to use</label>
+      <div class="typerow">${SB_TYPES.map(([t,n])=>`<div class="typecard ${sbo.types[t]?'on':''}"><button class="tt" data-tt="${t}"><span class="tick">${sbo.types[t]?'✓':''}</span>${n}</button><button class="tmore" data-tm="${t}">${sbo.open===t?'Hide topics':'Choose topics'}${[...sbo.topics].filter(c=>SB_TOPICS[t].includes(c)).length?` · ${[...sbo.topics].filter(c=>SB_TOPICS[t].includes(c)).length}`:''}</button></div>`).join('')}</div>
+      ${sbo.open?`<div class="topicchips">${SB_TOPICS[sbo.open].map(c=>`<button class="pill ${sbo.topics.has(c)?'on':''}" data-tp="${esc(c)}">${esc(c)}</button>`).join('')}</div><p class="muted small">With topics chosen, every sentence includes at least one word from them. Leave them all off to use every topic.</p>`:''}
+      <p class="muted small">Grammar words (pronouns, prepositions, question words, وَ، لَا، لَمْ، هَلْ، سَـ، كَانَ) are always included.${sbo.len==='p'?' Paragraphs can also use your common phrases.':''}</p>
+    </div>
+    <div class="panel-f"><span class="muted small">${sbo.style==='build'&&sbo.len==='p'?'Paragraphs are practised with “Translate, then reveal”.':''}</span><span style="flex:1"></span>
+      <button class="cta" id="sbstart" ${pool.length?'':'disabled'}>${pool.length?`Practise ${pool.length}`:'Nothing matches yet'}</button></div>
+    ${pool.length?'':`<p class="muted small" style="margin-top:10px">Try another difficulty or length, switch on more word types, or clear your topics. ${DIFFS.map(([d,n])=>`${n}: ${sbCountFor(d,sbo.len)}`).join(' · ')}</p>`}
+  </section>`;
+  $('#app').innerHTML=h;
+  document.querySelectorAll('[data-sk]').forEach(b=>b.onclick=()=>{sbo[b.dataset.sk]=b.dataset.v; renderSentences();});
+  document.querySelectorAll('[data-sd]').forEach(b=>b.onclick=()=>{sbo.d=+b.dataset.sd; renderSentences();});
+  document.querySelectorAll('[data-sl]').forEach(b=>b.onclick=()=>{sbo.len=b.dataset.sl; renderSentences();});
+  document.querySelectorAll('[data-tt]').forEach(b=>b.onclick=()=>{const t=b.dataset.tt; sbo.types[t]=!sbo.types[t]; if(!sbo.types[t]) SB_TOPICS[t].forEach(c=>sbo.topics.delete(c)); renderSentences();});
+  document.querySelectorAll('[data-tm]').forEach(b=>b.onclick=()=>{sbo.open=sbo.open===b.dataset.tm?null:b.dataset.tm; if(sbo.open) sbo.types[sbo.open]=true; renderSentences();});
+  document.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{const c=b.dataset.tp; sbo.topics.has(c)?sbo.topics.delete(c):sbo.topics.add(c); renderSentences();});
+  $('#sbstart').onclick=()=>sbStart();
+}
+function sp(k,v,label){return `<button class="pill ${sbo[k]===v?'on':''}" data-sk="${k}" data-v="${v}">${label}</button>`}
+let sbs=null;
+function sbStart(){
+  // unseen first, then the ones you found hardest
+  const pool=shuffle(sbPool()).sort((a,b)=>(S.sb[a.id]?.score??-1)-(S.sb[b.id]?.score??-1));
+  sbs={q:pool,i:0,shown:false,picked:[],checked:null,counts:[0,0,0],total:pool.length};
+  view='sentence'; render(); scrollTo(0,0);
+}
+const tokAr=t=>t.match(/[ء-يً-ْٰـ]+/g)||[];
+const tokEn=t=>t.replace(/[“”"«»!?.,;:()]/g,' ').split(/\s+/).filter(Boolean);
+const normEnTok=w=>w.toLowerCase().replace(/[’']/g,"'");
+function renderSentence(){
+  if(!sbs) return go('sentences');
+  if(sbs.i>=sbs.q.length){
+    $('#app').innerHTML=`<div class="study"><div class="done"><h1>Practice complete</h1>
+      <div class="sumgrid" style="grid-template-columns:repeat(3,1fr)">${['Missed it','Partly','Got it'].map((n,i)=>`<div><b>${sbs.counts[i]}</b>${n}</div>`).join('')}</div>
+      <button class="cta" onclick="sbStart()">Go again</button> <button class="ghost" onclick="go('sentences')">Change options</button></div></div>`;
+    return;
+  }
+  const s=sbs.q[sbs.i], toAr=sbo.dir==='en-ar', build=sbo.style==='build'&&s.len!=='p';
+  const prompt=toAr?`<div class="sb-en">${esc(s.en)}</div>`:`<div class="sb-ar ar">${esc(s.ar)}</div>`;
+  const answer=toAr?`<div class="sb-ar ar">${esc(s.ar)}</div>`:`<div class="sb-en">${esc(s.en)}</div>`;
+  const words=s.w.map(id=>CARD_BY_ID[id]).filter(Boolean);
+  const chips=`<div class="wchips"><label>Words from your deck</label>${words.map(c=>`<span class="wchip"><span class="ar">${esc(c.cat==='Verbs'?c.ar:c.ar.split(' / ')[0])}</span><em>${esc(c.en)}</em></span>`).join('')}</div>`;
+  let body='';
+  if(build){
+    const target=toAr?tokAr(s.ar):tokEn(s.en);
+    if(!sbs.tiles){ sbs.tiles=shuffle(target.map((w,i)=>({w,i}))); sbs.picked=[]; }
+    const done=sbs.checked!==null;
+    body=`<div class="sb-ask">${toAr?'Build the Arabic':'Build the English'}</div>
+      <div class="answerline ${toAr?'rtl':''} ${done?(sbs.checked?'ok':'no'):''}">${sbs.picked.map((t,k)=>`<button class="tile ${toAr?'ar':''}" data-un="${k}" ${done?'disabled':''}>${esc(t.w)}</button>`).join('')||'<span class="muted small">Tap the words below in order</span>'}</div>
+      <div class="tilebank ${toAr?'rtl':''}">${sbs.tiles.map((t,k)=>sbs.picked.includes(t)?`<span class="tile ghosted ${toAr?'ar':''}">${esc(t.w)}</span>`:`<button class="tile ${toAr?'ar':''}" data-pk="${k}" ${done?'disabled':''}>${esc(t.w)}</button>`).join('')}</div>
+      ${done?`<div class="verdict ${sbs.checked?'ok':'no'}">${sbs.checked?'Correct!':'Not quite. Here is the answer:'}</div>${answer}${chips}`:''}`;
+  } else {
+    body=sbs.shown?`<hr>${answer}${chips}`:`<div class="hint" style="position:static;margin-top:16px">${toAr?'Say or write it in Arabic, then reveal':'Translate it in your head, then reveal'}</div>`;
+  }
+  let h=`<div class="study sbstudy"><div class="topline"><button class="ghost" onclick="go('sentences')">← Options</button><span>${sbs.q.length-sbs.i} left</span></div>
+    <div class="flash sbcard"><div class="fband grain g4"><span class="otag">${DIFFS[s.d-1][1]} · ${LENS.find(l=>l[0]===s.len)[1]}</span><span class="fl">${toAr?'English → Arabic':'Arabic → English'}</span></div>
+    <div class="sbbody">${prompt}${body}</div></div>`;
+  if(build){
+    h+= sbs.checked===null? `<div class="under"><button class="skip" id="sbclear">Clear</button><button class="reveal" id="sbcheck" ${sbs.picked.length===sbs.tiles.length?'':'disabled'}>Check</button><button class="skip" id="sbskip">Skip</button></div>`
+      : `<div class="under"><button class="reveal" id="sbnext">Next</button></div>`;
+  } else if(!sbs.shown){
+    h+=`<div class="under"><button class="reveal" id="sbreveal">Reveal answer</button><button class="skip" id="sbskip">Skip</button></div>`;
+  } else {
+    h+=`<div class="rate5 rate3"><button class="r0" data-sr="0">Missed it<small>show it again soon</small></button><button class="r2" data-sr="1">Partly<small>a few words wrong</small></button><button class="r4" data-sr="2">Got it<small>all correct</small></button></div>`;
+  }
+  h+=`</div>`;
+  $('#app').innerHTML=h;
+  $('#sbreveal')&&($('#sbreveal').onclick=()=>{sbs.shown=true; renderSentence();});
+  $('#sbskip')&&($('#sbskip').onclick=()=>sbNext(null));
+  $('#sbclear')&&($('#sbclear').onclick=()=>{sbs.picked=[]; renderSentence();});
+  document.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>{sbs.picked.push(sbs.tiles[+b.dataset.pk]); renderSentence();});
+  document.querySelectorAll('[data-un]').forEach(b=>b.onclick=()=>{sbs.picked.splice(+b.dataset.un,1); renderSentence();});
+  $('#sbcheck')&&($('#sbcheck').onclick=()=>{
+    const target=toAr?tokAr(s.ar):tokEn(s.en);
+    const norm=w=>toAr?w:normEnTok(w);
+    sbs.checked=sbs.picked.map(t=>norm(t.w)).join(' ')===target.map(norm).join(' ');
+    renderSentence();
+  });
+  $('#sbnext')&&($('#sbnext').onclick=()=>sbNext(sbs.checked?2:0));
+  document.querySelectorAll('[data-sr]').forEach(b=>b.onclick=()=>sbNext(+b.dataset.sr));
+}
+function sbNext(score){
+  const s=sbs.q[sbs.i];
+  if(score!==null){
+    sbs.counts[score]++; logReview(score===2);
+    const r=S.sb[s.id]||{n:0}; r.n++; r.score=score; r.t=Date.now(); S.sb[s.id]=r; save();
+    if(score===0 && !s._again){ s._again=true; sbs.q.splice(Math.min(sbs.q.length,sbs.i+4),0,s); }
+  } else if(!sbs.skipped?.[s.id]){ (sbs.skipped??={})[s.id]=1; sbs.q.push(s); }
+  sbs.i++; sbs.shown=false; sbs.tiles=null; sbs.picked=[]; sbs.checked=null; renderSentence(); scrollTo(0,0);
+}
+document.addEventListener('keydown',e=>{
+  if(view!=='sentence'||!sbs||e.target.tagName==='INPUT')return;
+  if(e.key===' '&&$('#sbreveal')){e.preventDefault();$('#sbreveal').click();}
+  if((e.key==='Enter')&&$('#sbnext')){e.preventDefault();$('#sbnext').click();}
+  if((e.key==='Enter')&&$('#sbcheck')&&!$('#sbcheck').disabled){e.preventDefault();$('#sbcheck').click();}
+  if(sbs.shown&&/^[1-3]$/.test(e.key))sbNext(+e.key-1);
+});
+
 
 // ---- progress ----
 let progRange=30;
