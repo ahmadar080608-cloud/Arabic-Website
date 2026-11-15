@@ -636,6 +636,34 @@ function questions(d, L){
   return [...qs, ...tfs.filter(Boolean), ...findAr];
 }
 
+
+const ABOUT = {day:O('يَوْمِي','my day'), family:O('أُسْرَتِي وَبَيْتِي','my family and my home'), school:O('مَدْرَسَتِي','my school'), trip:O('رِحْلَتِي الأَخِيرَةِ','my last trip'),
+  market:O('يَوْمِي فِي السُّوقِ','my day at the market'), ramadan:O('رَمَضَانَ عِنْدَنَا','Ramadan at our house'), doctor:O('مَا حَدَثَ لِي الأُسْبُوعَ المَاضِي','what happened to me last week'), jumuah:O('يَوْمِ الجُمُعَةِ عِنْدِي','my Fridays')};
+function wrapEmail(d, P, topic, g){
+  const N = P.name.en, f = P.sex==='f';
+  let to; do to = R(NAMES[P.sex]); while(to.en===N);
+  const k = f?'كِ':'كَ';
+  const ab = ABOUT[topic];
+  const ASK = [O(`عَنْ ${f?'يَوْمِكِ':'يَوْمِكَ'} أَنْتَ`,`about ${f?'her':'his'} own day`,{e2:'about your own day'}),O(`عَنْ ${f?'أُسْرَتِكِ':'أُسْرَتِكَ'}`,`about ${f?'her':'his'} family`,{e2:'about your family'}),O(`عَنْ ${f?'مَدْرَسَتِكِ':'مَدْرَسَتِكَ'}`,`about ${f?'her':'his'} school`,{e2:'about your school'}),O(`عَنْ ${f?'مَدِينَتِكِ':'مَدِينَتِكَ'}`,`about ${f?'her':'his'} town`,{e2:'about your town'})];
+  const ask = R(ASK);
+  const head = [{ar:`إِلَى: ${to.ar.replace(/[ٌُ]$/,'')}\nالمَوْضُوعُ: ${ab.ar.replace(/ِ$/,'ُ').replace('الأَخِيرَةِ','الأَخِيرَةُ').replace(/^يَوْمِ الجُمُعَةِ/,'يَوْمُ الجُمُعَةِ')}`, en:`To: ${to.en}. Subject: ${cap(ab.en)}`},
+                {ar:`${f?'عَزِيزَتِي':'عَزِيزِي'} ${to.ar}، السَّلَامُ عَلَيْ${k} وَرَحْمَةُ اللّٰهِ. شُكْرًا عَلَى رِسَالَتِ${k}. أَنَا صَدِيقُ${k} الجَدِيدُ بِالمُرَاسَلَةِ، وَأُرِيدُ أَنْ أُخْبِرَ${k} عَنْ ${ab.ar}.`.replace('صَدِيقُكِ الجَدِيدُ','صَدِيقَتُكِ الجَدِيدَةُ'),
+                 en:`Dear ${to.en}, peace be upon you and the mercy of Allah. Thank you for your message. I am your new penfriend, and I want to tell you about ${ab.en}.`}];
+  d.paras.unshift([head[1]]); d.paras.unshift([head[0]]);
+  d.paras.push([{ar:`${f?'اُكْتُبِي':'اُكْتُبْ'} لِي قَرِيبًا، وَ${f?'أَخْبِرِينِي':'أَخْبِرْنِي'} ${ask.ar}. ${f?'صَدِيقَتُكِ':'صَدِيقُكَ'}، ${P.name.ar.replace(/[ٌُ]$/,'')}.`, en:`Write to me soon, and tell me ${ask.e2}. Your friend, ${N}.`}]);
+  d.vocab.unshift(['المَوْضُوعُ','subject (of an email)'],[f?'عَزِيزَتِي':'عَزِيزِي','dear'],['صَدِيقٌ بِالمُرَاسَلَةِ','penfriend'],['أُخْبِرَ','(that) I tell'],[f?'اُكْتُبِي':'اُكْتُبْ','write!'],[f?'أَخْبِرِينِي':'أَخْبِرْنِي','tell me']);
+  d.fact(`Who is ${N} writing to?`, O('',to.en), NAMES[P.sex].filter(n=>n.en!==N).map(n=>O('',n.en)), v=>`${N} is writing to ${v}.`, {why:1});
+  d.fact(`What does ${N} ask ${to.en} to write about?`, O('',ask.en.replace(/^about /,'')), ASK.map(a=>O('',a.en.replace(/^about /,''))), null, {why:1});
+  d.fact(null,null,null,null,{tf:[`${N} and ${to.en} are new penfriends.`, `${N} and ${to.en} are cousins.`]});
+}
+function wrapDiary(d, topic, P){
+  const DAYS = [O('السَّبْتُ','Saturday'),O('الأَحَدُ','Sunday'),O('الإِثْنَيْنِ','Monday'),O('الجُمُعَةُ','Friday')];
+  const dy = R(DAYS);
+  d.paras.unshift([{ar:`مُذَكِّرَاتِي — ${dy.ar}`, en:`My diary — ${dy.en}`}]);
+  d.paras.push([{ar:`سَأَنَامُ الآنَ، فَأَنَا ${P.sex==='f'?'مُتْعَبَةٌ':'مُتْعَبٌ'} جِدًّا. تُصْبِحُ عَلَى خَيْرٍ يَا مُذَكِّرَاتِي!`, en:`I’m going to sleep now, I’m very tired. Good night, diary!`}]);
+  d.vocab.unshift(['مُذَكِّرَاتِي','my diary'],['تُصْبِحُ عَلَى خَيْرٍ','good night']);
+}
+
 const FRAMES = {day:myDay, family:myFamily, trip:myTrip, school:mySchool, market:myMarket, ramadan:myRamadan, doctor:myDoctor, jumuah:myJumuah};
 function makeComprehension(o={}){
   const level = o.level==='h' ? 'h' : 'f';
@@ -647,9 +675,16 @@ function makeComprehension(o={}){
   P.sex = g;
   const d = FRAMES[topic]({...P, g:gfn}, level);
   d.paras = d.paras.filter(p=>p.length);
+  // dress the passage up as a different kind of text
+  const PAST = ['trip','market','doctor'];
+  const r = Math.random();
+  let ty = 'story';
+  if(r < .4) ty = 'email'; else if(r < .65 && PAST.includes(topic)) ty = 'diary';
+  if(ty==='email') wrapEmail(d, P, topic, gfn); else if(ty==='diary') wrapDiary(d, topic, P);
   const vocab = []; const seen = new Set();
   d.vocab.forEach(([a,e])=>{ if(!seen.has(a)){ seen.add(a); vocab.push([a,e]); } });
-  return {topic, title:d.title, paras:d.paras, vocab, qs:questions(d, level), words:d.paras.flat().map(s=>s.ar).join(' ').split(/\s+/).length};
+  return {topic, ty, title:d.title, paras:d.paras, vocab, qs:questions(d, level), words:d.paras.flat().map(s=>s.ar).join(' ').split(/\s+/).length};
 }
 window.makeComprehension = makeComprehension;
+window.COMP_TOPICS = Object.keys(FRAMES);
 })();

@@ -1,6 +1,6 @@
 // Builds dict.js (tap-a-word dictionary) from cards.js, gen.js and tools/dict_extra.js
 global.window={};
-require('../cards.js'); require('../gen.js'); require('./dict_extra.js');
+require('../cards.js'); require('../gen.js'); require('./dict_extra.js'); require('../passages.js');
 const fs=require('fs');
 const {root:autoRoot}=require('./roots.js');
 const {FIX,FIXV}=require('./root_fix.js');
@@ -29,6 +29,8 @@ const RIDX={};
 C.forEach(c=>{ if(c.cat==='Common Phrases') return; const f=c.ar.split(/\s*\/\s*/)[0]; const r=rootOf(f,c.cat==='Verbs'); CARD_ROOT[c.id]=r; if(r) (RIDX[r]=RIDX[r]||[]).push(c.id); });
 // 1. hand-written extras first (best notes)
 X.forEach(([a,e,n])=>put(a,e,n||''));
+// 1b. word lists from the passage library
+(window.LIB||[]).forEach(p=>p.v.forEach(([a,e])=>put(a,e,'')));
 // 2. generator forms (exact case / tense)
 const P4=['he','she','I','we'];
 G.verbs.forEach(v=>{

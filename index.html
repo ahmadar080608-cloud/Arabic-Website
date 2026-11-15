@@ -612,6 +612,7 @@ header nav .sm{display:none}
 <script src="gen.js"></script>
 <script src="generator.js"></script>
 <script src="comprehension.js"></script>
+<script src="passages.js"></script>
 <script src="dict.js"></script>
 <script src="lookup.js"></script>
 <script>
@@ -992,7 +993,7 @@ document.addEventListener('keydown',e=>{
 });
 
 // ---- tap a word ----
-function tapAr(t){ return t.split(/(\s+)/).map(w=>/\S/.test(w)?`<span class="tw">${esc(w)}</span>`:w).join(''); }
+function tapAr(t){ return t.split(/(\s+)/).map(w=>/[\u0621-\u064A\u0660-\u0669\uFDFA0-9]/.test(w)?`<span class="tw">${esc(w)}</span>`:w.includes('\n')?'<br>':esc(w)).join(''); }
 const pop=document.createElement('div'); pop.id='wpop'; pop.setAttribute('role','dialog'); document.body.appendChild(pop);
 let popFor=null;
 function closePop(){ pop.classList.remove('on'); if(popFor) popFor.classList.remove('tw-on'); popFor=null; }
@@ -1033,9 +1034,28 @@ addEventListener('scroll',()=>{ if(!pop.classList.contains('sheet')) closePop();
 // ---- reading comprehension ----
 S.rc=S.rc||{n:0,right:0,total:0};
 let rc={level:S.rcLevel||'f',topic:'any',tash:S.rcTash??true,data:null,picks:{},marked:false,showEn:false,showVocab:false};
-const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['school','School'],['trip','A trip'],['market','At the market'],['ramadan','Ramadan & Eid'],['doctor','At the doctor’s'],['jumuah','Jumuʿah']];
+const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['school','School'],['free','Free time'],['food','Food'],['town','My town'],['weather','Weather'],['trip','Travel'],['market','Shopping'],['ramadan','Ramadan & Eid'],['jumuah','Masjid & Jumuʿah'],['hajj','Hajj & ʿUmrah'],['doctor','Health'],['future','Jobs & future']];
+const RC_TYPES={story:'Story',email:'Email',diary:'Diary',letter:'Letter',article:'Article',conversation:'Conversation',notice:'Notice',advert:'Advert',interview:'Interview',recipe:'Recipe'};
+S.rcDone=S.rcDone||[];
+function libToComp(p){
+  const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const TF={T:'True',F:'False',NM:'Not mentioned'};
+  const qs=p.q.map(q=>q[0]==='tf'?{type:'tf',q:q[1],opts:['True','False','Not mentioned'],ans:TF[q[2]]}
+    :q[0]==='ar'?{type:'ar',q:`Find the Arabic in the text that means “${q[1]}”.`,opts:sh(q.slice(2)),ans:q[2]}
+    :{type:'mc',q:q[1],opts:sh(q.slice(2)),ans:q[2]});
+  const paras=p.p.map(([ar,en])=>[{ar,en}]);
+  return {lib:true,id:p.id,topic:p.tp,ty:p.ty,title:{ar:p.ti[0],en:p.ti[1]},paras,vocab:p.v,qs,words:p.p.map(x=>x[0]).join(' ').split(/\s+/).length};
+}
+function rcLibPool(all){ return (window.LIB||[]).filter(p=>p.lv===rc.level&&(rc.topic==='any'||p.tp===rc.topic)&&(all||!S.rcDone.includes(p.id))); }
 const stripT=t=>t.replace(/[\u064B-\u0652\u0670]/g,'');
-function rcNew(){ rc.data=makeComprehension({level:rc.level,topic:rc.topic}); rc.picks={}; rc.marked=false; rc.showEn=false; rc.showVocab=false; }
+function rcNew(){
+  const canGen = rc.topic==='any' || (window.COMP_TOPICS||[]).includes(rc.topic);
+  let lib = rcLibPool(false); rc.restart=false;
+  if(!lib.length && !canGen && rcLibPool(true).length){ const ids=rcLibPool(true).map(p=>p.id); S.rcDone=S.rcDone.filter(i=>!ids.includes(i)); save(); lib=rcLibPool(false); rc.restart=true; }
+  const useLib = lib.length && (!canGen || Math.random()<.6);
+  rc.data = useLib ? libToComp(lib[Math.floor(Math.random()*lib.length)]) : makeComprehension({level:rc.level,topic:rc.topic==='any'?undefined:rc.topic});
+  rc.picks={}; rc.marked=false; rc.showEn=false; rc.showVocab=false;
+}
 function rcPill(k,v,label){return `<button class="pill ${rc[k]===v?'on':''}" data-rk="${k}" data-rv="${v}">${label}</button>`}
 function renderReading(){
   if(!rc.data) rcNew();
@@ -1055,9 +1075,10 @@ function renderReading(){
       <div><label>Topic</label><div>${RC_TOPICS.map(([k,n])=>rcPill('topic',k,n)).join('')}</div></div>
       <div><label>Text</label><div><button class="pill ${rc.tash?'on':''}" id="rctash">${rc.tash?'✓ ':''}Show tashkīl</button></div></div>
     </div>
+    <p class="muted small" style="margin:12px 0 0">${(()=>{const all=rcLibPool(true), unread=rcLibPool(false); const gen=rc.topic==='any'||(window.COMP_TOPICS||[]).includes(rc.topic); return all.length?`Hand-written passages: ${all.length-unread.length} of ${all.length} read for this level and topic${rc.restart?' — you’d read them all, so they’re starting again':''}.${gen?' Generated passages are mixed in, so you won’t run out.':''}`:'Every passage for this level and topic is generated fresh each time.';})()}</p>
   </section>
   <div class="rc-grid">
-    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${rc.level==='h'?'Higher':'Foundation'} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
+    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${rc.level==='h'?'Higher':'Foundation'} · ${RC_TYPES[D.ty]||'Story'} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
       <div class="rc-body"><div class="rc-title ar">${esc(T(D.title.ar))}</div><div class="rc-text ar" dir="rtl">${passage}</div>
         <div class="rc-tools"><button class="ghost" id="rcvocab">${rc.showVocab?'Hide':'Show'} vocabulary</button>${rc.marked?`<button class="ghost" id="rcen">${rc.showEn?'Hide':'Show'} translation</button>`:''}</div>
         ${rc.showVocab?`<div class="rc-vocab">${D.vocab.map(([a,e])=>`<span class="wchip"><span class="ar">${esc(T(a))}</span><em>${esc(e)}</em></span>`).join('')}</div>`:''}
@@ -1073,7 +1094,7 @@ function renderReading(){
   $('#rcvocab').onclick=()=>{rc.showVocab=!rc.showVocab; const y=scrollY; renderReading(); scrollTo(0,y);};
   $('#rcen')&&($('#rcen').onclick=()=>{rc.showEn=!rc.showEn; const y=scrollY; renderReading(); scrollTo(0,y);});
   document.querySelectorAll('.rc-o').forEach(b=>b.onclick=()=>{rc.picks[+b.dataset.q]=b.dataset.o; const y=scrollY; renderReading(); scrollTo(0,y);});
-  $('#rccheck')&&($('#rccheck').onclick=()=>{rc.marked=true; S.rc.n++; S.rc.right+=score; S.rc.total+=total; D.qs.forEach((q,i)=>logReview(rc.picks[i]===q.ans)); save(); const y=scrollY; renderReading(); scrollTo(0,y);});
+  $('#rccheck')&&($('#rccheck').onclick=()=>{rc.marked=true; if(D.lib&&!S.rcDone.includes(D.id)) S.rcDone.push(D.id); S.rc.n++; S.rc.right+=score; S.rc.total+=total; D.qs.forEach((q,i)=>logReview(rc.picks[i]===q.ans)); save(); const y=scrollY; renderReading(); scrollTo(0,y);});
   $('#rcnew')&&($('#rcnew').onclick=()=>{rcNew(); renderReading(); scrollTo(0,0);});
 }
 

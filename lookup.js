@@ -4,7 +4,7 @@ const D = window.DICT;
 const MARKS = /[ً-ْٰـ]/g;
 const plain = w => w.replace(MARKS,'').replace(/[،.:!؟?؛«»"()]/g,'');
 const loose = w => plain(w).replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
-const clean = w => w.replace(/[،.:!؟?؛«»"()]/g,'');
+const clean = w => w.replace(/[،.:!؟?؛«»"()…—]/g,'');
 const PRE = [ ['وَ','و','and'], ['فَ','ف','so / then'] ];
 const PRE2 = [ ['بِ','ب','with / by / in'], ['لِ','ل','for / to'], ['كَ','ك','like'], ['سَ','س','will (future)'] ];
 const SUF = [ ['ي','my'], ['نِي','me'], ['كَ','your'], ['كِ','your (f)'], ['هُ','his / it'], ['هِ','his / it'], ['هَا','her / it'], ['نَا','our / us'], ['هُمْ','their / them'], ['هِمْ','their / them'], ['كُمْ','your (plural)'] ];
@@ -16,6 +16,7 @@ const best = (list,w) => { const f=list.filter(e=>fits(e,w)); return f.length?f:
 const get = (map,k) => (map[k]||[]).map(i=>D.E[i]);
 function lookup(raw){
   const w = clean(raw.trim()); if(!w) return null;
+  if(/^[\d٠-٩٪%]+$/.test(w)){ const n=w.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); return {word:w, parts:[], entries:[{a:w,e:n.replace('٪','%'),n:'number written in Arabic digits'}]}; }
   // 1. exact
   let hit = get(D.V,w); if(hit.length) return {word:w, parts:[], entries:hit};
   hit = get(D.P,plain(w));
