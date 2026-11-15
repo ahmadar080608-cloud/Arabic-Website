@@ -225,6 +225,25 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 .optgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px 26px}
 .optgrid label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px;font-weight:600}
 .optgrid .pill{margin:0 6px 6px 0}
+.rc-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
+@media (min-width:1100px){.rc-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.rc-card{position:sticky;top:20px}}
+.rc-set{margin-bottom:20px}.rc-set .optgrid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.rc-card{min-height:0;display:block}.rc-body{padding:22px 26px 24px}
+.rc-title{font-size:34px;text-align:center;margin:0 0 16px;font-family:var(--artitle,var(--arfont))}
+.rc-text{font-size:24px;line-height:2.15;text-align:justify}.rc-p{margin:0 0 14px}
+.rc-en{display:block;direction:ltr;text-align:left;font-family:Inter,sans-serif;font-size:14px;line-height:1.5;color:var(--muted);margin:2px 0 10px}
+.rc-tools{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px;margin-top:6px}
+.rc-vocab{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.rc-qs ol{margin:0;padding-left:22px}.rc-q{margin:0 0 18px}.rc-qt{font-weight:600;margin-bottom:8px;line-height:1.4}
+.rc-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rc-opts.tf{grid-template-columns:repeat(3,1fr)}
+.rc-o{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 12px;text-align:left;font-size:14px;line-height:1.3;color:inherit}
+.rc-o.ar{text-align:center;font-size:20px;font-family:var(--arfont)}
+.rc-o:hover:not(:disabled){border-color:var(--ink,#333)}
+.rc-o.picked{background:var(--ink,#1c1c1c);border-color:var(--ink,#1c1c1c);color:#fff}
+.rc-o.right{background:var(--teal);border-color:var(--teal);color:#fff}
+.rc-o.wrong{background:#9b2c22;border-color:#9b2c22;color:#fff;text-decoration:line-through}
+.rc-o:disabled{cursor:default}.rc-score{font-size:20px;color:var(--fg,inherit)}
+@media (max-width:560px){.rc-text{font-size:21px}.rc-body{padding:18px 16px}.rc-opts{grid-template-columns:1fr}.rc-opts.tf{grid-template-columns:repeat(3,1fr)}}
 .lessonrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.lsel{border:1px solid var(--line);background:var(--card);color:inherit;border-radius:999px;padding:6px 30px 6px 14px;font:inherit;font-size:14px;margin:0 6px 6px 0;appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;background-size:5px 5px;background-repeat:no-repeat}.lessonrow .pill{margin:0 0 6px}.newtag{font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:800}
 .panel-f{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:16px;padding-top:16px}
 .chk{font-size:14px;display:flex;align-items:center;gap:6px}
@@ -564,6 +583,7 @@ header nav .sm{display:none}
   <nav id="nav">
     <button data-v="home"><span class="lg">Flashcards</span><span class="sm">Cards</span></button>
     <button data-v="sentences"><span class="lg">Sentence builder</span><span class="sm">Sentences</span></button>
+    <button data-v="reading"><span class="lg">Comprehension</span><span class="sm">Reading</span></button>
     <button data-v="browse"><span class="lg">Browse words</span><span class="sm">Words</span></button>
     <button data-v="progress"><span class="lg">Progress</span><span class="sm">Progress</span></button>
     <button class="gear-nav" id="gear"><span>Settings</span></button>
@@ -574,6 +594,7 @@ header nav .sm{display:none}
 <script src="sentences.js"></script>
 <script src="gen.js"></script>
 <script src="generator.js"></script>
+<script src="comprehension.js"></script>
 <script>
 const CARDS = window.CARDS;
 const ORDER = ["People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Verbs","Verbal Nouns (Maṣdar)","Ism Fāʿil (Doers)","Adjectives","Colours","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Common Phrases"];
@@ -639,7 +660,7 @@ function go(v){view=v; document.querySelectorAll('#nav button[data-v]').forEach(
 document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 const LESSONS=[...new Set(CARDS.map(c=>c.ln).filter(n=>n>=1&&n<100))].sort((a,b)=>a-b);
-function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence})[view](); }
+function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence,reading:renderReading})[view](); }
 
 // ---- home ----
 let animateHero=true;
@@ -950,6 +971,53 @@ document.addEventListener('keydown',e=>{
   if((e.key==='Enter')&&$('#sbcheck')&&!$('#sbcheck').disabled){e.preventDefault();$('#sbcheck').click();}
   if(sbs.shown&&/^[1-3]$/.test(e.key))sbNext(+e.key-1);
 });
+
+// ---- reading comprehension ----
+S.rc=S.rc||{n:0,right:0,total:0};
+let rc={level:S.rcLevel||'f',topic:'any',tash:S.rcTash??true,data:null,picks:{},marked:false,showEn:false,showVocab:false};
+const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['trip','A trip']];
+const stripT=t=>t.replace(/[\u064B-\u0652\u0670]/g,'');
+function rcNew(){ rc.data=makeComprehension({level:rc.level,topic:rc.topic}); rc.picks={}; rc.marked=false; rc.showEn=false; rc.showVocab=false; }
+function rcPill(k,v,label){return `<button class="pill ${rc[k]===v?'on':''}" data-rk="${k}" data-rv="${v}">${label}</button>`}
+function renderReading(){
+  if(!rc.data) rcNew();
+  const D=rc.data, T=t=>rc.tash?t:stripT(t), total=D.qs.length;
+  const score=D.qs.filter((q,i)=>rc.picks[i]===q.ans).length, answered=Object.keys(rc.picks).length;
+  const passage=D.paras.map(p=>`<p class="rc-p">${p.map(s=>`<span class="rc-s">${esc(T(s.ar))}</span>${rc.showEn?`<span class="rc-en">${esc(s.en)}</span>`:''}`).join(' ')}</p>`).join('');
+  const qhtml=D.qs.map((q,i)=>{
+    const pick=rc.picks[i], isAr=q.type==='ar';
+    return `<li class="rc-q ${rc.marked?(pick===q.ans?'ok':'no'):''}"><div class="rc-qt">${esc(q.q)}</div>
+      <div class="rc-opts ${q.type==='tf'?'tf':''}">${q.opts.map(o=>{
+        const cls=[pick===o?'picked':'', rc.marked&&o===q.ans?'right':'', rc.marked&&pick===o&&o!==q.ans?'wrong':''].join(' ');
+        return `<button class="rc-o ${isAr?'ar':''} ${cls}" data-q="${i}" data-o="${esc(o)}" ${rc.marked?'disabled':''}>${esc(isAr?T(o):o)}</button>`;}).join('')}</div></li>`;}).join('');
+  $('#app').innerHTML=`<div class="pagehead grain g2"><i class="bgl">فهم</i><span class="otag">Comprehension</span><div class="ph-ar">فَهْمُ المَقْرُوءِ</div><div class="ph-en">Read a new passage and answer the questions</div></div>
+  <section class="panel rc-set">
+    <div class="optgrid">
+      <div><label>Level</label><div>${rcPill('level','f','Foundation')}${rcPill('level','h','Higher')}</div></div>
+      <div><label>Topic</label><div>${RC_TOPICS.map(([k,n])=>rcPill('topic',k,n)).join('')}</div></div>
+      <div><label>Text</label><div><button class="pill ${rc.tash?'on':''}" id="rctash">${rc.tash?'✓ ':''}Show tashkīl</button></div></div>
+    </div>
+  </section>
+  <div class="rc-grid">
+    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${rc.level==='h'?'Higher':'Foundation'} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
+      <div class="rc-body"><div class="rc-title ar">${esc(T(D.title.ar))}</div><div class="rc-text ar" dir="rtl">${passage}</div>
+        <div class="rc-tools"><button class="ghost" id="rcvocab">${rc.showVocab?'Hide':'Show'} vocabulary</button>${rc.marked?`<button class="ghost" id="rcen">${rc.showEn?'Hide':'Show'} translation</button>`:''}</div>
+        ${rc.showVocab?`<div class="rc-vocab">${D.vocab.map(([a,e])=>`<span class="wchip"><span class="ar">${esc(T(a))}</span><em>${esc(e)}</em></span>`).join('')}</div>`:''}
+      </div></article>
+    <section class="panel rc-qs"><div class="panel-h"><h2>Questions</h2><span class="muted">${rc.marked?`<b class="rc-score">${score} / ${total}</b>`:`${answered} of ${total} answered`}</span></div>
+      <ol>${qhtml}</ol>
+      <div class="panel-f"><span class="muted small">${rc.marked?(score===total?'Full marks, mā shāʾ Allāh!':'Wrong answers are marked in red, with the right answer in green. Read the translation to see why.'):'Choose an answer for each question, then check.'}</span><span style="flex:1"></span>
+        ${rc.marked?`<button class="cta" id="rcnew">New passage</button>`:`<button class="cta" id="rccheck" ${answered===total?'':'disabled'}>Check answers</button>`}</div>
+    </section>
+  </div>`;
+  document.querySelectorAll('[data-rk]').forEach(b=>b.onclick=()=>{rc[b.dataset.rk]=b.dataset.rv; if(b.dataset.rk==='level'){S.rcLevel=rc.level; save();} rcNew(); renderReading();});
+  $('#rctash').onclick=()=>{rc.tash=!rc.tash; S.rcTash=rc.tash; save(); const y=scrollY; renderReading(); scrollTo(0,y);};
+  $('#rcvocab').onclick=()=>{rc.showVocab=!rc.showVocab; const y=scrollY; renderReading(); scrollTo(0,y);};
+  $('#rcen')&&($('#rcen').onclick=()=>{rc.showEn=!rc.showEn; const y=scrollY; renderReading(); scrollTo(0,y);});
+  document.querySelectorAll('.rc-o').forEach(b=>b.onclick=()=>{rc.picks[+b.dataset.q]=b.dataset.o; const y=scrollY; renderReading(); scrollTo(0,y);});
+  $('#rccheck')&&($('#rccheck').onclick=()=>{rc.marked=true; S.rc.n++; S.rc.right+=score; S.rc.total+=total; D.qs.forEach((q,i)=>logReview(rc.picks[i]===q.ans)); save(); const y=scrollY; renderReading(); scrollTo(0,y);});
+  $('#rcnew')&&($('#rcnew').onclick=()=>{rcNew(); renderReading(); scrollTo(0,0);});
+}
 
 
 // ---- progress ----
