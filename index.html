@@ -631,6 +631,13 @@ header nav .sm{display:none}
 #accBox form{display:flex;flex-direction:column;gap:8px}#accBox input{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px}
 #accBox .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#accBox .msg{font-size:13px;color:#c0392b;min-height:1em}#accBox .msg.ok{color:var(--teal)}
 #accBox .link{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;padding:0}
+
+.adm-tot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.adm-tot b{display:block;font-size:30px;font-weight:800}.adm-tot div{font-size:13px;color:var(--muted)}
+.adm-list{display:flex;flex-direction:column}.adm-u{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.adm-u .av{width:40px;height:40px;border-radius:50%;background:var(--accent,#e0603f);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.adm-u .who{flex:1;min-width:180px}.adm-u .who b{display:block}.adm-u .who span{display:block;font-size:12px;color:var(--muted)}
+.adm-s{display:flex;gap:14px}.adm-s span{font-size:11px;color:var(--muted);text-align:center}.adm-s b{display:block;font-size:17px;color:var(--ink)}
+@media (max-width:560px){.adm-s{width:100%;justify-content:space-between;padding-left:52px}}
 </style>
 </head>
 <body>
@@ -759,7 +766,28 @@ function go(v){view=v; document.querySelectorAll('#nav button[data-v]').forEach(
 document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 const LESSONS=[...new Set(CARDS.map(c=>c.ln).filter(n=>n>=1&&n<100))].sort((a,b)=>a-b);
-function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence,reading:renderReading})[view](); }
+function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence,reading:renderReading,admin:renderAdmin})[view](); }
+// a short summary saved with each account, so the admin page can show it
+window.getSummary=()=>{ const r=Object.values(S.r||{}), d=S.days||{};
+  return {cards:r.length, known:r.filter(x=>(x.ivl||0)>=3).length, reviews:Object.values(d).reduce((a,x)=>a+(x.n||0),0), daysActive:Object.values(d).filter(x=>x.n>0).length,
+          streak:streak(), passages:(S.rcDone||[]).length, sentences:Object.keys(S.sb||{}).length, reports:(S.reports||[]).length}; };
+function renderAdmin(){
+  const app=$('#app');
+  if(!window.ACC||!ACC.admin){ app.innerHTML=`<section class="panel"><h2>Admin</h2><p class="muted">Only the site owner can open this page.</p></section>`; return; }
+  app.innerHTML=`<div class="pagehead grain g3"><i class="bgl">إدارة</i><span class="otag">Admin</span><div class="ph-ar">المُسْتَخْدِمُونَ</div><div class="ph-en">Everyone who has an account</div></div><section class="panel"><p class="muted">Loading…</p></section>`;
+  ACC.listUsers().then(list=>{
+    const DAYMS=864e5, nowT=Date.now();
+    list.sort((a,b)=>(b.updated||0)-(a.updated||0));
+    const week=list.filter(u=>nowT-(u.updated||0)<7*DAYMS).length, today=list.filter(u=>nowT-(u.updated||0)<DAYMS).length;
+    const when=t=>{ if(!t) return '—'; const m=Math.round((nowT-t)/6e4); return m<2?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' days ago'; };
+    const date=t=>t?new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—';
+    app.querySelector('section').outerHTML=`<section class="panel"><div class="adm-tot"><div><b>${list.length}</b>accounts</div><div><b>${today}</b>active today</div><div><b>${week}</b>active this week</div></div></section>
+    <section class="panel"><div class="adm-list">${list.map(u=>{ const s=u.summary||{}, nm=u.name||(u.email||'?').split('@')[0];
+      return `<div class="adm-u"><div class="av">${esc((nm[0]||'?').toUpperCase())}</div><div class="who"><b>${esc(nm)}</b><span>${esc(u.email||'')}</span><span>Joined ${date(u.created)} · last active ${when(u.updated)}</span></div>
+      <div class="adm-s"><span><b>${s.known??'–'}</b>known</span><span><b>${s.cards??'–'}</b>studied</span><span><b>${s.streak??"–"}</b>streak</span><span><b>${s.reviews??'–'}</b>reviews</span><span><b>${s.passages??'–'}</b>passages</span></div></div>`; }).join('')||'<p class="muted">No accounts yet.</p>'}</div>
+    <p class="muted small" style="margin-top:12px">“Known” = cards they’ve got right enough to see again in 3+ days. Numbers update when each person next uses the site.</p></section>`;
+  }).catch(e=>{ app.querySelector('section').innerHTML=`<p class="muted">Couldn’t load accounts: ${esc(e.message||e)}</p>`; });
+}
 
 // ---- home ----
 let animateHero=true;

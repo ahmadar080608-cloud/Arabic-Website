@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult,
          createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, updateProfile }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, limit }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const app = initializeApp({
@@ -39,22 +39,37 @@ async function pull(){
   ACC.status = 'syncing'; paint();
   try{
     const snap = await getDoc(ref());
+    ACC.isNew = !snap.exists();
     if(snap.exists()){
       const d = snap.data();
       let cloud = {}; try{ cloud = JSON.parse(d.s||'{}'); }catch(e){}
       window.mergeIn(cloud, d.settings, d.t||0);
     }
     await push(true);
+    checkAdmin();
   }catch(e){ ACC.status='error'; ACC.err=nice(e); paint(); }
 }
+// the database rules only let the owner list everyone, so a successful read means “this is the owner”
+async function checkAdmin(){
+  try{ await getDocs(query(collection(db,'users'), limit(2))); ACC.admin = true; }catch(e){ ACC.admin = false; }
+  paint();
+}
+ACC.listUsers = async () => {
+  const qs = await getDocs(collection(db,'users'));
+  return qs.docs.map(d => { const x = d.data(); return { id:d.id, name:x.name, email:x.email, summary:x.summary||{},
+    updated: x.updated?.toMillis ? x.updated.toMillis() : (x.t||0), created: x.created?.toMillis ? x.created.toMillis() : 0 }; });
+};
 async function push(force){
   if(!ACC.user) return;
   if(pushing){ again = true; return; }
   pushing = true; ACC.status = 'syncing'; paint();
   try{
     const S = window.getS();
-    await setDoc(ref(), { s: JSON.stringify(S), t: S._t||Date.now(), settings: window.getSettings(),
-      name: ACC.user.displayName||'', email: ACC.user.email||'', updated: serverTimestamp() });
+    const data = { s: JSON.stringify(S), t: S._t||Date.now(), settings: window.getSettings(), summary: window.getSummary ? window.getSummary() : {},
+      name: ACC.user.displayName||'', email: ACC.user.email||'', updated: serverTimestamp() };
+    if(ACC.isNew){ data.created = serverTimestamp(); }
+    await setDoc(ref(), data, { merge: true });
+    ACC.isNew = false;
     ACC.status = 'synced'; ACC.last = Date.now(); ACC.err = '';
   }catch(e){ ACC.status = 'error'; ACC.err = nice(e); }
   pushing = false; paint();
@@ -110,8 +125,10 @@ function paint(){
     const nm = u.displayName || u.email.split('@')[0];
     b.innerHTML = `<div class="acc-card"><div class="av">${u.photoURL?`<img src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer">`:esc(nm[0].toUpperCase())}</div>
       <div class="who"><b>${esc(nm)}</b><span>${esc(u.email||'')}</span></div><button class="ghost" id="accOut">Sign out</button></div>
+      ${ACC.admin?'<button class="cta" id="accAdm" style="margin-top:10px;width:100%">Open admin page — see all accounts</button>':''}
       <div class="sync ${ACC.status==='error'?'err':''}">${ACC.status==='syncing'?'Syncing…':ACC.status==='error'?'⚠ '+esc(ACC.err):'✓ Progress saved to your account '+(ACC.last?ago(ACC.last):'')}</div>`;
-    b.querySelector('#accOut').onclick = async () => { clearTimeout(timer); await push(); await signOut(auth); };
+    b.querySelector('#accOut').onclick = async () => { clearTimeout(timer); await push(); ACC.admin = false; await signOut(auth); };
+    const ad = b.querySelector('#accAdm'); if(ad) ad.onclick = () => { document.querySelector('.modal-bg')?.remove(); window.go('admin'); };
     return;
   }
   const up = ACC.mode==='up';
