@@ -609,6 +609,18 @@ header nav .sm{display:none}
 .rate6 .q0 svg{stroke:#e5534b}.rate6 .q1 svg{stroke:#f0883e}.rate6 .q2 svg{stroke:#e3b341}.rate6 .q3 svg{stroke:#3fb950}.rate6 .q4 svg{stroke:#6e9cff;fill:#6e9cff33}.rate6 .qs svg{stroke:var(--muted)}
 .rate6 .q4 svg path{fill:none}.rate6 .qs b{color:var(--muted)}
 @media (max-width:640px){.rate6{grid-template-columns:repeat(3,1fr)}.rate6 button{padding:11px 4px 10px}}
+
+.tl-r{display:flex;align-items:center;gap:12px}
+.rptbtn{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer}.rptbtn:hover{color:var(--ink);border-color:var(--ink)}
+.rpt h3{margin:16px 0 8px}.rpt-p{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}.rpt-p label{display:flex;gap:7px;align-items:center;font-size:14px}
+.rpt-f{display:grid;grid-template-columns:1fr 1fr;gap:10px}.rpt-f label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600}.rpt-f .wide{grid-column:1/-1}
+.rpt-f input,.rpt-f select,.rpt-f textarea{border:1px solid var(--line);background:var(--bg,transparent);color:var(--ink);border-radius:10px;padding:9px 11px;font:inherit;font-size:15px}
+.rpt-f input.ar{font-family:var(--arfont);font-size:22px;padding:4px 11px}
+.rpt .send{display:flex;gap:8px;align-items:center;margin:14px 0 4px;font-size:14px}.rpt-b{display:flex;gap:8px;margin-top:14px;align-items:center}
+.rlist{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto}.rlist>div{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:5px 0}.rlist .ar{font-size:20px}.ghost.sm{padding:3px 10px;font-size:12px;margin-left:auto}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--ink);color:var(--card);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:.25s;z-index:60}.toast.on{opacity:1;transform:translate(-50%,0)}
+.shake{animation:shk .4s}@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (max-width:560px){.rpt-f{grid-template-columns:1fr}.rptbtn{font-size:11px;padding:4px 9px}}
 </style>
 </head>
 <body>
@@ -823,7 +835,7 @@ function renderStudy(){
     face= front? `${img}${arBlock}<hr>${enBlock}${gBadge(c.g)}` : `${img}${enBlock}<hr>${arBlock}${gBadge(c.g)}`;
   }
   const showAudio=c.aud&&(sess.flipped||front||isG);
-  let h=`<div class="study"><div class="topline"><button class="ghost" onclick="go('home')">← Home</button><span>${sess.queue.length-sess.i} left</span></div>
+  let h=`<div class="study"><div class="topline"><button class="ghost" onclick="go('home')">← Home</button><span class="tl-r"><button class="rptbtn" onclick="openReport(${c.id})" title="Report a mistake on this card">⚑ Report mistake${S.fix[c.id]?' · fixed':''}</button>${sess.queue.length-sess.i} left</span></div>
     <div class="flash" id="flash"><div class="fband grain g${secOf(c.cat)}"><span class="otag">${esc(c.cat)}</span><span class="fl">${esc(c.lesson||'')}</span></div>${showAudio?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:''}${face}</div>`;
   if(isG){
     h+=`<div class="choices"><button data-g="m" class="${sess.answered?(c.g==='m'?'right':sess.answered==='m'?'wrong':''):''}">Masculine <span class="ar">مُذَكَّر</span></button>
@@ -862,7 +874,7 @@ function skip(){
   sess.i++; sess.flipped=false; renderStudy();
 }
 document.addEventListener('keydown',e=>{
-  if(view!=='study'||!sess||e.target.tagName==='INPUT')return;
+  if(view!=='study'||!sess||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||document.querySelector('.modal-bg'))return;
   if(opts.mode==='gender'){ if(e.key==='m'||e.key==='1')$('[data-g=m]')?.click(); if(e.key==='f'||e.key==='2')$('[data-g=f]')?.click(); if((e.key==='Enter'||e.key===' ')&&$('#next')){e.preventDefault();$('#next').click()} return;}
   if(e.key===' '){e.preventDefault(); $('#flash')?.click();}
   if(sess.flipped&&/^[1-4]$/.test(e.key))rate(SHOWN[+e.key-1]);
@@ -872,6 +884,53 @@ document.addEventListener('keydown',e=>{
 // ---- sentence builder ----
 const SENT=window.SENTENCES||[];
 const CARD_BY_ID={}; CARDS.forEach(c=>CARD_BY_ID[c.id]=c);
+// ---- report & fix a card ----
+S.fix=S.fix||{}; S.reports=S.reports||[];
+const ORIG={};
+function applyFix(id){ const c=CARD_BY_ID[id], f=S.fix[id]; if(!c) return; if(!ORIG[id]) ORIG[id]={ar:c.ar,en:c.en,pl:c.pl,g:c.g}; Object.assign(c,ORIG[id],f||{}); }
+Object.keys(S.fix).forEach(applyFix);
+const REPO_ISSUES='https://github.com/ahmadar080608-cloud/Arabic-Website/issues/new';
+const PROBLEMS=[['ar','Arabic word / tashkīl'],['en','English meaning'],['pl','Plural'],['g','Masculine / feminine'],['img','Picture'],['aud','Audio'],['cat','Wrong category'],['other','Something else']];
+function openReport(id){
+  const c=CARD_BY_ID[id], o=ORIG[id]||{ar:c.ar,en:c.en,pl:c.pl,g:c.g};
+  document.querySelector('.modal-bg')?.remove();
+  const bg=document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML=`<div class="modal rpt"><h2>Report a mistake <button class="x" aria-label="Close">×</button></h2>
+    <p class="muted small">${esc(c.cat)}${c.lesson?' · '+esc(c.lesson):''}</p>
+    <h3>What’s wrong?</h3><div class="rpt-p">${PROBLEMS.map(([k,n])=>`<label><input type="checkbox" value="${k}"> ${n}</label>`).join('')}</div>
+    <h3>Fix it</h3><p class="muted small" style="margin-top:-4px">Change anything that’s wrong. It’s fixed on this device straight away.</p>
+    <div class="rpt-f">
+      <label>Arabic<input id="fAr" class="ar" dir="rtl" value="${esc(c.ar)}"></label>
+      <label>English<input id="fEn" value="${esc(c.en)}"></label>
+      <label>Plural<input id="fPl" class="ar" dir="rtl" value="${esc(c.pl||'')}" placeholder="none"></label>
+      <label>Gender<select id="fG"><option value="">—</option><option value="m" ${c.g==='m'?'selected':''}>Masculine</option><option value="f" ${c.g==='f'?'selected':''}>Feminine</option><option value="mf" ${c.g==='mf'?'selected':''}>Both</option></select></label>
+      <label class="wide">Note (optional)<textarea id="fNote" rows="2" placeholder="e.g. the picture shows a different animal"></textarea></label>
+    </div>
+    <label class="send"><input type="checkbox" id="fSend" checked> Also send it to GitHub so it gets fixed for everyone</label>
+    <div class="rpt-b">${S.fix[id]?`<button class="ghost" id="fUndo">Undo my fix</button>`:''}<span style="flex:1"></span><button class="ghost x">Cancel</button><button class="cta" id="fSave">Save</button></div></div>`;
+  document.body.appendChild(bg);
+  const close=()=>bg.remove();
+  bg.onclick=e=>{if(e.target===bg)close()}; bg.querySelectorAll('.x').forEach(b=>b.onclick=close);
+  const u=bg.querySelector('#fUndo'); if(u) u.onclick=()=>{ delete S.fix[id]; applyFix(id); save(); close(); render(); };
+  bg.querySelector('#fSave').onclick=()=>{
+    const v={ar:bg.querySelector('#fAr').value.trim(), en:bg.querySelector('#fEn').value.trim(), pl:bg.querySelector('#fPl').value.trim(), g:bg.querySelector('#fG').value};
+    const probs=[...bg.querySelectorAll('.rpt-p input:checked')].map(i=>i.value), note=bg.querySelector('#fNote').value.trim();
+    const ch={}; ['ar','en','pl','g'].forEach(k=>{ if((v[k]||'')!==(o[k]||'')) ch[k]=v[k]; });
+    if(!probs.length && !Object.keys(ch).length && !note){ bg.querySelector('h3').classList.add('shake'); return; }
+    if(Object.keys(ch).length) S.fix[id]=ch; else delete S.fix[id];
+    applyFix(id);
+    S.reports=S.reports.filter(r=>r.id!==id); S.reports.push({id,probs,ch,note,t:Date.now()}); save();
+    if(bg.querySelector('#fSend').checked){
+      const lines=[`Card #${id} (${c.cat}${c.lesson?', '+c.lesson:''})`, '', `Current: ${o.ar} — ${o.en}${o.pl?' — plural '+o.pl:''}${o.g?' — '+o.g:''}`,
+        `Problem: ${probs.map(p=>PROBLEMS.find(x=>x[0]===p)[1]).join(', ')||'—'}`];
+      Object.entries(ch).forEach(([k,x])=>lines.push(`Should be (${k}): ${x||'(none)'}`));
+      if(note) lines.push('', 'Note: '+note);
+      open(`${REPO_ISSUES}?title=${encodeURIComponent(`Card #${id}: ${o.en}`)}&body=${encodeURIComponent(lines.join('\n'))}`,'_blank');
+    }
+    close(); toast(Object.keys(ch).length?'Fixed on this device — thanks!':'Thanks, mistake reported'); render();
+  };
+}
+function toast(t){ const d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.classList.add('on'),10); setTimeout(()=>{d.classList.remove('on'); setTimeout(()=>d.remove(),300)},2200); }
 const TYPE_OF={}; // card category -> word type
 GROUPS.forEach(([g,l])=>l.forEach(c=>TYPE_OF[c]=g==='Nouns'?'n':g==='Verbs'?'v':g==='Adjectives'?'a':g==='Grammar'?'g':'p'));
 const SB_TYPES=[['n','Nouns'],['v','Verbs'],['a','Adjectives']];
@@ -1220,6 +1279,8 @@ function openSettings(){
       <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>${id==='autumn'?'🍂':'ع'}</span></div><div class="nm">${name}</div></button>`).join('')}</div>
     <h3>Arabic font</h3><div class="fonts">${FONTS.map(([f,n,d])=>`<button class="fontopt ${curFont()===f?'on':''}" data-f="${f}"><span class="fs" style="font-family:'${f}',serif">العَرَبِيَّةُ لُغَةُ القُرْآنِ</span><span class="fn">${n}</span><span class="fd">${d}</span></button>`).join('')}</div>
     <h3>Flashcards</h3><label><input type="checkbox" id="trS" ${opts.tr?'checked':''}> Show transliteration</label>
+    <h3>Mistakes you’ve reported (${S.reports.length})</h3>${S.reports.length?`<div class="rlist">${S.reports.slice().reverse().map(r=>{const c=CARD_BY_ID[r.id]; return c?`<div><span class="ar">${esc(c.ar)}</span> <b>${esc(c.en)}</b> <span class="muted small">${S.fix[r.id]?'fixed on this device':'reported'}</span> <button class="ghost sm" data-ed="${r.id}">Edit</button></div>`:''}).join('')}</div>
+      <button class="ghost" id="copyR" style="margin-top:8px">Copy all reports</button> <span class="muted small">— paste them to Claude to fix them for good</span>`:`<p class="muted small">Use “⚑ Report mistake” on any flashcard.</p>`}
     <p class="note" style="margin-top:16px">Settings are saved on this device.</p></div>`;
   document.body.appendChild(bg);
   bg.onclick=e=>{if(e.target===bg)bg.remove()};
@@ -1227,6 +1288,9 @@ function openSettings(){
   bg.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
   bg.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>setFont(b.dataset.f));
   bg.querySelector('#trS').onchange=e=>{opts.tr=e.target.checked; render();};
+  bg.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>openReport(+b.dataset.ed));
+  const cp=bg.querySelector('#copyR'); if(cp) cp.onclick=()=>{ const t=S.reports.map(r=>{const c=CARD_BY_ID[r.id], o=ORIG[r.id]||c; return `Card #${r.id}: ${o.ar} — ${o.en} | problem: ${r.probs.join(', ')||'-'}${Object.keys(r.ch).length?' | should be: '+Object.entries(r.ch).map(([k,v])=>k+'='+(v||'none')).join(', '):''}${r.note?' | note: '+r.note:''}`}).join('\n');
+    navigator.clipboard?.writeText(t).then(()=>toast('Copied — paste it to Claude'),()=>prompt('Copy this:',t)); };
 }
 $('#gear').onclick=openSettings;
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelector('.modal-bg')?.remove()});
