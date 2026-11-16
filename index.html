@@ -630,7 +630,7 @@ header nav .sm{display:none}
 #accBox .or{text-align:center;font-size:12px;color:var(--muted);margin:10px 0}
 #accBox form{display:flex;flex-direction:column;gap:8px}#accBox input{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px}
 #accBox .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#accBox .msg{font-size:13px;color:#c0392b;min-height:1em}#accBox .msg.ok{color:var(--teal)}
-#accBox .link{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;padding:0}
+#accBox code{font-size:12px;word-break:break-all;user-select:all}#accBox .link{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;padding:0}
 
 .adm-tot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.adm-tot b{display:block;font-size:30px;font-weight:800}.adm-tot div{font-size:13px;color:var(--muted)}
 .adm-list{display:flex;flex-direction:column}.adm-u{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
@@ -1374,6 +1374,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 
 go('home');
 </script>
-<script type="module" src="account.js"></script>
+<script type="module" src="account.js?v=2"></script>
 </body>
 </html>

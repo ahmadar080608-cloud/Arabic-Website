@@ -126,8 +126,10 @@ function paint(){
     b.innerHTML = `<div class="acc-card"><div class="av">${u.photoURL?`<img src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer">`:esc(nm[0].toUpperCase())}</div>
       <div class="who"><b>${esc(nm)}</b><span>${esc(u.email||'')}</span></div><button class="ghost" id="accOut">Sign out</button></div>
       ${ACC.admin?'<button class="cta" id="accAdm" style="margin-top:10px;width:100%">Open admin page — see all accounts</button>':''}
+      <div class="sync">Your user ID: <code id="accUid">${esc(u.uid)}</code> <button class="link" id="accCp">copy</button></div>
       <div class="sync ${ACC.status==='error'?'err':''}">${ACC.status==='syncing'?'Syncing…':ACC.status==='error'?'⚠ '+esc(ACC.err):'✓ Progress saved to your account '+(ACC.last?ago(ACC.last):'')}</div>`;
     b.querySelector('#accOut').onclick = async () => { clearTimeout(timer); await push(); ACC.admin = false; await signOut(auth); };
+    b.querySelector('#accCp').onclick = () => { navigator.clipboard?.writeText(u.uid).then(()=>{ b.querySelector('#accCp').textContent='copied ✓'; }, ()=>prompt('Copy your user ID:', u.uid)); };
     const ad = b.querySelector('#accAdm'); if(ad) ad.onclick = () => { document.querySelector('.modal-bg')?.remove(); window.go('admin'); };
     return;
   }
