@@ -642,6 +642,21 @@ header nav .sm{display:none}
 .adm-u .who{flex:1;min-width:180px}.adm-u .who b{display:block}.adm-u .who span{display:block;font-size:12px;color:var(--muted)}
 .adm-s{display:flex;gap:14px}.adm-s span{font-size:11px;color:var(--muted);text-align:center}.adm-s b{display:block;font-size:17px;color:var(--ink)}
 @media (max-width:560px){.adm-s{width:100%;justify-content:space-between;padding-left:52px}}
+
+.rtabs{display:flex;gap:6px;margin:0 0 18px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;width:max-content}
+.rtabs button{border:0;background:transparent;color:var(--muted);font-weight:700;padding:8px 18px;border-radius:999px;cursor:pointer;font-size:14px}.rtabs button.on{background:var(--ink);color:var(--card)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.bookc{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;min-height:190px;padding:18px;border-radius:18px;border:0;text-align:left;cursor:pointer;background:linear-gradient(160deg,#7a2e3c,#3e1720);color:#f7ead7;overflow:hidden}
+.bookc:nth-child(2n){background:linear-gradient(160deg,#1f4f4a,#0f2a27)}.bookc:nth-child(3n){background:linear-gradient(160deg,#b9822b,#6e4a14)}
+.bookc .bk-ar{font-size:30px;line-height:1.3;text-align:right;margin-bottom:auto}.bookc .bk-en{font-weight:800;font-size:16px}.bookc .bk-n{font-size:12px;opacity:.75}
+.bookc.add{background:transparent!important;color:var(--ink);border:2px dashed var(--line);justify-content:center;align-items:center;text-align:center}.bk-plus{font-size:34px;line-height:1;color:var(--muted)}
+.bk-title{text-align:center;margin:10px 0 18px}.bk-title .ar{font-size:34px}.bk-title b{display:block;font-size:17px}.bk-title span{display:block;font-size:18px}
+.chlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}.chlist button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 14px;cursor:pointer;flex-direction:row-reverse}.chlist .ar{font-size:22px}
+.bk-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.bk-h{text-align:center;font-size:34px;margin:14px 0 18px;font-weight:700}
+.bk-text{font-size:26px;line-height:2.2;text-align:justify}.bk-text p{margin:0 0 14px}.bk-text p.ln{margin:0 0 4px;text-align:right}.bk-text h3{font-size:26px;text-align:center;margin:26px 0 12px;color:var(--accent,#e0603f);letter-spacing:0;text-transform:none}
+.bk-notes{border-top:1px solid var(--line);margin-top:18px;padding-top:12px;font-size:19px;line-height:1.9}
+@media (max-width:560px){.bk-text{font-size:23px}.shelf{grid-template-columns:1fr 1fr}.bookc{min-height:160px;padding:14px}.bookc .bk-ar{font-size:24px}}
 </style>
 </head>
 <body>
@@ -1169,10 +1184,18 @@ function tapAr(t){ return t.split(/(\s+)/).map(w=>/[\u0621-\u064A\u0660-\u0669\u
 const pop=document.createElement('div'); pop.id='wpop'; pop.setAttribute('role','dialog'); document.body.appendChild(pop);
 let popFor=null;
 function closePop(){ pop.classList.remove('on'); if(popFor) popFor.classList.remove('tw-on'); popFor=null; }
+// words inside a book use that book's own word list first (meaning, root and form written for that text)
+let curGloss=null;
+function bookLookup(raw){
+  if(!curGloss) return null;
+  const w=raw.replace(/[،.:!؟?؛«»"()﴿﴾–—]/g,'').trim(); if(!w) return null;
+  const mk=(k,parts)=>{ const g=curGloss[k]; return g?{word:w,parts,entries:[{a:k,e:g[0],r:g[1]||'',n:g[2]||''}],book:1}:null; };
+  return mk(w,[]) || (/^[وف]َ/.test(w) ? mk(w.slice(2),[[w.slice(0,2),w[0]==='و'?'and':'so, then']]) : null);
+}
 function showWord(el){
   if(popFor===el){ closePop(); return; }
   closePop(); popFor=el; el.classList.add('tw-on');
-  const r=lookupWord(el.textContent), word=r?r.word:el.textContent;
+  const r=bookLookup(el.textContent)||lookupWord(el.textContent), word=r?r.word:el.textContent;
   const parts=r?r.parts:[], fem=parts.some(p=>/feminine/.test(p[1]));
   const exact=r&&!parts.length&&!r.loose;
   const seenE=new Set(), ents=(r?r.entries:[]).filter(e=>{const k=e.e.toLowerCase(); if(seenE.has(k)) return false; seenE.add(k); return true;}).slice(0,3);
@@ -1203,9 +1226,87 @@ document.addEventListener('click',e=>{ const t=e.target.closest('.tw'); if(t){ s
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePop(); });
 addEventListener('scroll',()=>{ if(!pop.classList.contains('sheet')) closePop(); },{passive:true});
 
+
+// ---- My books: books the user adds from a file or by pasting chapters; kept on this device and in their account ----
+S.books=S.books||{}; S.bookPos=S.bookPos||{};
+let bk={book:null,ch:null,tash:true};
+function saveBook(b){ S.books[b.id]=b; save(); }
+function importBookFile(file){
+  const fr=new FileReader();
+  fr.onload=()=>{ try{ const b=JSON.parse(fr.result); if(b.type!=='arabic-book'||!b.id||!b.chapters) throw 0;
+      const old=S.books[b.id];
+      if(old){ const ids=new Set(b.chapters.map(c=>c.id)); b.chapters=[...b.chapters, ...old.chapters.filter(c=>!ids.has(c.id))]; b.gloss={...(old.gloss||{}),...(b.gloss||{})}; }
+      saveBook(b); toast(`Added “${b.title.en}”`); renderBooks(); }
+    catch(e){ toast('That file isn’t a book file'); } };
+  fr.readAsText(file);
+}
+function addChapterForm(id){
+  const b=S.books[id]; document.querySelector('.modal-bg')?.remove();
+  const bg=document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML=`<div class="modal"><h2>Add a chapter <button class="x" aria-label="Close">×</button></h2>
+    <p class="muted small">Paste a lesson from <b>${esc(b.title.en)}</b>. Put each paragraph on its own line.</p>
+    <div class="rpt-f"><label class="wide">Title<input id="chT" class="ar" dir="rtl" placeholder="(٢) لَمَّا بَلَغْتُ السَّابِعَةَ"></label>
+    <label class="wide">Arabic text<textarea id="chX" class="ar" dir="rtl" rows="9" style="font-family:var(--arfont);font-size:20px"></textarea></label></div>
+    <div class="rpt-b"><span style="flex:1"></span><button class="ghost x">Cancel</button><button class="cta" id="chS">Add chapter</button></div></div>`;
+  document.body.appendChild(bg);
+  bg.onclick=e=>{if(e.target===bg)bg.remove()}; bg.querySelectorAll('.x').forEach(x=>x.onclick=()=>bg.remove());
+  bg.querySelector('#chS').onclick=()=>{ const t=bg.querySelector('#chT').value.trim(), x=bg.querySelector('#chX').value.trim(); if(!x) return;
+    b.chapters.push({id:'u'+Date.now(),title:t||'Chapter '+(b.chapters.length+1),en:'',blocks:x.split(/\n+/).map(p=>({p:p.trim()})).filter(q=>q.p),notes:[],mine:1});
+    saveBook(b); bg.remove(); renderBooks(); };
+}
+function newBookForm(){
+  const t=prompt('Name of the book (e.g. al-Qirāʾah al-Rāshidah, part 2):'); if(!t) return;
+  const id='mine-'+Date.now(); saveBook({type:'arabic-book',v:1,id,title:{ar:'',en:t},author:'',chapters:[],gloss:{},mine:1}); bk.book=id; renderBooks();
+}
+function renderBooks(){
+  const app=$('#app'), T=t=>bk.tash?t:stripT(t);
+  const head=`<div class="pagehead grain g1"><i class="bgl">كتب</i><span class="otag">My books</span><div class="ph-ar">مَكْتَبَتِي</div><div class="ph-en">Read your books — tap any word for its meaning and root</div></div>${readTabs('b')}`;
+  const books=Object.values(S.books);
+  if(bk.book&&!S.books[bk.book]) bk.book=null;
+  if(!bk.book){
+    curGloss=null;
+    app.innerHTML=head+`<section class="panel"><div class="shelf">${books.map(b=>{ const pos=S.bookPos[b.id]; const ch=pos&&b.chapters.find(c=>c.id===pos);
+        return `<button class="bookc grain" data-b="${esc(b.id)}"><span class="bk-ar ar">${esc(b.title.ar||'')}</span><span class="bk-en">${esc(b.title.en)}</span><span class="bk-n">${b.chapters.length} chapter${b.chapters.length===1?'':'s'}${ch?' · continue: '+esc(ch.en||stripT(ch.title)):''}</span></button>`; }).join('')}
+      <label class="bookc add"><input type="file" accept=".json,application/json" id="bkFile" hidden><span class="bk-plus">+</span><span class="bk-en">Add a book file</span><span class="bk-n">the .json files I make for you</span></label>
+      <button class="bookc add" id="bkNew"><span class="bk-plus">✎</span><span class="bk-en">Start a book</span><span class="bk-n">and paste its chapters yourself</span></button></div>
+      <p class="muted small" style="margin-top:14px">Your books are private: they’re kept on this device and in your account, not on the public website.</p></section>`;
+    app.querySelectorAll('[data-b]').forEach(x=>x.onclick=()=>{ bk.book=x.dataset.b; bk.ch=null; renderBooks(); scrollTo(0,0); });
+    $('#bkFile').onchange=e=>{ if(e.target.files[0]) importBookFile(e.target.files[0]); };
+    $('#bkNew').onclick=newBookForm;
+    return;
+  }
+  const b=S.books[bk.book];
+  if(!bk.ch){
+    curGloss=null;
+    app.innerHTML=head+`<section class="panel"><button class="ghost" id="bkBack">← All books</button>
+      <div class="bk-title"><div class="ar">${esc(b.title.ar||'')}</div><b>${esc(b.title.en)}</b>${b.author?`<span class="ar muted">${esc(b.author)}</span>`:''}</div>
+      <ol class="chlist">${b.chapters.map(c=>`<li><button data-c="${esc(c.id)}"><span class="ar">${esc(c.title)}</span><span class="muted small">${esc(c.en||'')}${S.bookPos[b.id]===c.id?' · last read':''}</span></button></li>`).join('')||'<p class="muted">No chapters yet.</p>'}</ol>
+      <div class="rpt-b"><button class="ghost" id="bkAdd">+ Add a chapter</button><span style="flex:1"></span><button class="ghost" id="bkDel">Remove book</button></div></section>`;
+    $('#bkBack').onclick=()=>{ bk.book=null; renderBooks(); };
+    app.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{ bk.ch=x.dataset.c; renderBooks(); scrollTo(0,0); });
+    $('#bkAdd').onclick=()=>addChapterForm(b.id);
+    $('#bkDel').onclick=()=>{ if(confirm(`Remove “${b.title.en}” from your books?`)){ delete S.books[b.id]; save(); bk.book=null; renderBooks(); } };
+    return;
+  }
+  const i=b.chapters.findIndex(c=>c.id===bk.ch), c=b.chapters[i];
+  if(!c){ bk.ch=null; return renderBooks(); }
+  curGloss=b.gloss||{}; if(S.bookPos[b.id]!==c.id){ S.bookPos[b.id]=c.id; save(); }
+  const prev=b.chapters[i-1], next=b.chapters[i+1];
+  app.innerHTML=head+`<section class="panel bk-read"><div class="bk-top"><button class="ghost" id="bkBack">← ${esc(b.title.en)}</button><button class="pill ${bk.tash?'on':''}" id="bkT">${bk.tash?'✓ ':''}Tashkīl</button></div>
+    <div class="bk-h ar">${tapAr(T(c.title))}</div>
+    <div class="bk-text ar" dir="rtl">${c.blocks.map(x=>x.h?`<h3 class="ar">${tapAr(T(x.h))}</h3>`:x.l?`<p class="ln">${tapAr(T(x.l))}</p>`:`<p>${tapAr(T(x.p))}</p>`).join('')}</div>
+    ${c.notes&&c.notes.length?`<div class="bk-notes"><div class="wp-rl">Notes from the book</div>${c.notes.map(n=>`<div class="ar" dir="rtl"><b>${tapAr(T(n[0]))}</b>: ${tapAr(T(n[1]))}</div>`).join('')}</div>`:''}
+    <p class="muted small">Tap any word for its meaning, root and form.</p>
+    <div class="rpt-b">${prev?`<button class="ghost" id="bkP">‹ Previous</button>`:''}<span style="flex:1"></span>${next?`<button class="cta" id="bkN">Next chapter ›</button>`:''}</div></section>`;
+  $('#bkBack').onclick=()=>{ bk.ch=null; renderBooks(); };
+  $('#bkT').onclick=()=>{ bk.tash=!bk.tash; const y=scrollY; renderBooks(); scrollTo(0,y); };
+  if(prev) $('#bkP').onclick=()=>{ bk.ch=prev.id; renderBooks(); scrollTo(0,0); };
+  if(next) $('#bkN').onclick=()=>{ bk.ch=next.id; renderBooks(); scrollTo(0,0); };
+}
+
 // ---- reading comprehension ----
 S.rc=S.rc||{n:0,right:0,total:0};
-let rc={level:S.rcLevel||'f',topic:'any',tash:S.rcTash??true,data:null,picks:{},marked:false,showEn:false,showVocab:false};
+let rc={tab:'p',level:S.rcLevel||'f',topic:'any',tash:S.rcTash??true,data:null,picks:{},marked:false,showEn:false,showVocab:false};
 const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['school','School'],['free','Free time'],['food','Food'],['town','My town'],['weather','Weather'],['trip','Travel'],['market','Shopping'],['ramadan','Ramadan & Eid'],['jumuah','Masjid & Jumuʿah'],['hajj','Hajj & ʿUmrah'],['doctor','Health'],['future','Jobs & future']];
 const RC_TYPES={story:'Story',email:'Email',diary:'Diary',letter:'Letter',article:'Article',conversation:'Conversation',notice:'Notice',advert:'Advert',interview:'Interview',recipe:'Recipe'};
 S.rcDone=S.rcDone||[];
@@ -1229,7 +1330,10 @@ function rcNew(){
   rc.picks={}; rc.marked=false; rc.showEn=false; rc.showVocab=false;
 }
 function rcPill(k,v,label){return `<button class="pill ${rc[k]===v?'on':''}" data-rk="${k}" data-rv="${v}">${label}</button>`}
+function readTabs(on){ return `<div class="rtabs"><button class="${on==='p'?'on':''}" onclick="rc.tab='p';curGloss=null;renderReading()">Passages</button><button class="${on==='b'?'on':''}" onclick="rc.tab='b';renderReading()">My books</button></div>`; }
 function renderReading(){
+  if(rc.tab==='b') return renderBooks();
+  curGloss=null;
   if(!rc.data) rcNew();
   const D=rc.data, T=t=>rc.tash?t:stripT(t), total=D.qs.length;
   const score=D.qs.filter((q,i)=>rc.picks[i]===q.ans).length, answered=Object.keys(rc.picks).length;
@@ -1240,7 +1344,7 @@ function renderReading(){
       <div class="rc-opts ${q.type==='tf'?'tf':''}">${q.opts.map(o=>{
         const cls=[pick===o?'picked':'', rc.marked&&o===q.ans?'right':'', rc.marked&&pick===o&&o!==q.ans?'wrong':''].join(' ');
         return `<button class="rc-o ${isAr?'ar':''} ${cls}" data-q="${i}" data-o="${esc(o)}" ${rc.marked?'disabled':''}>${esc(isAr?T(o):o)}</button>`;}).join('')}</div></li>`;}).join('');
-  $('#app').innerHTML=`<div class="pagehead grain g2"><i class="bgl">فهم</i><span class="otag">Comprehension</span><div class="ph-ar">فَهْمُ المَقْرُوءِ</div><div class="ph-en">Read a new passage and answer the questions</div></div>
+  $('#app').innerHTML=`<div class="pagehead grain g2"><i class="bgl">فهم</i><span class="otag">Comprehension</span><div class="ph-ar">فَهْمُ المَقْرُوءِ</div><div class="ph-en">Read a new passage and answer the questions</div></div>${readTabs('p')}
   <section class="panel rc-set">
     <div class="optgrid">
       <div><label>Level</label><div>${rcPill('level','f','Beginner')}${rcPill('level','h','Intermediate')}</div></div>
@@ -1389,6 +1493,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 
 go('home');
 </script>
-<script type="module" src="account.js?v=4"></script>
+<script type="module" src="account.js?v=5"></script>
 </body>
 </html>
