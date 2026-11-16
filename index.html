@@ -189,7 +189,10 @@ header nav button i{font-style:normal;width:22px;text-align:center}
 header nav button:hover:not(:disabled):not(.on){background:rgba(255,255,255,.06);color:#fff}
 header nav button.soon{opacity:.45;cursor:default}
 header nav .navlabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);padding:14px 12px 6px}
-header nav button.gear-nav{margin-top:auto}
+header nav button.gear-nav{margin-top:auto}header nav button#acct{margin-top:0}
+.hdr-acct{display:none}
+@media (max-width:899px){header .bar{position:relative}header nav #acct{display:none}
+  .hdr-acct{display:block;position:absolute;right:14px;top:50%;transform:translateY(-50%);border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:999px;padding:7px 14px;font:700 13px/1 Inter,sans-serif;cursor:pointer}}
 @media (max-width:899px){
   header .bar{padding:10px 16px}
   header nav{position:fixed;left:0;right:0;bottom:0;z-index:9;display:flex;justify-content:space-around;border-radius:0;padding:6px 4px calc(6px + env(safe-area-inset-bottom));background:var(--hdr,#0d1512);border-top:1px solid rgba(255,255,255,.08)}
@@ -622,6 +625,7 @@ header nav .sm{display:none}
 .shake{animation:shk .4s}@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @media (max-width:560px){.rpt-f{grid-template-columns:1fr}.rptbtn{font-size:11px;padding:4px 9px}}
 
+#accBox{margin-top:6px}.modal.acct{max-width:440px}
 #accBox .acc-card{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 #accBox .av{width:40px;height:40px;border-radius:50%;background:var(--accent,#e0603f);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex:none;overflow:hidden}#accBox .av img{width:100%;height:100%}
 #accBox .who{flex:1;min-width:0}#accBox .who b{display:block}#accBox .who span{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;display:block}
@@ -641,7 +645,7 @@ header nav .sm{display:none}
 </style>
 </head>
 <body>
-<header><div class="bar">
+<header><div class="bar"><button class="hdr-acct" id="acctH"><span class="acctL">Log in</span></button>
   <div class="brand" onclick="go('home')"><span class="ar title-ar">رِحْلَتِي مَعَ العَرَبِيَّةِ</span><span class="title-en">My Arabic Journey</span></div>
   <nav id="nav">
     <button data-v="home"><span class="lg">Flashcards</span><span class="sm">Cards</span></button>
@@ -650,6 +654,7 @@ header nav .sm{display:none}
     <button data-v="browse"><span class="lg">Browse words</span><span class="sm">Words</span></button>
     <button data-v="progress"><span class="lg">Progress</span><span class="sm">Progress</span></button>
     <button class="gear-nav" id="gear"><span>Settings</span></button>
+    <button class="gear-nav" id="acct"><span class="acctL">Log in</span></button>
   </nav>
 </div></header>
 <main id="app"></main>
@@ -1350,7 +1355,6 @@ function openSettings(){
   document.querySelector('.modal-bg')?.remove();
   const cur=getTheme(), bg=document.createElement('div'); bg.className='modal-bg';
   bg.innerHTML=`<div class="modal"><h2>Settings <button id="closeS" aria-label="Close">×</button></h2>
-    <h3>Account</h3><div id="accBox"><p class="muted small">Loading sign-in… (needs an internet connection)</p></div>
     <h3>Colour theme</h3><div class="themes">${THEMES.map(([id,name,[a,b,c]])=>`<button class="theme ${cur===id?'on':''}" data-t="${id}">
       <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>${id==='autumn'?'🍂':'ع'}</span></div><div class="nm">${name}</div></button>`).join('')}</div>
     <h3>Arabic font</h3><div class="fonts">${FONTS.map(([f,n,d])=>`<button class="fontopt ${curFont()===f?'on':''}" data-f="${f}"><span class="fs" style="font-family:'${f}',serif">العَرَبِيَّةُ لُغَةُ القُرْآنِ</span><span class="fn">${n}</span><span class="fd">${d}</span></button>`).join('')}</div>
@@ -1365,15 +1369,26 @@ function openSettings(){
   bg.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>setFont(b.dataset.f));
   bg.querySelector('#trS').onchange=e=>{opts.tr=e.target.checked; render();};
   bg.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>openReport(+b.dataset.ed));
-  if(window.ACC) ACC.mount(bg.querySelector('#accBox'));
   const cp=bg.querySelector('#copyR'); if(cp) cp.onclick=()=>{ const t=S.reports.map(r=>{const c=CARD_BY_ID[r.id], o=ORIG[r.id]||c; return `Card #${r.id}: ${o.ar} — ${o.en} | problem: ${r.probs.join(', ')||'-'}${Object.keys(r.ch).length?' | should be: '+Object.entries(r.ch).map(([k,v])=>k+'='+(v||'none')).join(', '):''}${r.note?' | note: '+r.note:''}`}).join('\n');
     navigator.clipboard?.writeText(t).then(()=>toast('Copied — paste it to Claude'),()=>prompt('Copy this:',t)); };
 }
 $('#gear').onclick=openSettings;
+function openAccount(){
+  document.querySelector('.modal-bg')?.remove();
+  const bg=document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML=`<div class="modal acct"><h2>${window.ACC&&ACC.user?'Your account':'Log in'} <button id="closeA" aria-label="Close">×</button></h2>
+    <div id="accBox"><p class="muted small">Loading sign-in… (needs an internet connection)</p></div></div>`;
+  document.body.appendChild(bg);
+  bg.onclick=e=>{if(e.target===bg)bg.remove()};
+  bg.querySelector('#closeA').onclick=()=>bg.remove();
+  if(window.ACC) ACC.mount(bg.querySelector('#accBox'));
+}
+$('#acct').onclick=openAccount; $('#acctH').onclick=openAccount;
+window.setAccLabel=t=>{ document.querySelectorAll('.acctL').forEach(l=>l.textContent=t); const h=document.querySelector('.modal.acct h2'); if(h) h.firstChild.textContent=t==='Log in'?'Log in ':'Your account '; };
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelector('.modal-bg')?.remove()});
 
 go('home');
 </script>
-<script type="module" src="account.js?v=2"></script>
+<script type="module" src="account.js?v=4"></script>
 </body>
 </html>
