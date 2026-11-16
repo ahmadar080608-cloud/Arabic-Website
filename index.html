@@ -654,9 +654,9 @@ header nav .sm{display:none}
 .chlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}.chlist button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 14px;cursor:pointer;flex-direction:row-reverse}.chlist .ar{font-size:22px}
 .bk-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
 .bk-h{text-align:center;font-size:34px;margin:14px 0 18px;font-weight:700}
-.bk-text{font-size:26px;line-height:2.2;text-align:justify}.bk-text p{margin:0 0 14px}.bk-text p.ln{margin:0 0 4px;text-align:right}.bk-text h3{font-size:26px;text-align:center;margin:26px 0 12px;color:var(--accent,#e0603f);letter-spacing:0;text-transform:none}
+.bk-text{font-size:26px;line-height:2.2;text-align:justify}.bk-text p{margin:0 0 14px}.bk-text p.ln{margin:0 0 4px;text-align:right}.bk-text p.vs{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px;margin:0 0 2px;text-align:center}.bk-text p.src{text-align:center;font-size:.8em;opacity:.75;margin-top:10px}.bk-text h3{font-size:26px;text-align:center;margin:26px 0 12px;color:var(--accent,#e0603f);letter-spacing:0;text-transform:none}
 .bk-notes{border-top:1px solid var(--line);margin-top:18px;padding-top:12px;font-size:19px;line-height:1.9}
-@media (max-width:560px){.bk-text{font-size:23px}.shelf{grid-template-columns:1fr 1fr}.bookc{min-height:160px;padding:14px}.bookc .bk-ar{font-size:24px}}
+@media (max-width:560px){.bk-text{font-size:23px}.bk-text p.vs{grid-template-columns:1fr;gap:0;margin-bottom:10px}.bk-text p.vs span:first-child{text-align:right}.bk-text p.vs span:last-child{text-align:left}.shelf{grid-template-columns:1fr 1fr}.bookc{min-height:160px;padding:14px}.bookc .bk-ar{font-size:24px}}
 </style>
 </head>
 <body>
@@ -1311,7 +1311,7 @@ function renderBooks(){
   const prev=b.chapters[i-1], next=b.chapters[i+1];
   app.innerHTML=head+`<section class="panel bk-read"><div class="bk-top"><button class="ghost" id="bkBack">← ${esc(b.title.en)}</button><button class="pill ${bk.tash?'on':''}" id="bkT">${bk.tash?'✓ ':''}Tashkīl</button></div>
     <div class="bk-h ar">${tapAr(T(c.title))}</div>
-    <div class="bk-text ar" dir="rtl">${c.blocks.map(x=>x.h?`<h3 class="ar">${tapAr(T(x.h))}</h3>`:x.l?`<p class="ln">${tapAr(T(x.l))}</p>`:`<p>${tapAr(T(x.p))}</p>`).join('')}</div>
+    <div class="bk-text ar" dir="rtl">${c.blocks.map(x=>x.h?`<h3 class="ar">${tapAr(T(x.h))}</h3>`:x.l?`<p class="ln">${tapAr(T(x.l))}</p>`:x.v?`<p class="vs"><span>${tapAr(T(x.v[0]))}</span><span>${tapAr(T(x.v[1]))}</span></p>`:x.s?`<p class="src">${tapAr(T(x.s))}</p>`:`<p>${tapAr(T(x.p))}</p>`).join('')}</div>
     ${c.notes&&c.notes.length?`<div class="bk-notes"><div class="wp-rl">Notes from the book</div>${c.notes.map(n=>`<div class="ar" dir="rtl"><b>${tapAr(T(n[0]))}</b>: ${tapAr(T(n[1]))}</div>`).join('')}</div>`:''}
     <p class="muted small">Tap any word for its meaning, root and form.</p>
     <div class="rpt-b">${prev?`<button class="ghost" id="bkP">‹ Previous</button>`:''}<span style="flex:1"></span>${next?`<button class="cta" id="bkN">Next chapter ›</button>`:''}</div></section>`;
