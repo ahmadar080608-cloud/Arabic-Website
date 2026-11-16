@@ -621,6 +621,16 @@ header nav .sm{display:none}
 .toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--ink);color:var(--card);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:.25s;z-index:60}.toast.on{opacity:1;transform:translate(-50%,0)}
 .shake{animation:shk .4s}@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @media (max-width:560px){.rpt-f{grid-template-columns:1fr}.rptbtn{font-size:11px;padding:4px 9px}}
+
+#accBox .acc-card{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+#accBox .av{width:40px;height:40px;border-radius:50%;background:var(--accent,#e0603f);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex:none;overflow:hidden}#accBox .av img{width:100%;height:100%}
+#accBox .who{flex:1;min-width:0}#accBox .who b{display:block}#accBox .who span{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;display:block}
+#accBox .sync{font-size:12px;color:var(--muted);margin-top:8px}#accBox .sync.err{color:#c0392b}
+#accBox .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:11px;font-weight:700;font-size:15px;cursor:pointer}
+#accBox .or{text-align:center;font-size:12px;color:var(--muted);margin:10px 0}
+#accBox form{display:flex;flex-direction:column;gap:8px}#accBox input{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px}
+#accBox .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#accBox .msg{font-size:13px;color:#c0392b;min-height:1em}#accBox .msg.ok{color:var(--teal)}
+#accBox .link{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;padding:0}
 </style>
 </head>
 <body>
@@ -663,7 +673,30 @@ const gTag=c=>needsG(c)?`<span class="gtag ${c.g}">${c.g==='m'?'masculine':'femi
 // ---- storage (per device) ----
 const KEY='arabic-flash-v1';
 let S={box:{},seen:{}}; try{S=Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const save=(quiet)=>{ if(!quiet) S._t=Date.now(); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} if(!quiet&&window.onSaved) window.onSaved(); };
+// ---- account sync helpers (used by account.js) ----
+window.getS=()=>S;
+window.getSettings=()=>{ try{ return {theme:localStorage.getItem('arabic-theme')||'', font:localStorage.getItem('arabic-font')||''}; }catch(e){ return {}; } };
+function mergeProgress(a,b){             // a = this device, b = the account; keeps the best of both
+  a=a||{}; b=b||{}; const newer=(a._t||0)>=(b._t||0)?a:b, out={...b,...a,...newer};
+  const byTime=(x,y,f)=>{ const o={...(y||{})}; for(const k in (x||{})){ if(!o[k]||(x[k][f]||0)>=(o[k][f]||0)) o[k]=x[k]; } return o; };
+  out.r=byTime(a.r,b.r,'seen');
+  out.sb=byTime(a.sb,b.sb,'t');
+  out.days={...(b.days||{})}; for(const k in (a.days||{})){ const x=a.days[k], y=out.days[k]; out.days[k]=y?{n:Math.max(x.n||0,y.n||0),ok:Math.max(x.ok||0,y.ok||0),learned:Math.max(x.learned||0,y.learned||0)}:x; }
+  out.rcDone=[...new Set([...(a.rcDone||[]),...(b.rcDone||[])])];
+  out.fix={...(b.fix||{}),...(a.fix||{})};
+  const rep={}; [...(b.reports||[]),...(a.reports||[])].forEach(r=>{ if(!rep[r.id]||r.t>=rep[r.id].t) rep[r.id]=r; }); out.reports=Object.values(rep);
+  out.rc=((a.rc||{}).n||0)>=((b.rc||{}).n||0)?a.rc:b.rc;
+  out._t=Math.max(a._t||0,b._t||0);
+  return out;
+}
+window.mergeIn=(cloud,settings,cloudT)=>{
+  S=mergeProgress(S,cloud); S.r=S.r||{}; S.days=S.days||{}; S.fix=S.fix||{}; S.reports=S.reports||[]; S.sb=S.sb||{}; S.rcDone=S.rcDone||[];
+  try{ if(typeof ORIG!=='undefined'){ Object.keys(ORIG).forEach(id=>{ if(!S.fix[id]) applyFix(id); }); Object.keys(S.fix).forEach(applyFix); } }catch(e){}
+  if(settings && (cloudT||0)>(S._localSetT||0)){ try{ if(settings.theme){ localStorage.setItem('arabic-theme',settings.theme); if(settings.theme==='auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=settings.theme; }
+    if(settings.font){ localStorage.setItem('arabic-font',settings.font); document.documentElement.style.setProperty('--arfont',`"${settings.font}"`); document.documentElement.style.setProperty('--artitle',`"${settings.font}"`); } }catch(e){} }
+  save(true); if(!['study','sentence'].includes(view)) render();
+};
 S.r=S.r||{}; S.days=S.days||{};
 const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 function logReview(ok){const k=dayKey(); const d=S.days[k]||(S.days[k]={n:0,ok:0,learned:0}); d.n++; if(ok)d.ok++; save();}
@@ -1282,13 +1315,14 @@ const THEMES=[
  ['ink','Ink & Paper',['#ffffff','#eeeeee','#111111']]];
 const FONTS=[['Scheherazade New','Scheherazade','Classic naskh, clear ḥarakāt (default)'],['Amiri','Amiri','Book naskh, like printed classics'],['Noto Naskh Arabic','Noto Naskh','Clean and modern'],['Lateef','Lateef','Soft, rounded naskh'],['Markazi Text','Markazi','Elegant, slightly condensed'],['Reem Kufi','Reem Kufi','Geometric Kufi (no tashkīl detail)'],['Aref Ruqaa','Ruqʿah','Handwritten calligraphy style']];
 const curFont=()=>{try{return localStorage.getItem('arabic-font')||'Scheherazade New'}catch(e){return 'Scheherazade New'}};
-function setFont(f){document.documentElement.style.setProperty('--arfont',`"${f}"`);document.documentElement.style.setProperty('--artitle',`"${f}"`);try{localStorage.setItem('arabic-font',f)}catch(e){} openSettings(); render();}
+function setFont(f){S._localSetT=Date.now(); save(); document.documentElement.style.setProperty('--arfont',`"${f}"`);document.documentElement.style.setProperty('--artitle',`"${f}"`);try{localStorage.setItem('arabic-font',f)}catch(e){} openSettings(); render();}
 const getTheme=()=>{try{return localStorage.getItem('arabic-theme')||'auto'}catch(e){return 'auto'}};
-function setTheme(t){ if(t==='auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=t; try{localStorage.setItem('arabic-theme',t)}catch(e){} openSettings(); }
+function setTheme(t){ S._localSetT=Date.now(); save(); if(t==='auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=t; try{localStorage.setItem('arabic-theme',t)}catch(e){} openSettings(); }
 function openSettings(){
   document.querySelector('.modal-bg')?.remove();
   const cur=getTheme(), bg=document.createElement('div'); bg.className='modal-bg';
   bg.innerHTML=`<div class="modal"><h2>Settings <button id="closeS" aria-label="Close">×</button></h2>
+    <h3>Account</h3><div id="accBox"><p class="muted small">Loading sign-in… (needs an internet connection)</p></div>
     <h3>Colour theme</h3><div class="themes">${THEMES.map(([id,name,[a,b,c]])=>`<button class="theme ${cur===id?'on':''}" data-t="${id}">
       <div class="sw" style="background:${a};color:${c}"><i style="background:${b};border:1px solid rgba(0,0,0,.1)"></i><i style="background:${c}"></i><span>${id==='autumn'?'🍂':'ع'}</span></div><div class="nm">${name}</div></button>`).join('')}</div>
     <h3>Arabic font</h3><div class="fonts">${FONTS.map(([f,n,d])=>`<button class="fontopt ${curFont()===f?'on':''}" data-f="${f}"><span class="fs" style="font-family:'${f}',serif">العَرَبِيَّةُ لُغَةُ القُرْآنِ</span><span class="fn">${n}</span><span class="fd">${d}</span></button>`).join('')}</div>
@@ -1303,6 +1337,7 @@ function openSettings(){
   bg.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>setFont(b.dataset.f));
   bg.querySelector('#trS').onchange=e=>{opts.tr=e.target.checked; render();};
   bg.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>openReport(+b.dataset.ed));
+  if(window.ACC) ACC.mount(bg.querySelector('#accBox'));
   const cp=bg.querySelector('#copyR'); if(cp) cp.onclick=()=>{ const t=S.reports.map(r=>{const c=CARD_BY_ID[r.id], o=ORIG[r.id]||c; return `Card #${r.id}: ${o.ar} — ${o.en} | problem: ${r.probs.join(', ')||'-'}${Object.keys(r.ch).length?' | should be: '+Object.entries(r.ch).map(([k,v])=>k+'='+(v||'none')).join(', '):''}${r.note?' | note: '+r.note:''}`}).join('\n');
     navigator.clipboard?.writeText(t).then(()=>toast('Copied — paste it to Claude'),()=>prompt('Copy this:',t)); };
 }
@@ -1311,5 +1346,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 
 go('home');
 </script>
+<script type="module" src="account.js"></script>
 </body>
 </html>
