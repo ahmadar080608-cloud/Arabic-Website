@@ -1188,9 +1188,11 @@ function closePop(){ pop.classList.remove('on'); if(popFor) popFor.classList.rem
 let curGloss=null;
 function bookLookup(raw){
   if(!curGloss) return null;
-  const w=raw.replace(/[،.:!؟?؛«»"()﴿﴾–—]/g,'').trim(); if(!w) return null;
-  const mk=(k,parts)=>{ const g=curGloss[k]; return g?{word:w,parts,entries:[{a:k,e:g[0],r:g[1]||'',n:g[2]||''}],book:1}:null; };
-  return mk(w,[]) || (/^[وف]َ/.test(w) ? mk(w.slice(2),[[w.slice(0,2),w[0]==='و'?'and':'so, then']]) : null);
+  const w=raw.replace(/[،.:!؟?؛«»"()﴿﴾–—…]/g,'').trim(); if(!w) return null;
+  if(!curGloss.__s){ const m={}; for(const k in curGloss){ const x=stripT(k); if(!(x in m)) m[x]=k; } Object.defineProperty(curGloss,'__s',{value:m,enumerable:false}); }
+  const mk=(k0,parts)=>{ const k=(k0 in curGloss)?k0:curGloss.__s[stripT(k0)]; const g=k&&curGloss[k]; return g?{word:w,parts,entries:[{a:k,e:g[0],r:g[1]||'',n:g[2]||''}],book:1}:null; };
+  const n=/^[وف]َ/.test(w)?2:/^[وف]/.test(w)?1:0;
+  return mk(w,[]) || (n ? mk(w.slice(n),[[w.slice(0,n),w[0]==='و'?'and':'so, then']]) : null);
 }
 function showWord(el){
   if(popFor===el){ closePop(); return; }
