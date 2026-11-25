@@ -32,13 +32,15 @@ X.forEach(([a,e,n])=>put(a,e,n||''));
 // 1b. word lists from the passage library
 (window.LIB||[]).forEach(p=>p.v.forEach(([a,e])=>put(a,e,'')));
 // 2. generator forms (exact case / tense)
-const P4=['he','she','I','we'];
+const PN=['he','she','I','we','they both (m.)','they both (f.)','they (m.)','they (f.)','you (m.)','you (f.)','you both','you all (m.)','you all (f.)'];
 G.verbs.forEach(v=>{
   const [eb,ep,e3]=v.en;
-  v.past.forEach((f,i)=>f&&put(f,`${P4[i]} ${ep}`,`past tense · “${P4[i]}” form`,v.id));
-  v.pres.forEach((f,i)=>f&&put(f,`${P4[i]} ${i<2?e3:eb}`,`present tense · “${P4[i]}” form`+(i===1?' (also “you”)':''),v.id));
-  v.juss.forEach((f,i)=>f&&put(f,`${P4[i]} … ${eb}`,`jussive (majzūm) · “${P4[i]}” form — used after لَمْ, so لَمْ + this = didn’t ${eb}`,v.id));
-  v.subj.forEach((f,i)=>f&&put(f,`(that) ${P4[i]} ${eb}`,`subjunctive (manṣūb) · “${P4[i]}” form — used after أَنْ / لَنْ`,v.id));
+  // one entry per form and tense, listing every person that shares the form (e.g. تَأْكُلُ = she / you (m.))
+  const each=(arr,fn)=>{ const m=new Map(); arr.forEach((f,i)=>{ if(f){ (m.get(f)||m.set(f,[]).get(f)).push(i); } }); m.forEach((is,f)=>fn(f,is,is.map(i=>PN[i]).join(' / '))); };
+  each(v.past,(f,is,who)=>put(f,`${who} ${ep}`,`past tense · “${who}” form`,v.id));
+  each(v.pres,(f,is,who)=>put(f,is.map(i=>`${PN[i]} ${i<2?e3:eb}`).join(' / '),`present tense · “${who}” form`,v.id));
+  each(v.juss,(f,is,who)=>put(f,`${who} … ${eb}`,`jussive (majzūm) · “${who}” form — used after لَمْ, so لَمْ + this = didn’t ${eb}`,v.id));
+  each(v.subj,(f,is,who)=>put(f,`(that) ${who} ${eb}`,`subjunctive (manṣūb) · “${who}” form — used after أَنْ / لَنْ`,v.id));
 });
 const CASE={nom:'marfūʿ (nominative)',acc:'manṣūb (accusative)',gen:'majrūr (genitive)'};
 G.nouns.forEach(n=>{

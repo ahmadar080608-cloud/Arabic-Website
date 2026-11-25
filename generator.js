@@ -8,7 +8,15 @@ const has = (item, spec) => {           // "A B -C": any of A,B and none of C ("
   const t = spec.split(/\s+/).filter(Boolean), pos = t.filter(x=>x[0]!=='-'), neg = t.filter(x=>x[0]==='-').map(x=>x.slice(1));
   return (!pos.length || pos.some(c=>item.cls.includes(c))) && !neg.some(c=>item.cls.includes(c));
 };
-const SUBJ = { he:0, she:1, i:2, we:3 };
+const SUBJ = { he:0, she:1, i:2, we:3, they2m:4, they2f:5, theym:6, theyf:7, you_m:8, you_f:9, you2:10, youpm:11, youpf:12 };
+// pronoun subjects (no noun): the verb ending carries the person, the English says which one
+const PRON_EN = { i:'I', we:'We', they2m:'They both (m.)', they2f:'They both (f.)', theym:'They (m.)', theyf:'They (f.)',
+                  you_m:'You (m.)', you_f:'You (f.)', you2:'You both', youpm:'You all (m.)', youpf:'You all (f.)' };
+const KANA  = ['كَانَ','كَانَتْ','كُنْتُ','كُنَّا','كَانَا','كَانَتَا','كَانُوا','كُنَّ','كُنْتَ','كُنْتِ','كُنْتُمَا','كُنْتُمْ','كُنْتُنَّ'];
+const YURID = ['يُرِيدُ','تُرِيدُ','أُرِيدُ','نُرِيدُ','يُرِيدَانِ','تُرِيدَانِ','يُرِيدُونَ','يُرِدْنَ','تُرِيدُ','تُرِيدِينَ','تُرِيدَانِ','تُرِيدُونَ','تُرِدْنَ'];
+const ALAY  = ['عَلَيْهِ','عَلَيْهَا','عَلَيَّ','عَلَيْنَا','عَلَيْهِمَا','عَلَيْهِمَا','عَلَيْهِمْ','عَلَيْهِنَّ','عَلَيْكَ','عَلَيْكِ','عَلَيْكُمَا','عَلَيْكُمْ','عَلَيْكُنَّ'];
+const DUALS = ['they2m','they2f','you2'];
+const PLAIN = ['i','we','theym','theyf','you_m','you_f','youpm','youpf'];
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 const an = w => /^[aeiou]/i.test(w) ? 'an' : 'a';
 
@@ -26,6 +34,8 @@ function joinAr(tokens){
     if(!nextAl) continue;
     if(out[i]==='مِنْ') out[i]='مِنَ';
     else if(out[i]==='عَنْ') out[i]='عَنِ';
+    else if(out[i].endsWith('ُمْ')) out[i]=out[i].slice(0,-1)+'ُ';  // رَكِبْتُمْ الـ -> رَكِبْتُمُ الـ
+    else if(out[i].endsWith('وْا')) out[i]=out[i].slice(0,-2)+'ُا'; // اِشْتَرَوْا الـ -> اِشْتَرَوُا الـ
     else if(out[i].endsWith('ْ')) out[i]=out[i].slice(0,-1)+'ِ';   // يَأْكُلْ الـ -> يَأْكُلِ الـ
   }
   if(out[0] && out[0].startsWith('ابْ')) out[0]='اِ'+out[0].slice(1);
@@ -89,10 +99,10 @@ function easyLong(c){                // two easy clauses joined with وَ
 }
 
 // ---------- VERB SENTENCES ----------
-// mode: past | pres | negpast | neg | fut | was | want | must      person: he/she (from subject) | i | we
+// mode: past | pres | negpast | neg | fut | was | want | must      person: he/she (from a noun subject) or any key of PRON_EN
 function verbClause(c, v, mode, person){
   let subj=null;
-  if(person!=='i' && person!=='we'){
+  if(person==='he' || person==='she'){
     subj = c.noun(v.subjc); if(!subj) return null;
     person = subj.g==='f'?'she':'he';
   } else if(v.subjc.split(' ').every(x=>['CHILD','ANIMAL','SMALLANIMAL','BIGANIMAL','TEACHER'].includes(x))) return null;
@@ -151,7 +161,7 @@ function verbClause(c, v, mode, person){
 
   // verb + subject, by mode
   const [eb,ep,e3,eing]=v.en;
-  const sEN = subj? cap(posEN(subj)) : (person==='i'?'I':'We');
+  const sEN = subj? cap(posEN(subj)) : PRON_EN[person];
   const third = !!subj;
   let head=[], enV='';
   switch(mode){
@@ -160,21 +170,18 @@ function verbClause(c, v, mode, person){
     case 'negpast': head=['لَمْ', v.juss[P]]; enV="didn't "+eb; break;
     case 'neg':     head=['لَا', v.pres[P]]; enV=(third?"doesn't ":"don't ")+eb; break;
     case 'fut':     head=['سَ'+v.pres[P]]; enV='will '+eb; break;
-    case 'was':     head=null; enV=(person==='we'?'were ':'was ')+eing; break;
+    case 'was':     head=null; enV=(third||person==='i'?'was ':'were ')+eing; break;
     case 'want':    head=null; enV=(third?'wants to ':'want to ')+eb; break;
     case 'must':    head=null; enV='must '+eb; break;
   }
   let ar=[];
   if(mode==='was'){
-    const kana = {he:'كَانَ',she:'كَانَتْ',i:'كُنْتُ',we:'كُنَّا'}[person];
-    ar=[kana, ...(subj?[subj.nom]:[]), v.pres[P]];
+    ar=[KANA[P], ...(subj?[subj.nom]:[]), v.pres[P]];
   } else if(mode==='want'){
-    const yurid = {he:'يُرِيدُ',she:'تُرِيدُ',i:'أُرِيدُ',we:'نُرِيدُ'}[person];
-    ar=[yurid, ...(subj?[subj.nom]:[]), 'أَنْ', v.subj[P]]; w.push(G.ids.want, G.ids.an);
+    ar=[YURID[P], ...(subj?[subj.nom]:[]), 'أَنْ', v.subj[P]]; w.push(G.ids.want, G.ids.an);
   } else if(mode==='must'){
-    if(person==='we') return null;
-    ar = subj? ['يَجِبُ','عَلَى',subj.gen,'أَنْ',v.subj[P]] : ['يَجِبُ','عَلَيَّ','أَنْ',v.subj[P]];
-    w.push(G.ids.must, G.ids.an, subj?G.prep['عَلَى']:G.ids.onme);
+    ar = subj? ['يَجِبُ','عَلَى',subj.gen,'أَنْ',v.subj[P]] : ['يَجِبُ',ALAY[P],'أَنْ',v.subj[P]];
+    w.push(G.ids.must, G.ids.an, person==='i'?G.ids.onme:G.prep['عَلَى']);
   } else {
     ar=[...head, ...(subj?[subj.nom]:[])];
   }
@@ -189,8 +196,10 @@ function verbSentence(c, d){
   if(!c.verbs.length) return null;
   const v=rnd(c.verbs);
   const mode=rnd(MODES[d]);
-  const person = d===2 ? 'he' : rnd(['he','he','i','we']);
-  if(v.nowe && person==='we') return null;
+  // Medium: every person except the duals; Hard / Extra hard: the duals too.  About a third get a noun subject (he/she).
+  const pool = d===2 ? PLAIN : [...PLAIN, ...DUALS];
+  const person = chance(.35) ? 'he' : rnd(pool);
+  if(v.nowe && person!=='he' && person!=='i') return null;
   return verbClause(c, v, mode, person);
 }
 

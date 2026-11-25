@@ -1,6 +1,7 @@
 # Builds gen.js (data for the sentence generator) from lexicon.py.  Run: python3 build_gen.py
 import json,re
 from lexicon import *
+from conj import conjugate
 s=open('../cards.js').read();C=json.loads(s[len('window.CARDS='):].rstrip().rstrip(';'))
 SUN=set('تثدذرزسشصضطظلن')
 MARKS=re.compile('[ً-ْٰ]')
@@ -46,7 +47,7 @@ for (k,en,mi,mf,fi,ff,cls) in ADJS:
     adjs.append(out)
 verbs=[]
 for v in VERBS:
-    d=dict(v); d['id']=C[v['card']]['id']; del d['card']
+    d=conjugate(dict(v)); d['id']=C[v['card']]['id']; del d['card']
     d['subjc']=v['subjc']; d['obj']=v.get('obj',''); d['places']=[list(p) for p in v.get('places',[])]
     verbs.append(d)
 data=dict(nouns=nouns,adjs=adjs,verbs=verbs,where=[list(w) for w in WHERE],
