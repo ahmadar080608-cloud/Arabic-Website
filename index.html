@@ -254,7 +254,7 @@ h2{font-family:Lora,Georgia,serif;font-size:24px;font-weight:700;margin:0}
 .wp-deck{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:10px;margin-top:4px;font-size:12px;color:var(--muted)}
 .wp-play{border:0;background:var(--teal);color:#fff;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
 .rc-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
-@media (min-width:1100px){.rc-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.rc-card{position:sticky;top:20px}}
+@media (min-width:1100px){.rc-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.flash.rc-card{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}}
 .rc-set{margin-bottom:20px}.rc-set .optgrid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .rc-card{min-height:0;display:block}.rc-body{padding:22px 26px 24px}
 .rc-title{font-size:34px;text-align:center;margin:0 0 16px;font-family:var(--artitle,var(--arfont))}
