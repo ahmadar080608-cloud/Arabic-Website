@@ -1,6 +1,6 @@
 // Builds dict.js (tap-a-word dictionary) from cards.js, gen.js and tools/dict_extra.js
 global.window={};
-require('../cards.js'); require('../gen.js'); require('./dict_extra.js'); require('../passages.js');
+require('../cards.js'); require('../gen.js'); require('./dict_extra.js'); require('./dict_extra2.js'); require('../passages.js');
 const fs=require('fs');
 const {root:autoRoot}=require('./roots.js');
 const {FIX,FIXV}=require('./root_fix.js');

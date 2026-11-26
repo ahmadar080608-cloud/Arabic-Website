@@ -1326,7 +1326,8 @@ function renderBooks(){
 // ---- reading comprehension ----
 S.rc=S.rc||{n:0,right:0,total:0};
 let rc={tab:'p',level:S.rcLevel||'f',topic:'any',tash:S.rcTash??true,data:null,picks:{},marked:false,showEn:false,showVocab:false};
-const RC_TOPICS=[['any','Any topic'],['day','My day'],['family','Family & home'],['school','School'],['free','Free time'],['food','Food'],['town','My town'],['weather','Weather'],['trip','Travel'],['market','Shopping'],['ramadan','Ramadan & Eid'],['jumuah','Masjid & Jumuʿah'],['hajj','Hajj & ʿUmrah'],['doctor','Health'],['future','Jobs & future']];
+const RC_TOPICS=[['any','🎲 Random topic'],['day','My day'],['family','Family & home'],['school','School'],['free','Free time'],['food','Food'],['town','My town'],['weather','Weather'],['trip','Travel'],['market','Shopping'],['ramadan','Ramadan & Eid'],['jumuah','Masjid & Jumuʿah'],['hajj','Hajj & ʿUmrah'],['doctor','Health'],['future','Jobs & future'],['ilm','Seeking knowledge'],['seerah','Seerah & Companions'],['quran','The Qur’an'],['nature','Nature & animals'],['manners','Manners & character'],['tech','Technology']];
+const RC_LV={f:'Beginner',h:'Intermediate',x:'Hard'};
 const RC_TYPES={story:'Story',email:'Email',diary:'Diary',letter:'Letter',article:'Article',conversation:'Conversation',notice:'Notice',advert:'Advert',interview:'Interview',recipe:'Recipe'};
 S.rcDone=S.rcDone||[];
 function libToComp(p){
@@ -1341,7 +1342,7 @@ function libToComp(p){
 function rcLibPool(all){ return (window.LIB||[]).filter(p=>p.lv===rc.level&&(rc.topic==='any'||p.tp===rc.topic)&&(all||!S.rcDone.includes(p.id))); }
 const stripT=t=>t.replace(/[\u064B-\u0652\u0670]/g,'');
 function rcNew(){
-  const canGen = rc.topic==='any' || (window.COMP_TOPICS||[]).includes(rc.topic);
+  const canGen = rc.level!=='x' && (rc.topic==='any' || (window.COMP_TOPICS||[]).includes(rc.topic));
   let lib = rcLibPool(false); rc.restart=false;
   if(!lib.length && !canGen && rcLibPool(true).length){ const ids=rcLibPool(true).map(p=>p.id); S.rcDone=S.rcDone.filter(i=>!ids.includes(i)); save(); lib=rcLibPool(false); rc.restart=true; }
   const useLib = lib.length && (!canGen || Math.random()<.6);
@@ -1366,14 +1367,14 @@ function renderReading(){
   $('#app').innerHTML=`<div class="pagehead grain g2"><i class="bgl">فهم</i><span class="otag">Comprehension</span><div class="ph-ar">فَهْمُ المَقْرُوءِ</div><div class="ph-en">Read a new passage and answer the questions</div></div>${readTabs('p')}
   <section class="panel rc-set">
     <div class="optgrid">
-      <div><label>Level</label><div>${rcPill('level','f','Beginner')}${rcPill('level','h','Intermediate')}</div></div>
+      <div><label>Level</label><div>${rcPill('level','f','Beginner')}${rcPill('level','h','Intermediate')}${rcPill('level','x','Hard')}</div></div>
       <div><label>Topic</label><div>${RC_TOPICS.map(([k,n])=>rcPill('topic',k,n)).join('')}</div></div>
       <div><label>Text</label><div><button class="pill ${rc.tash?'on':''}" id="rctash">${rc.tash?'✓ ':''}Show tashkīl</button></div></div>
     </div>
-    <p class="muted small" style="margin:12px 0 0">${(()=>{const all=rcLibPool(true), unread=rcLibPool(false); const gen=rc.topic==='any'||(window.COMP_TOPICS||[]).includes(rc.topic); return all.length?`Hand-written passages: ${all.length-unread.length} of ${all.length} read for this level and topic${rc.restart?' — you’d read them all, so they’re starting again':''}.${gen?' Generated passages are mixed in, so you won’t run out.':''}`:'Every passage for this level and topic is generated fresh each time.';})()}</p>
+    <p class="muted small" style="margin:12px 0 0">${(()=>{const all=rcLibPool(true), unread=rcLibPool(false); const gen=rc.level!=='x'&&(rc.topic==='any'||(window.COMP_TOPICS||[]).includes(rc.topic)); return all.length?`Hand-written passages: ${all.length-unread.length} of ${all.length} read for this level and topic${rc.restart?' — you’d read them all, so they’re starting again':''}.${gen?' Generated passages are mixed in, so you won’t run out.':''}`:'Every passage for this level and topic is generated fresh each time.';})()}</p>
   </section>
   <div class="rc-grid">
-    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${D.lib?(D.lv==='h'?'Intermediate':'Beginner'):(rc.level==='h'?'Intermediate':'Beginner')} · ${RC_TYPES[D.ty]||'Story'} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
+    <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${RC_LV[D.lib?D.lv:rc.level]} · ${RC_TYPES[D.ty]||'Story'}${rc.topic==='any'?` · ${(RC_TOPICS.find(t=>t[0]===D.topic)||[,''])[1]}`:''} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
       <div class="rc-body"><div class="rc-title ar">${esc(T(D.title.ar))}</div><div class="rc-text ar" dir="rtl">${passage}</div>
         <div class="rc-tools"><button class="ghost" id="rcvocab">${rc.showVocab?'Hide':'Show'} vocabulary</button>${rc.marked?`<button class="ghost" id="rcen">${rc.showEn?'Hide':'Show'} translation</button>`:''}</div>
         ${rc.showVocab?`<div class="rc-vocab">${D.vocab.map(([a,e])=>`<span class="wchip"><span class="ar">${esc(T(a))}</span><em>${esc(e)}</em></span>`).join('')}</div>`:''}
