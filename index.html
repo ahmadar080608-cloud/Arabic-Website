@@ -657,6 +657,26 @@ header nav .sm{display:none}
 .bk-text{font-size:26px;line-height:2.2;text-align:justify}.bk-text p{margin:0 0 14px}.bk-text p.ln{margin:0 0 4px;text-align:right}.bk-text p.vs{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px;margin:0 0 2px;text-align:center}.bk-text p.src{text-align:center;font-size:.8em;opacity:.75;margin-top:10px}.bk-text h3{font-size:26px;text-align:center;margin:26px 0 12px;color:var(--accent,#e0603f);letter-spacing:0;text-transform:none}
 .bk-notes{border-top:1px solid var(--line);margin-top:18px;padding-top:12px;font-size:19px;line-height:1.9}
 @media (max-width:560px){.bk-text{font-size:23px}.bk-text p.vs{grid-template-columns:1fr;gap:0;margin-bottom:10px}.bk-text p.vs span:first-child{text-align:right}.bk-text p.vs span:last-child{text-align:left}.shelf{grid-template-columns:1fr 1fr}.bookc{min-height:160px;padding:14px}.bookc .bk-ar{font-size:24px}}
+
+/* verb drill, ḥadīth reader, read-aloud */
+.wp-say,.vsay{border:0;background:none;cursor:pointer;font-size:.6em;vertical-align:middle;padding:2px 4px;color:inherit}
+.vsay{font-size:inherit;font-family:inherit}
+.vtab{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+.vtab th,.vtab td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+.vtab td.ar{font-size:20px;text-align:right}
+.vq{margin-top:16px}
+.vq-p{font-weight:600;margin-bottom:10px}
+.vq-w{font-size:40px;text-align:center;margin:14px 0 18px}
+.vq-o{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.vq-o .rc-o.ar{font-size:22px}
+.vq-fb{margin-top:16px;padding:12px 14px;border-radius:12px;background:var(--bg)}
+.vq-fb.ok{border-left:4px solid #2e7d4f}.vq-fb.no{border-left:4px solid #b3412e}
+.vq-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.vq-row .wchip.on{outline:2px solid currentColor}
+.hlist li button{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:2px 10px}
+.hlist .hn{grid-row:span 2;font-weight:700;color:var(--muted);text-align:center}
+.hnum{display:inline-block;min-width:1.6em;font-size:.7em;color:var(--muted)}
+.h-en{font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.6;color:var(--muted);text-align:left;margin:-4px 0 14px}
 </style>
 </head>
 <body>
@@ -666,6 +686,7 @@ header nav .sm{display:none}
     <button data-v="home"><span class="lg">Flashcards</span><span class="sm">Cards</span></button>
     <button data-v="sentences"><span class="lg">Sentence builder</span><span class="sm">Sentences</span></button>
     <button data-v="reading"><span class="lg">Comprehension</span><span class="sm">Reading</span></button>
+    <button data-v="verbs"><span class="lg">Verb patterns</span><span class="sm">Verbs</span></button>
     <button data-v="browse"><span class="lg">Browse words</span><span class="sm">Words</span></button>
     <button data-v="progress"><span class="lg">Progress</span><span class="sm">Progress</span></button>
     <button class="gear-nav" id="gear"><span>Settings</span></button>
@@ -681,6 +702,7 @@ header nav .sm{display:none}
 <script src="passages.js"></script>
 <script src="dict.js"></script>
 <script src="lookup.js"></script>
+<script src="arbain.js"></script>
 <script>
 const CARDS = window.CARDS;
 const ORDER = ["People & Family","School & Classroom","Home & Furniture","Kitchen & Table","Food & Drink","Body","Clothes & Accessories","Numbers, Ordinals & Clock","Time & Days","Weather & Seasons","Nature & the Outdoors","Animals & Insects","Transport & Cars","Play & Sport","Post & Mail","Travel & Immigration","Office & Business","Verbs","Verbal Nouns (Maṣdar)","Ism Fāʿil (Doers)","Adjectives","Colours","Pronouns & Pointing Words","Question Words","Prepositions & Particles","Common Phrases"];
@@ -786,7 +808,7 @@ function go(v){view=v; document.querySelectorAll('#nav button[data-v]').forEach(
 document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 const LESSONS=[...new Set(CARDS.map(c=>c.ln).filter(n=>n>=1&&n<100))].sort((a,b)=>a-b);
-function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence,reading:renderReading,admin:renderAdmin})[view](); }
+function render(){ ({home:renderHome,browse:renderBrowse,study:renderStudy,progress:renderProgress,sentences:renderSentences,sentence:renderSentence,reading:renderReading,verbs:()=>renderVerbs(),admin:renderAdmin})[view](); }
 // a short summary saved with each account, so the admin page can show it
 window.getSummary=()=>{ const r=Object.values(S.r||{}), d=S.days||{};
   return {cards:r.length, known:r.filter(x=>(x.ivl||0)>=3).length, reviews:Object.values(d).reduce((a,x)=>a+(x.n||0),0), daysActive:Object.values(d).filter(x=>x.n>0).length,
@@ -915,9 +937,9 @@ function renderStudy(){
   } else {
     face= front? `${img}${arBlock}<hr>${enBlock}${gBadge(c.g)}` : `${img}${enBlock}<hr>${arBlock}${gBadge(c.g)}`;
   }
-  const showAudio=c.aud&&(sess.flipped||front||isG);
+  const showAudio=(sess.flipped||front||isG);
   let h=`<div class="study"><div class="topline"><span class="tl-l"><button class="ghost" onclick="go('home')">← Home</button>${sess.hist.length?`<button class="ghost" id="prevC" title="Previous card (key ←)">‹ Previous</button>`:''}</span><span class="tl-r"><button class="rptbtn" onclick="openReport(${c.id})" title="Report a mistake on this card">⚑ Report mistake${S.fix[c.id]?' · fixed':''}</button>${sess.queue.length-sess.i} left</span></div>
-    <div class="flash" id="flash"><div class="fband grain g${secOf(c.cat)}"><span class="otag">${esc(c.cat)}</span><span class="fl">${esc(c.lesson||'')}</span></div>${showAudio?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:''}${face}</div>`;
+    <div class="flash" id="flash"><div class="fband grain g${secOf(c.cat)}"><span class="otag">${esc(c.cat)}</span><span class="fl">${esc(c.lesson||'')}</span></div>${showAudio?(c.aud?`<button class="audio" onclick="play('${c.aud}',event)" title="Play audio">🔊</button>`:`<button class="audio" onclick="say(this.dataset.t,event)" data-t="${esc(c.ar.split(/\s*\/\s*/)[0])}" title="Read aloud">🔊</button>`):''}${face}</div>`;
   if(isG){
     h+=`<div class="choices"><button data-g="m" class="${sess.answered?(c.g==='m'?'right':sess.answered==='m'?'wrong':''):''}">Masculine <span class="ar">مُذَكَّر</span></button>
        <button data-g="f" class="${sess.answered?(c.g==='f'?'right':sess.answered==='f'?'wrong':''):''}">Feminine <span class="ar">مُؤَنَّث</span></button></div>
@@ -1209,7 +1231,7 @@ function showWord(el){
   const rootHtml=rt?`<div class="wp-root"><span class="wp-rl">Root</span><span class="wp-rv ar">${rt.replace(/ء/g,'أ').split(' ').map(esc).join('<i>·</i>')}</span></div>${fam.length?`<div class="wp-fam"><div class="wp-rl">Same root in your deck</div>${fam.map(c=>`<span class="wp-fc"><b class="ar">${esc(c.ar.split(/\s*\/\s*/)[0])}</b><em>${esc(c.en)}</em></span>`).join('')}</div>`:''}`:'';
   const ending = /[\u064F\u064C]$/.test(word.replace(/[،.:!؟?]/g,''))?'u':/[\u064E\u064B]ا?$/.test(word.replace(/[،.:!؟?]/g,''))?'a':/[\u0650\u064D]$/.test(word.replace(/[،.:!؟?]/g,''))?'i':'';
   pop.innerHTML=`<button class="wp-x" aria-label="Close">×</button>
-    <div class="wp-w ar">${esc(word.replace(/[،.:!؟?«»]/g,''))}</div>
+    <div class="wp-w ar">${esc(word.replace(/[،.:!؟?«»]/g,''))} <button class="wp-say" title="Listen" onclick="say(this.dataset.t,event)" data-t="${esc(word.replace(/[،.:!؟?«»]/g,''))}">🔊</button></div>
     ${parts.length?`<div class="wp-parts">${parts.map(p=>`<span><b class="ar">${esc(p[0])}</b> ${esc(p[1])}</span>`).join('')}</div>`:''}
     ${ents.length?ents.map((e,i)=>`<div class="wp-e ${i?'alt':''}"><div class="wp-m">${esc(e.e)}</div>${!exact||e.a.replace(/[،.:!؟?]/g,'')!==word.replace(/[،.:!؟?«»]/g,'')?`<div class="wp-h"><span class="ar">${esc(e.a)}</span></div>`:''}${note(e)?`<div class="wp-n">${esc(note(e))}</div>`:''}</div>`).join('')
       :`<div class="wp-e"><div class="wp-m">Not in the dictionary yet</div><div class="wp-n">Let me know this word and I’ll add it.</div></div>`}
@@ -1350,9 +1372,10 @@ function rcNew(){
   rc.picks={}; rc.marked=false; rc.showEn=false; rc.showVocab=false;
 }
 function rcPill(k,v,label){return `<button class="pill ${rc[k]===v?'on':''}" data-rk="${k}" data-rv="${v}">${label}</button>`}
-function readTabs(on){ return `<div class="rtabs"><button class="${on==='p'?'on':''}" onclick="rc.tab='p';curGloss=null;renderReading()">Passages</button><button class="${on==='b'?'on':''}" onclick="rc.tab='b';renderReading()">My books</button></div>`; }
+function readTabs(on){ return `<div class="rtabs"><button class="${on==='p'?'on':''}" onclick="rc.tab='p';curGloss=null;renderReading()">Passages</button><button class="${on==='h'?'on':''}" onclick="rc.tab='h';renderReading()">40 Ḥadīth</button><button class="${on==='b'?'on':''}" onclick="rc.tab='b';renderReading()">My books</button></div>`; }
 function renderReading(){
   if(rc.tab==='b') return renderBooks();
+  if(rc.tab==='h') return renderHadith();
   curGloss=null;
   if(!rc.data) rcNew();
   const D=rc.data, T=t=>rc.tash?t:stripT(t), total=D.qs.length;
@@ -1376,7 +1399,7 @@ function renderReading(){
   <div class="rc-grid">
     <article class="flash rc-card"><div class="fband grain g2"><span class="otag">${RC_LV[D.lib?D.lv:rc.level]} · ${RC_TYPES[D.ty]||'Story'}${rc.topic==='any'?` · ${(RC_TOPICS.find(t=>t[0]===D.topic)||[,''])[1]}`:''} · ${D.words} words</span><span class="fl">${esc(D.title.en)}</span></div>
       <div class="rc-body"><div class="rc-title ar">${esc(T(D.title.ar))}</div><div class="rc-text ar" dir="rtl">${passage}</div>
-        <div class="rc-tools"><button class="ghost" id="rcvocab">${rc.showVocab?'Hide':'Show'} vocabulary</button>${rc.marked?`<button class="ghost" id="rcen">${rc.showEn?'Hide':'Show'} translation</button>`:''}</div>
+        <div class="rc-tools"><button class="ghost" id="rcsay">🔊 Listen</button><button class="ghost" id="rcvocab">${rc.showVocab?'Hide':'Show'} vocabulary</button>${rc.marked?`<button class="ghost" id="rcen">${rc.showEn?'Hide':'Show'} translation</button>`:''}</div>
         ${rc.showVocab?`<div class="rc-vocab">${D.vocab.map(([a,e])=>`<span class="wchip"><span class="ar">${esc(T(a))}</span><em>${esc(e)}</em></span>`).join('')}</div>`:''}
       </div></article>
     <section class="panel rc-qs"><div class="panel-h"><h2>Questions</h2><span class="muted">${rc.marked?`<b class="rc-score">${score} / ${total}</b>`:`${answered} of ${total} answered`}</span></div>
@@ -1387,6 +1410,7 @@ function renderReading(){
   </div>`;
   document.querySelectorAll('[data-rk]').forEach(b=>b.onclick=()=>{rc[b.dataset.rk]=b.dataset.rv; if(b.dataset.rk==='level'){S.rcLevel=rc.level; save();} rcNew(); renderReading();});
   $('#rctash').onclick=()=>{rc.tash=!rc.tash; S.rcTash=rc.tash; save(); const y=scrollY; renderReading(); scrollTo(0,y);};
+  $('#rcsay').onclick=()=>TTS.say(D.paras.map(p=>p.map(s=>s.ar).join(' ')).join(' '));
   $('#rcvocab').onclick=()=>{rc.showVocab=!rc.showVocab; const y=scrollY; renderReading(); scrollTo(0,y);};
   $('#rcen')&&($('#rcen').onclick=()=>{rc.showEn=!rc.showEn; const y=scrollY; renderReading(); scrollTo(0,y);});
   document.querySelectorAll('.rc-o').forEach(b=>b.onclick=()=>{rc.picks[+b.dataset.q]=b.dataset.o; const y=scrollY; renderReading(); scrollTo(0,y);});
@@ -1513,6 +1537,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 
 go('home');
 </script>
+<script src="features.js"></script>
 <script type="module" src="account.js?v=5"></script>
 </body>
 </html>

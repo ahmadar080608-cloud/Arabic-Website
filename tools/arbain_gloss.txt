@@ -1,0 +1,493 @@
+آذَنْتُهُ|I have declared (war) to him|أ ذ ن|verb (form IV) · past · “I” + ـهُ
+آمَنُوا|believed|أ م ن|verb (form IV) · past · “they”
+آمَنْتُ|I believe|أ م ن|verb (form IV) · past · “I”
+أَأَدْخُلُ|will I enter?|د خ ل|أَ (question) + verb · present · “I”
+أَبْوَابُ|gates|ب و ب|noun · plural of بَابٌ
+أَبْوَابِ|gates (of)|ب و ب|noun · plural · majrūr
+أَتَاكُمْ|he came to you|أ ت ي|verb · past · “he” + ـكُمْ
+أَتَدْرِي|do you know?|د ر ي|أَ (question) + verb · present · “you”
+أَتَيْتَنِي|you came to Me|أ ت ي|verb · past · “you” + ـنِي
+أَتَيْتُ|I came|أ ت ي|verb · past · “I”
+أَثَرُ|trace, sign (of)|أ ث ر|noun · marfūʿ
+أَحْدَثَ|he introduced (something new)|ح د ث|verb (form IV) · past · “he”
+أَخَاهُ|his brother|أ خ و|noun (أَخ) · manṣūb + ـهُ
+أَخُو|brother (of)|أ خ و|noun (أَخ) · marfūʿ
+أَدُلُّكَ|I guide you|د ل ل|verb · present · “I” + ـكَ
+أَرَأَيْتَ|what do you think?|ر أ ي|أَ (question) + verb · past · “you”
+أَرَأَيْتُمْ|what do you think?|ر أ ي|أَ (question) + verb · past · “you all”
+أَزِدْ|I add|ز ي د|verb · jussive · “I” (after لَمْ)
+أَشْعَثَ|dishevelled|ش ع ث|adjective · manṣūb (ḥāl)
+أَصْحَابِ|companions (of)|ص ح ب|noun · plural of صَاحِبٌ · majrūr
+أَضْعَافٍ|many times over|ض ع ف|noun · plural of ضِعْفٌ · majrūr
+أَضْعَفُ|the weakest|ض ع ف|elative
+أَطْعَمْتُهُ|I fed him|ط ع م|verb (form IV) · past · “I” + ـهُ
+أَغْبَرَ|dusty|غ ب ر|adjective · manṣūb (ḥāl)
+أَغْفِرُ|I forgive|غ ف ر|verb · present · “I”
+أَغْفِرْ|I will forgive|غ ف ر|verb · jussive · “I” (answer to a command)
+أَفْتَاكَ|gave you a ruling|ف ت ي|verb (form IV) · past · “he” + ـكَ
+أَفْجَرِ|most wicked|ف ج ر|elative · majrūr
+أَكَانَ|would there be?|ك و ن|أَ (question) + verb · past · “he/it”
+أَكْسُكُمْ|I will clothe you|ك س و|verb · jussive · “I” + ـكُمْ
+أَمَارَاتِهَا|its signs|أ م ر|noun · plural of أَمَارَةٌ + ـهَا
+أَمَرْتُكُمْ|I commanded you|أ م ر|verb · past · “I” + ـكُمْ
+أَمْسَيْتَ|evening comes upon you|م س و|verb (form IV) · past · “you”
+أَنَسٍ|Anas|أ ن س|name · majrūr
+أَنَسِ|Anas|أ ن س|name · majrūr
+أَنْبِيَائِهِمْ|their prophets|ن ب أ|noun · plural of نَبِيٌّ + ـهِمْ
+أَنْكَرَ|he denied|ن ك ر|verb (form IV) · past · “he”
+أَهْدِكُمْ|I will guide you|ه د ي|verb · jussive · “I” + ـكُمْ
+أَوَلَيْسَ|is it not that…?|ل ي س|أَ (question) + وَ + لَيْسَ
+أَوْسٍ|Aws|أ و س|name · majrūr
+أَوْصِنِي|advise me|و ص ي|verb (form IV) · command · “you” + ـنِي
+أَوْلِيَاءُ|friends (of)|و ل ي|noun · plural of وَلِيٌّ
+أُبَالِي|I mind, care|ب ل و|verb (form III) · present · “I”
+أُطْعِمْكُمْ|I will feed you|ط ع م|verb (form IV) · jussive · “I” + ـكُمْ
+أُقَاتِلَ|(that) I fight|ق ت ل|verb (form III) · subjunctive · “I”
+أُمِرْتُ|I have been commanded|أ م ر|verb · past passive · “I”
+أُوصِيكُمْ|I advise you|و ص ي|verb (form IV) · present · “I” + ـكُمْ
+أُوَفِّيكُمْ|I repay you in full|و ف ي|verb (form II) · present · “I” + ـكُمْ
+إِيَّاهَا|them|—|detached object pronoun
+اتِّبَاعُ|following|ت ب ع|verbal noun (form VIII)
+اجْتَمَعَتْ|gathered|ج م ع|verb (form VIII) · past · “she/it”
+اجْتَمَعُوا|they gathered|ج م ع|verb (form VIII) · past · “they”
+ازْهَدْ|be detached|ز ه د|verb · command · “you”
+اسْتَبْرَأَ|he protected (kept clear)|ب ر أ|verb (form X) · past · “he”
+اسْتَطَعْتَ|you are able|ط و ع|verb (form X) · past · “you”
+اسْتَطَعْتُمْ|you are able|ط و ع|verb (form X) · past · “you all”
+اسْتَعَاذَنِي|he sought refuge in Me|ع و ذ|verb (form X) · past · “he” + ـنِي
+اسْتَعَنْتَ|you seek help|ع و ن|verb (form X) · past · “you”
+اسْتَغْفَرْتَنِي|you asked My forgiveness|غ ف ر|verb (form X) · past · “you” + ـنِي
+اسْتَفْتِ|seek a ruling from|ف ت ي|verb (form X) · command · “you”
+اسْتَقِمْ|be steadfast|ق و م|verb (form X) · command · “you”
+اسْتُكْرِهُوا|they were forced|ك ر ه|verb (form X) · past passive · “they”
+اطْمَأَنَّتْ|felt at peace|ط م أ ن|verb · past · “she/it”
+افْتَرَضْتُهُ|I made obligatory|ف ر ض|verb (form VIII) · past · “I” + ـهُ
+التِّرْمِذِيُّ|al-Tirmidhī|—|name (nisbah)
+التِّرْمِذِيِّ|al-Tirmidhī|—|name · majrūr
+الثَّيِّبُ|the previously married person|ث ي ب|noun · marfūʿ
+الدَّارَقُطْنِيُّ|al-Dāraquṭnī|—|name (nisbah)
+الدَّارِيِّ|al-Dārī|—|name (nisbah) · majrūr
+الدُّثُورِ|great wealth|د ث ر|noun · majrūr
+الذُّنُوبَ|sins|ذ ن ب|noun · plural of ذَنْبٌ · manṣūb
+الذِّبْحَةَ|the manner of slaughter|ذ ب ح|noun of manner · manṣūb
+الرَّاشِدِينَ|rightly guided|ر ش د|active participle · plural · majrūr
+الرَّحْمَنِ|the Most Merciful|ر ح م|Name of Allah · majrūr
+الرَّخَاءِ|ease, prosperity|ر خ و|noun · majrūr
+الرُّسُلُ|messengers|ر س ل|noun · plural of رَسُولٌ
+الرُّوحَ|the soul|ر و ح|noun · manṣūb
+الزَّانِي|who commits adultery|ز ن ي|active participle
+الزَّكَاةَ|the zakāh|ز ك و|noun · manṣūb
+الزَّكَاةِ|the zakāh|ز ك و|noun · majrūr
+الشَّرِّ|evil|ش ر ر|noun · majrūr
+الشُّبُهَاتِ|doubtful matters|ش ب ه|noun · plural of شُبْهَةٌ
+الشِّدَّةِ|hardship|ش د د|noun · majrūr
+الصَّادِقُ|the truthful|ص د ق|active participle
+الصَّوْمُ|fasting|ص و م|verbal noun
+الطُّهُورُ|purification|ط ه ر|noun
+الظُّلْمَ|injustice|ظ ل م|noun · manṣūb
+الظُّلْمِ|injustice|ظ ل م|noun · majrūr
+اللَّفْظِ|wording|ل ف ظ|noun · majrūr
+النَّصْرَ|victory|ن ص ر|noun · manṣūb
+النَّوَّاسِ|al-Nawwās|—|name · majrūr
+النُّبُوَّةِ|prophethood|ن ب أ|noun · majrūr
+النُّسَخِ|manuscripts, copies|ن س خ|noun · plural of نُسْخَةٌ · majrūr
+الْإِحْسَانَ|excellence|ح س ن|verbal noun (form IV) · manṣūb
+الْإِحْسَانُ|excellence (iḥsān)|ح س ن|verbal noun (form IV)
+الْإِحْسَانِ|excellence (iḥsān)|ح س ن|verbal noun (form IV) · majrūr
+الْإِيمَانِ|faith|أ م ن|verbal noun (form IV) · majrūr
+الْبَدْرِيِّ|al-Badrī (who fought at Badr)|—|nisbah · majrūr
+الْبَيْهَقِيُّ|al-Bayhaqī|—|name (nisbah)
+الْجَسَدُ|the body|ج س د|noun
+الْجَسَدِ|the body|ج س د|noun · majrūr
+الْجِهَادُ|striving (jihād)|ج ه د|verbal noun (form III)
+الْحَارِثِ|al-Ḥārith|ح ر ث|name · majrūr
+الْحَرَجِ|blame, hardship|ح ر ج|noun · majrūr
+الْحَلَالَ|the lawful|ح ل ل|noun · manṣūb
+الْحَلَالُ|the lawful|ح ل ل|noun
+الْحَلَالِ|the lawful|ح ل ل|noun · majrūr
+الْحَيَاءُ|modesty, shyness|ح ي ي|noun
+الْحُفَاةَ|the barefoot|ح ف ي|noun · plural of حَافٍ · manṣūb
+الْخَطِيئَةَ|sin|خ ط أ|noun · manṣūb
+الْخُدْرِيِّ|al-Khudrī|—|nisbah · majrūr
+الْخُشَنِيِّ|al-Khushanī|—|nisbah · majrūr
+الْخُلَفَاءِ|the caliphs|خ ل ف|noun · plural of خَلِيفَةٌ · majrūr
+الْعَاصِ|al-ʿĀṣ|ع ص ي|name · majrūr
+الْعَبَّاسِ|al-ʿAbbās|ع ب س|name · majrūr
+الْعُرَاةَ|the unclothed|ع ر ي|noun · plural of عَارٍ · manṣūb
+الْعُسْرِ|hardship|ع س ر|noun · majrūr
+الْعِرْبَاضِ|al-ʿIrbāḍ|—|name · majrūr
+الْغِفَارِيِّ|al-Ghifārī|—|nisbah · majrūr
+الْفَرَجَ|relief|ف ر ج|noun · manṣūb
+الْكَرْبِ|distress|ك ر ب|noun · majrūr
+الْمَرْءِ|a person|م ر أ|noun · majrūr
+الْمَسْئُولُ|the one asked|س أ ل|passive participle
+الْمَصْدُوقُ|the one who is believed|ص د ق|passive participle
+الْمَضَاجِعِ|beds|ض ج ع|noun · plural of مَضْجَعٌ · majrūr
+الْمَهْدِيِّينَ|rightly guided|ه د ي|passive participle · plural · majrūr
+الْمُدَّعِي|the claimant|د ع و|active participle (form VIII)
+الْمُفَارِقُ|the one who separates|ف ر ق|active participle (form III)
+الْمُنْكَرِ|what is wrong|ن ك ر|passive participle (form IV) · majrūr
+الْمُوَطَّإِ|al-Muwaṭṭaʾ|و ط أ|book title · majrūr
+الْمِخْيَطُ|the needle|خ ي ط|noun of instrument
+الْمِيزَانَ|the scale|و ز ن|noun · manṣūb
+امْرِئٍ|a person|م ر أ|noun · majrūr
+بَشِيرٍ|Bashīr|ب ش ر|name · majrūr
+بَطَّأَ|slowed down|ب ط أ|verb (form II) · past · “he/it”
+بَلَغَ|he reached|ب ل غ|verb · past · “he”
+بَلَغَتْ|reached|ب ل غ|verb · past · “she/it”
+بَيَاضِ|whiteness (of)|ب ي ض|noun · majrūr
+بِأَسَانِيدَ|with chains of narration|س ن د|بِ + noun · plural of إِسْنَادٌ
+بِإِحْدَى|by one (of)|و ح د|بِ + number (f.)
+بِإِسْنَادٍ|with a chain of narration|س ن د|بِ + verbal noun (form IV)
+بِالنَّوَاجِذِ|with the molar teeth|ن ج ذ|بِ + noun · plural of نَاجِذٌ
+بِالنَّوَافِلِ|with voluntary deeds|ن ف ل|بِ + noun · plural of نَافِلَةٌ
+بِالْأُجُورِ|with the rewards|أ ج ر|بِ + noun · plural of أَجْرٌ
+بِالْحَرْبِ|(of) war|ح ر ب|بِ + noun
+بِحَسْبِ|it is enough for|ح س ب|بِ + noun
+بِدَعْوَاهُمْ|by their claims|د ع و|بِ + noun + ـهُمْ
+بِدْعَةٍ|innovation|ب د ع|noun · majrūr
+بِفُضُولِ|with the surplus (of)|ف ض ل|بِ + noun · plural
+بِقُرَابِ|with nearly the fill (of)|ق ر ب|بِ + noun
+بِقُرَابِهَا|with nearly its fill|ق ر ب|بِ + noun + ـهَا
+بِمَنْكِبَيَّ|my two shoulders|ن ك ب|بِ + noun · dual + ـيَّ
+تَأَمَّرَ|was made leader|أ م ر|verb (form V) · past · “he”
+تَبَاغَضُوا|hate one another|ب غ ض|verb (form VI) · jussive · “you all” (after لَا)
+تَبَعًا|following|ت ب ع|noun · manṣūb
+تَبْحَثُوا|search into|ب ح ث|verb · jussive · “you all” (after لَا)
+تَبْلُغُوا|you will reach|ب ل غ|verb · subjunctive · “you all” (after لَنْ)
+تَتَجَافَى|they forsake|ج ف و|verb (form VI) · present · “she/it”
+تَجَاوَزَ|He pardoned|ج و ز|verb (form VI) · past · “he”
+تَحَاسَدُوا|envy one another|ح س د|verb (form VI) · jussive · “you all” (after لَا)
+تَحْرِيمُ|the prohibition (of)|ح ر م|verbal noun (form II)
+تَحْمِيدَةٍ|saying al-ḥamdu lillāh|ح م د|noun of one instance (form II) · majrūr
+تَدَابَرُوا|turn your backs on one another|د ب ر|verb (form VI) · jussive · “you all” (after لَا)
+تَرَاهُ|you see Him|ر أ ي|verb · present · “you” + ـهُ
+تَرْفَعُ|you lift|ر ف ع|verb · present · “you”
+تَسْبِيحَةٍ|saying subḥān Allāh|س ب ح|noun of one instance (form II) · majrūr
+تَسْتَحِ|you feel shame|ح ي ي|verb (form X) · jussive · “you” (after لَمْ)
+تَشْهَدَ|(that) you testify|ش ه د|verb · subjunctive · “you”
+تَصَّدَّقُونَ|you give in charity|ص د ق|verb (form V) · present · “you all”
+تَطْلُعُ|it rises|ط ل ع|verb · present · “she/it”
+تَظَالَمُوا|wrong one another|ظ ل م|verb (form VI) · jussive · “you all” (after لَا)
+تَعْبُدَ|(that) you worship|ع ب د|verb · subjunctive · “you”
+تَعْبُدُ|you worship|ع ب د|verb · present · “you”
+تَعْتَدُوهَا|overstep them|ع د و|verb (form VIII) · jussive · “you all” + ـهَا
+تَغْضَبْ|get angry|غ ض ب|verb · jussive · “you” (after لَا)
+تَغْيِيرُ|changing|غ ي ر|verbal noun (form II)
+تَقَرَّبَ|drew near|ق ر ب|verb (form V) · past · “he”
+تَكْبِيرَةٍ|saying Allāhu akbar|ك ب ر|noun of one instance (form II) · majrūr
+تَلَا|he recited|ت ل و|verb · past · “he”
+تَلِدَ|(that) she gives birth to|و ل د|verb · subjunctive · “she”
+تَمِيمِ|Tamīm|ت م م|name · majrūr
+تَمْحُهَا|it wipes it out|م ح و|verb · jussive · “she/it” + ـهَا
+تَمْلَآنِ|they both fill|م ل أ|verb · present · “they both (f.)”
+تَمْلَأُ|it fills|م ل أ|verb · present · “she/it”
+تَنَاجَشُوا|bid up prices deceptively|ن ج ش|verb (form VI) · jussive · “you all” (after لَا)
+تَنْتَهِكُوهَا|violate them|ن ه ك|verb (form VIII) · jussive · “you all” + ـهَا
+تَهْلِيلَةٍ|saying lā ilāha illā Allāh|ه ل ل|noun of one instance (form II) · majrūr
+تُؤْمِنَ|(that) you believe|أ م ن|verb (form IV) · subjunctive · “you”
+تُجَاهَكَ|in front of you|و ج ه|adverb + ـكَ
+تُخْطِئُونَ|you sin|خ ط أ|verb (form IV) · present · “you all”
+تُشْرِكُ|associating (partners)|ش ر ك|verb (form IV) · present · “you”
+تُضَيِّعُوهَا|neglect them|ض ي ع|verb (form II) · jussive · “you all” + ـهَا
+تُطْفِئُ|extinguishes|ط ف أ|verb (form IV) · present · “she/it”
+ثَكِلَتْكَ|may (your mother) lose you|ث ك ل|verb · past · “she” + ـكَ
+جَائِعٌ|hungry|ج و ع|active participle
+جَابِرِ|Jābir|ج ب ر|name · majrūr
+جَعَلَ|He placed, made|ج ع ل|verb · past · “he”
+جَوْفِ|the depth (of)|ج و ف|noun · majrūr
+جُرْثُومِ|Jurthūm|—|name · majrūr
+جُنَادَةَ|Junādah|—|name · majrūr
+جُنُوبُهُمْ|their sides|ج ن ب|noun · plural of جَنْبٌ + ـهُمْ
+جِبْرِيلُ|Jibrīl (Gabriel)|—|name
+حَاكَ|it wavered, stirred|ح ي ك|verb · past · “he/it”
+حَرَّمْتُ|I have forbidden; I treated as unlawful|ح ر م|verb (form II) · past · “I”
+حَصَائِدُ|harvests (of)|ح ص د|noun · plural of حَصِيدَةٌ
+حَفِظْتُ|I memorised|ح ف ظ|verb · past · “I”
+حَفْصٍ|Ḥafṣ|ح ف ص|name · majrūr
+حَنْبَلٍ|Ḥanbal|—|name · majrūr
+حَوَائِجِ|needs|ح و ج|noun · plural of حَاجَةٌ · majrūr
+حَيْثُمَا|wherever|—|particle
+حُدُودًا|limits|ح د د|noun · plural of حَدٌّ · manṣūb
+خَادِمِ|servant (of)|خ د م|active participle · majrūr
+خَطَايَا|sins|خ ط أ|noun · plural of خَطِيئَةٌ
+خُطْوَةٍ|step|خ ط و|noun · majrūr
+خِصَالِ|qualities|خ ص ل|noun · plural of خَصْلَةٌ · majrūr
+دَابَّتِهِ|his riding animal|د ب ب|noun · majrūr + ـهِ
+دَاوُدَ|Dāwūd|—|name · majrūr
+دَعْ|leave|و د ع|verb · command · “you”
+دَمُ|blood (of)|د م و|noun · marfūʿ
+دَمُهُ|his blood|د م و|noun + ـهُ
+دَمِ|blood (of)|د م و|noun · majrūr
+دُلَّنِي|guide me|د ل ل|verb · command · “you” + ـنِي
+دِمَاءَهُمْ|their blood|د م و|noun · plural of دَمٌ + ـهُمْ
+ذَاتَ|one (day, night)|ذ و ت|noun · manṣūb (ذَاتَ يَوْمٍ: one day)
+ذَبَحْتُمْ|you slaughter|ذ ب ح|verb · past · “you all”
+ذَبِيحَتَهُ|his animal for slaughter|ذ ب ح|noun · manṣūb + ـهُ
+ذَرٍّ|Dharr|—|name (أَبُو ذَرٍّ) · majrūr
+ذُنُوبُكَ|your sins|ذ ن ب|noun · plural + ـكَ
+ذِرَاعٌ|an arm’s length|ذ ر ع|noun
+رَبِّ|Lord|ر ب ب|noun (vocative)
+رَزَقْنَاكُمْ|We have provided you|ر ز ق|verb · past · “we” + ـكُمْ
+رَفْعُ|lifting|ر ف ع|verbal noun
+رَوَاهُ|narrated it|ر و ي|verb · past · “he” + ـهُ
+رُفِعَتِ|were lifted|ر ف ع|verb · past passive · “she/it”
+رُقَيَّةَ|Ruqayyah|—|name · majrūr
+رُوِّينَاهُ|we have narrated it|ر و ي|verb (form II) · past passive · “we” + ـهُ
+رِعَاءَ|shepherds (of)|ر ع ي|noun · plural of رَاعٍ · manṣūb
+رِوَايَةٍ|a narration|ر و ي|noun · majrūr
+رِوَايَةِ|narration (of)|ر و ي|noun · majrūr
+سَبِيلًا|a way|س ب ل|noun · manṣūb
+سَبِيلٍ|path, road|س ب ل|noun · majrūr
+سَبْعِمِائَةِ|seven hundred|س ب ع|number · majrūr
+سَعَةُ|vastness (of)|و س ع|noun
+سَوَادِ|blackness (of)|س و د|noun · majrūr
+سُلَامَى|joint, small bone|س ل م|noun
+شَدَّادِ|Shaddād|ش د د|name · majrūr
+شَطْرُ|half (of)|ش ط ر|noun
+شَفْرَتَهُ|his blade|ش ف ر|noun · manṣūb + ـهُ
+شَهَادَةِ|testifying|ش ه د|verbal noun · majrūr
+شَهْوَتَهُ|his desire|ش ه و|noun · manṣūb + ـهُ
+شِئْتَ|you wish|ش ي أ|verb · past · “you”
+صَالِحًا|righteous deeds|ص ل ح|active participle · manṣūb
+صَخْرٍ|Ṣakhr|ص خ ر|name · majrūr
+صَدَقْتَ|you have spoken truly|ص د ق|verb · past · “you”
+صَعِيدٍ|a plain, open ground|ص ع د|noun · majrūr
+صَلَحَتْ|it is sound|ص ل ح|verb · past · “she/it”
+ضَالٌّ|astray|ض ل ل|active participle
+ضَرِّي|harming Me|ض ر ر|verbal noun + ـِي
+ضَلَالَةٌ|misguidance|ض ل ل|noun
+ضِرَارَ|harming in return|ض ر ر|verbal noun (form III) · manṣūb (after لَا)
+ضِيَاءٌ|radiance|ض و أ|noun
+طَلَعَ|appeared|ط ل ع|verb · past · “he”
+طَيِّبًا|good, pure|ط ي ب|adjective · manṣūb
+طَيِّبٌ|good, pure|ط ي ب|adjective
+عَابِرُ|one passing (along)|ع ب ر|active participle
+عَادَى|showed enmity to|ع د و|verb (form III) · past · “he”
+عَارٍ|unclothed|ع ر ي|active participle
+عَاصِمٍ|ʿĀṣim|ع ص م|name · majrūr
+عَبَّاسٍ|ʿAbbās|ع ب س|name · majrūr
+عَزَّ|Mighty|ع ز ز|verb · past (عَزَّ وَجَلَّ: Mighty and Majestic)
+عَصَمُوا|they have protected|ع ص م|verb · past · “they”
+عَضُّوا|bite|ع ض ض|verb · command · “you all”
+عَمْرٍو|ʿAmr|ع م ر|name · majrūr
+عَمْرِو|ʿAmr|ع م ر|name · majrūr
+عَنْهُمَا|with both of them|—|عَنْ + ـهُمَا
+عَوْنِ|help (of)|ع و ن|noun · majrūr
+عِبَادَ|servants (of)|ع ب د|noun · plural of عَبْدٌ · manṣūb
+عِبَادِي|My servants|ع ب د|noun · plural + ـِي
+غَفَرْتُ|I would forgive|غ ف ر|verb · past · “I”
+غُلَامُ|young man|غ ل م|noun (vocative)
+فَأَحْسِنُوا|then do well|ح س ن|فَ + verb (form IV) · command · “you all”
+فَأَسْنَدَ|and he rested|س ن د|فَ + verb (form IV) · past · “he”
+فَأَعْطَيْتُ|and I gave|ع ط و|فَ + verb (form IV) · past · “I”
+فَأَنَّى|so how?|—|فَ + أَنَّى
+فَأَوْصِنَا|so advise us|و ص ي|فَ + verb (form IV) · command · “you” + ـنَا
+فَأْتُوا|then do|أ ت ي|فَ + verb · command · “you all”
+فَاجْتَنِبُوهُ|then avoid it|ج ن ب|فَ + verb (form VIII) · command · “you all” + ـهُ
+فَاسْتَطْعِمُونِي|so ask Me for food|ط ع م|فَ + verb (form X) · command · “you all” + ـنِي
+فَاسْتَعِنْ|then seek help|ع و ن|فَ + verb (form X) · command · “you”
+فَاسْتَغْفِرُونِي|so seek My forgiveness|غ ف ر|فَ + verb (form X) · command · “you all” + ـنِي
+فَاسْتَكْسُونِي|so ask Me for clothing|ك س و|فَ + verb (form X) · command · “you all” + ـنِي
+فَاسْتَهْدُونِي|so ask Me for guidance|ه د ي|فَ + verb (form X) · command · “you all” + ـنِي
+فَتَحْمِلُهُ|and you lift him|ح م ل|فَ + verb · present · “you” + ـهُ
+فَتَضُرُّونِي|and so harm Me|ض ر ر|فَ + verb · subjunctive · “you all” + ـنِي
+فَتَنْفَعُونِي|and so benefit Me|ن ف ع|فَ + verb · subjunctive · “you all” + ـنِي
+فَرَائِضَ|obligations|ف ر ض|noun · plural of فَرِيضَةٌ
+فَرَدَّدَ|and he repeated|ر د د|فَ + verb (form II) · past · “he”
+فَرَضَ|He made obligatory|ف ر ض|verb · past · “he”
+فَسَدَ|is corrupt|ف س د|verb · past · “he/it”
+فَسَدَتْ|it is corrupt|ف س د|verb · past · “she/it”
+فَعَجِبْنَا|and we were amazed|ع ج ب|فَ + verb · past · “we”
+فَعَلُوا|they did|ف ع ل|verb · past · “they”
+فَلَبِثْتُ|and I stayed|ل ب ث|فَ + verb · past · “I”
+فَلْيَحْمَدِ|then let him praise|ح م د|فَ + لْـ + verb · jussive · “he”
+فَلْيُغَيِّرْهُ|let him change it|غ ي ر|فَ + لْـ + verb (form II) · jussive + ـهُ
+فَلْيُكْرِمْ|let him honour|ك ر م|فَ + لْـ + verb (form IV) · jussive
+فَمُعْتِقُهَا|and so freeing it|ع ت ق|فَ + active participle (form IV) + ـهَا
+فَوَاللهِ|so by Allah|—|فَ + وَ (oath) + اللهِ
+فَيَسْبِقُ|then (it) overtakes|س ب ق|فَ + verb · present · “he/it”
+فَيَنْفُخُ|and he breathes|ن ف خ|فَ + verb · present · “he”
+فِيمَا|in what|—|فِي + مَا
+قَامُوا|they stood|ق و م|verb · past · “they”
+قَتَلْتُمْ|you kill|ق ت ل|verb · past · “you all”
+قَضَاءُ|fulfilling|ق ض ي|verbal noun
+قَوْمٌ|a group of people|ق و م|noun
+قَوْمٍ|a people|ق و م|noun · majrūr
+كَالرَّاعِي|like the shepherd|ر ع ي|كَ + active participle
+كَسَوْتُهُ|I clothed him|ك س و|verb · past · “I” + ـهُ
+كُرَبِ|distresses (of)|ك ر ب|noun · plural of كُرْبَةٌ · majrūr
+كُفَّ|restrain|ك ف ف|verb · command · “you”
+كُلُوا|eat|أ ك ل|verb · command · “you all”
+كُنْ|be|ك و ن|verb · command · “you”
+لَأَتَيْتُكَ|I would come to you|أ ت ي|لَـ + verb · past · “I” + ـكَ
+لَأُعِيذَنَّهُ|I will surely protect him|ع و ذ|لَـ + verb (form IV) · present · “I” + ـنَّ + ـهُ
+لَأُعْطِيَنَّهُ|I will surely give him|ع ط و|لَـ + verb (form IV) · present · “I” + ـنَّ + ـهُ
+لَقِيتَنِي|you met Me|ل ق ي|verb · past · “you” + ـنِي
+لَمُؤَاخَذُونَ|surely held to account|أ خ ذ|لَـ + passive participle (form III) · plural
+لَيَسِيرٌ|is surely easy|ي س ر|لَـ + adjective
+لُزُومُ|holding to|ل ز م|verbal noun
+لِلْجَمَاعَةِ|the community|ج م ع|لِ + noun
+لِمَوْتِكَ|for your death|م و ت|لِ + noun + ـكَ
+لِيَصْمُتْ|let him be silent|ص م ت|لِ (command) + verb · jussive · “he”
+لِيُخْطِئَكَ|to miss you|خ ط أ|لِ + verb (form IV) · subjunctive + ـكَ
+لِيُصِيبَكَ|to reach you|ص و ب|لِ + verb (form IV) · subjunctive + ـكَ
+مَاجَهْ|Mājah|—|name (ابْنُ مَاجَهْ)
+مَحَارِمُهُ|what He has forbidden|ح ر م|noun · plural of مَحْرَمٌ + ـهُ
+مَرَاحِلُ|stages|ر ح ل|noun · plural of مَرْحَلَةٌ
+مَسَائِلِهِمْ|their questions|س أ ل|noun · plural of مَسْأَلَةٌ + ـهِمْ
+مَسْأَلَتَهُ|his request|س أ ل|noun · manṣūb + ـهُ
+مَسْعُودٍ|Masʿūd|س ع د|name · majrūr
+مَعْبَدٍ|Maʿbad|ع ب د|name · majrūr
+مَغْفِرَةً|forgiveness|غ ف ر|noun · manṣūb
+مَغْفِرَةِ|forgiveness (of)|غ ف ر|noun · majrūr
+مَلِيًّا|a long while|م ل و|adverb · manṣūb
+مَنَاخِرِهِمْ|their noses|ن خ ر|noun · plural of مَنْخِرٌ + ـهِمْ
+مَوْعِظَةً|an admonition|و ع ظ|noun · manṣūb
+مَوْعِظَةُ|admonition (of)|و ع ظ|noun
+مُحَرَّمًا|forbidden|ح ر م|passive participle (form II) · manṣūb
+مُسْنَدًا|with a connected chain|س ن د|passive participle (form IV) · manṣūb
+مُسْنَدَيِ|the two Musnads (of)|س ن د|noun · dual · majrūr
+مُشْتَبِهَاتٌ|doubtful|ش ب ه|active participle (form VIII) · plural (f.)
+مُضْغَةً|a lump of flesh|م ض غ|noun · manṣūb
+مُعَاذِ|Muʿādh|ع و ذ|name · majrūr
+مُعْسِرٍ|someone in difficulty|ع س ر|active participle (form IV) · majrūr
+مُنْكَرًا|something wrong|ن ك ر|passive participle (form IV) · manṣūb
+مُنْكَرٍ|evil|ن ك ر|passive participle (form IV) · majrūr
+مُوبِقُهَا|destroying it|و ب ق|active participle (form IV) + ـهَا
+مُوَدِّعٍ|one bidding farewell|و د ع|active participle (form II) · majrūr
+مِرَارًا|many times|م ر ر|noun · plural of مَرَّةٌ · manṣūb
+نَاشِرٍ|Nāshir|ن ش ر|name · majrūr
+نَجِيحٍ|Najīḥ|ن ج ح|name · majrūr
+نَصُومُ|we fast|ص و م|verb · present · “we”
+نَقَصَ|it would decrease|ن ق ص|verb · past · “he/it”
+نَهَيْتُكُمْ|I forbade you|ن ه ي|verb · past · “I” + ـكُمْ
+نَوَى|he intended|ن و ي|verb · past · “he”
+نُطْفَةً|as a drop|ن ط ف|noun · manṣūb
+هَاهُنَا|here|—|adverb
+هَكَذَا|like this|—|adverb
+هَوَاهُ|his desires|ه و ي|noun + ـهُ
+هُرَيْرَةَ|Hurayrah|ه ر ر|name (أَبُو هُرَيْرَةَ) · majrūr
+وَأَتْبِعِ|and follow (with)|ت ب ع|وَ + verb (form IV) · command · “you”
+وَأَجَلِهِ|and his lifespan|أ ج ل|وَ + noun + ـهِ
+وَأَحْلَلْتُ|and I treated as lawful|ح ل ل|وَ + verb (form IV) · past · “I”
+وَأَفْتَوْكَ|and they gave you rulings|ف ت ي|وَ + verb (form IV) · past · “they” + ـكَ
+وَإِنْسَكُمْ|and your humans|أ ن س|وَ + noun + ـكُمْ
+وَإِيتَاءِ|and giving|أ ت ي|وَ + verbal noun (form IV) · majrūr
+وَإِيَّاكُمْ|and beware of|—|وَ + إِيَّا + ـكُمْ
+وَابِصَةَ|Wābiṣah|—|name · majrūr
+وَاخْتِلَافُهُمْ|and their disagreeing|خ ل ف|وَ + verbal noun (form VIII) + ـهُمْ
+وَازْهَدْ|and be detached|ز ه د|وَ + verb · command · “you”
+وَاطْمَأَنَّ|and felt at peace|ط م أ ن|وَ + verb · past · “he/it”
+وَاعْمَلُوا|and do|ع م ل|وَ + verb · command · “you all”
+وَالتَّارِكُ|and the one who abandons|ت ر ك|وَ + active participle
+وَالتِّرْمِذِيُّ|and al-Tirmidhī|—|وَ + name
+وَالدَّارَقُطْنِيُّ|and al-Dāraquṭnī|—|وَ + name
+وَالدَّارِمِيُّ|and al-Dārimī|—|وَ + name
+وَالدَّارِمِيِّ|and al-Dārimī|—|وَ + name · majrūr
+وَالطَّاعَةِ|and obedience|ط و ع|وَ + noun · majrūr
+وَالنَّسَائِيُّ|and al-Nasāʾī|—|وَ + name
+وَالْإِثْمُ|and sin|أ ث م|وَ + noun
+وَالْإِحْسَانُ|and excellence|ح س ن|وَ + verbal noun (form IV)
+وَالْإِيمَانُ|and faith|أ م ن|وَ + verbal noun (form IV)
+وَالْبَيْهَقِيُّ|and al-Bayhaqī|—|وَ + name
+وَبَصَرَهُ|and his sight|ب ص ر|وَ + noun · manṣūb + ـهُ
+وَبَيْنَهُمَا|and between them|ب ي ن|وَ + adverb + ـهُمَا
+وَتَحُجَّ|and (that) you perform Hajj|ح ج ج|وَ + verb · subjunctive · “you”
+وَتَحُجُّ|and you perform Hajj|ح ج ج|وَ + verb · present · “you”
+وَتَرَدَّدَ|and hesitated|ر د د|وَ + verb (form V) · past · “he/it”
+وَتَصُومَ|and (that) you fast|ص و م|وَ + verb · subjunctive · “you”
+وَتَصُومُ|and you fast|ص و م|وَ + verb · present · “you”
+وَتُؤْتِي|and you give|أ ت ي|وَ + verb (form IV) · present · “you”
+وَتُؤْتِيَ|and (that) you give|أ ت ي|وَ + verb (form IV) · subjunctive · “you”
+وَتُؤْمِنَ|and (that) you believe|أ م ن|وَ + verb (form IV) · subjunctive · “you”
+وَتُعِينُ|and you help|ع و ن|وَ + verb (form IV) · present · “you”
+وَتُقِيمَ|and (that) you establish|ق و م|وَ + verb (form IV) · subjunctive · “you”
+وَتُقِيمُ|and you establish|ق و م|وَ + verb (form IV) · present · “you”
+وَتُمِيطُ|and you remove|م ي ط|وَ + verb (form IV) · present · “you”
+وَجَفَّتِ|and dried|ج ف ف|وَ + verb · past · “she/it”
+وَجَلَّ|and Majestic|ج ل ل|وَ + verb · past (عَزَّ وَجَلَّ)
+وَجِلَتْ|trembled with fear|و ج ل|verb · past · “she/it”
+وَجِنَّكُمْ|and your jinn|ج ن ن|وَ + noun + ـكُمْ
+وَحَدَّ|and He set (limits)|ح د د|وَ + verb · past · “he”
+وَحَرَّمْتُ|and I treated as unlawful|ح ر م|وَ + verb (form II) · past · “I”
+وَحَفَّتْهُمُ|and surrounded them|ح ف ف|وَ + verb · past · “she/it” + ـهُمْ
+وَحِسَابُهُمْ|and their reckoning|ح س ب|وَ + noun + ـهُمْ
+وَخَالِقِ|and deal with|خ ل ق|وَ + verb (form III) · command · “you”
+وَدِمَاءَهُمْ|and their blood|د م و|وَ + noun · plural + ـهُمْ
+وَذَرَفَتْ|and shed tears|ذ ر ف|وَ + verb · past · “she/it”
+وَذِرْوَةُ|and the peak (of)|ذ ر و|وَ + noun
+وَذِرْوَةِ|and the peak (of)|ذ ر و|وَ + noun · majrūr
+وَرَجَوْتَنِي|and hoped in Me|ر ج و|وَ + verb · past · “you” + ـنِي
+وَرَوَاهُ|and narrated it|ر و ي|وَ + verb · past · “he” + ـهُ
+وَرَيْحَانَتِهِ|and his sweet basil (delight)|ر و ح|وَ + noun + ـهِ
+وَرُسُلِهِ|and His messengers|ر س ل|وَ + noun · plural + ـهِ
+وَشَرِّهِ|and its bad|ش ر ر|وَ + noun + ـهِ
+وَصَوْمِ|and fasting|ص و م|وَ + verbal noun · majrūr
+وَعَظَنَا|admonished us|و ع ظ|verb · past · “he” + ـنَا
+وَعَمُودُهُ|and its pillar|ع م د|وَ + noun + ـهُ
+وَعَمُودِهِ|and its pillar|ع م د|وَ + noun · majrūr + ـهِ
+وَغَشِيَتْهُمُ|and covered them|غ ش ي|وَ + verb · past · “she/it” + ـهُمْ
+وَغَيْرُهُمَا|and others|غ ي ر|وَ + noun + ـهُمَا
+وَغُذِيَ|and was nourished|غ ذ و|وَ + verb · past passive · “he”
+وَقَعَ|fell|و ق ع|verb · past · “he”
+وَكَرِهْتَ|and you hated|ك ر ه|وَ + verb · past · “you”
+وَكُونُوا|and be|ك و ن|وَ + verb · command · “you all”
+وَلَئِنِ|and if indeed|—|وَ + لَـ + إِنْ
+وَلَئِنْ|and if indeed|—|وَ + لَـ + إِنْ
+وَلْيُحِدَّ|and let him sharpen|ح د د|وَ + لْـ + verb (form IV) · jussive
+وَلْيُرِحْ|and let him give ease to|ر و ح|وَ + لْـ + verb (form IV) · jussive
+وَمَشْرَبُهُ|and his drink|ش ر ب|وَ + noun + ـهُ
+وَمُحْدَثَاتِ|and newly invented (matters)|ح د ث|وَ + passive participle (form IV) · plural
+وَوَضَعَ|and he placed|و ض ع|وَ + verb · past · “he”
+وَيَتَدَارَسُونَهُ|and study it together|د ر س|وَ + verb (form VI) · present · “they” + ـهُ
+وَيَتَصَدَّقُونَ|and they give charity|ص د ق|وَ + verb (form V) · present · “they”
+وَيَصُومُونَ|and they fast|ص و م|وَ + verb · present · “they”
+وَيُؤْتُوا|and give|أ ت ي|وَ + verb (form IV) · subjunctive · “they”
+وَيُؤْمَرُ|and is commanded|أ م ر|وَ + verb · present passive · “he”
+وَيُبَاعِدُنِي|and keeps me far|ب ع د|وَ + verb (form III) · present · “he/it” + ـنِي
+وَيُشِيرُ|and he points|ش و ر|وَ + verb (form IV) · present · “he”
+وَيُصَدِّقُهُ|and confirms him|ص د ق|وَ + verb (form II) · present · “he” + ـهُ
+وَيُقِيمُوا|and establish|ق و م|وَ + verb (form IV) · subjunctive · “they”
+وِزْرٌ|a sin, burden|و ز ر|noun
+يَبِعْ|sell|ب ي ع|verb · jussive · “he” (after لَا)
+يَبْطِشُ|he strikes, grasps|ب ط ش|verb · present · “he”
+يَتَطَاوَلُونَ|they compete in height|ط و ل|verb (form VI) · present · “they”
+يَتَقَرَّبُ|he draws near|ق ر ب|verb (form V) · present · “he”
+يَتْلُونَ|they recite|ت ل و|verb · present · “they”
+يَحِلُّ|is lawful|ح ل ل|verb · present · “he/it”
+يَحْقِرَ|(that) he looks down on|ح ق ر|verb · subjunctive · “he”
+يَحْقِرُهُ|he looks down on him|ح ق ر|verb · present · “he” + ـهُ
+يَخْذُلُهُ|he abandons him|خ ذ ل|verb · present · “he” + ـهُ
+يَرَاكَ|He sees you|ر أ ي|verb · present · “he” + ـكَ
+يَرِيبُكَ|makes you doubt|ر ي ب|verb · present · “he/it” + ـكَ
+يَرْتَعَ|(that) he grazes|ر ت ع|verb · subjunctive · “he”
+يَرْعَى|grazes|ر ع ي|verb · present · “he”
+يَزَالُ|continues|ز و ل|verb · present · “he” (لَا يَزَالُ: keeps on)
+يَسَّرَ|made easy|ي س ر|verb (form II) · past · “he”
+يَسَّرَهُ|made it easy|ي س ر|verb (form II) · past · “he” + ـهُ
+يَسْتَطِعْ|he is able|ط و ع|verb (form X) · jussive · “he” (after لَمْ)
+يَشْهَدُوا|they testify|ش ه د|verb · subjunctive · “they”
+يَضُرُّوكَ|harm you|ض ر ر|verb · subjunctive/jussive · “they” + ـكَ
+يَطَّلِعَ|(that) he finds out|ط ل ع|verb (form VIII) · subjunctive · “he”
+يَظْلِمُهُ|he wrongs him|ظ ل م|verb · present · “he” + ـهُ
+يَعِشْ|lives|ع ي ش|verb · jussive · “he”
+يَعْرِفْكَ|He will know you|ع ر ف|verb · jussive · “he” + ـكَ
+يَعْلَمُهُنَّ|know them|ع ل م|verb · present · “he” + ـهُنَّ
+يَعْلَى|Yaʿlā|ع ل و|name
+يَغْدُو|goes out in the morning|غ د و|verb · present · “he”
+يَقْبَلُ|He accepts|ق ب ل|verb · present · “he”
+يَكُبُّ|throws face-down|ك ب ب|verb · present · “he/it”
+يَلُومَنَّ|let him blame|ل و م|verb · jussive + ـنَّ (emphasis)
+يَلْتَمِسُ|seeking|ل م س|verb (form VIII) · present · “he”
+يَمُدُّ|stretches|م د د|verb · present · “he”
+يَنْفَعُوكَ|benefit you|ن ف ع|verb · subjunctive/jussive · “they” + ـكَ
+يَنْقُصُ|decreases|ن ق ص|verb · present · “he/it”
+يَنْكِحُهَا|he would marry her|ن ك ح|verb · present · “he” + ـهَا
+يُبْصِرُ|he sees|ب ص ر|verb (form IV) · present · “he”
+يُسْتَجَابُ|is answered|ج و ب|verb (form X) · present passive · “he/it”
+يُسْرًا|ease|ي س ر|noun · manṣūb
+يُسْرِعْ|hasten|س ر ع|verb (form IV) · jussive · “he/it” (after لَمْ)
+يُصِيبُهَا|he would obtain it|ص و ب|verb (form IV) · present · “he” + ـهَا
+يُطِيلُ|he prolongs|ط و ل|verb (form IV) · present · “he”
+يُطْفِئُ|extinguishes|ط ف أ|verb (form IV) · present · “he/it”
